@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import axios from 'axios';
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../../_utils/apiConstants';
 import { useRouter } from 'next/navigation';
@@ -8,8 +8,8 @@ import Google from '../../_assets/google.png'
 import Image from 'next/image';
 import Carousel from '@/components/carousels/carousel';
 import Link from 'next/link';
-import ForgotPass from '../forgot_pass/page';
 import SlideInNotifications from '@/components/notifications/side_notification';
+import { UserContext } from '@/app/_contexts/user_name';
 
 function LoginForm() {
     const [state, setState] = useState({
@@ -19,6 +19,8 @@ function LoginForm() {
     });
     const router = useRouter();
     const notificationRef = useRef(null);
+
+    const { _, setUserID } = useContext(UserContext);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -48,6 +50,7 @@ function LoginForm() {
                     if (notificationRef.current) {
                         notificationRef.current.addNotif(Math.random(), "Login successful");
                       }
+                    setUserID(state.username);
                     localStorage.setItem(ACCESS_TOKEN_NAME,JSON.stringify(response.data.token));
                     redirectToHome();
                 }
