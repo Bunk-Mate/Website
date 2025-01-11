@@ -1,5 +1,6 @@
 import { Urbanist } from "next/font/google";
 import "./globals.css";
+import { UserProvider } from "./_contexts/user_name";
 
 const urbanist = Urbanist({ subsets: ["latin"] });
 
@@ -14,7 +15,9 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="icon" href="/icon.png" sizes="any" />
       </head>
-      <body className={urbanist.className}>{children}</body>
+      <body className={urbanist.className}>
+        <UserProvider>{children}</UserProvider>
+      </body>
     </html>
   );
 }

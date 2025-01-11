@@ -1,10 +1,12 @@
 'use client'
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import HomeDisp from "@/components/home_disp/home_disp";
+import { UserContext } from "@/app/_contexts/user_name";
 
 export default function Home(){
     const [curr, setCurr]=useState('Overview');
+    const { userID, _ } = useContext(UserContext);
     
     return(
         <div className="h-full flex flex-col p-[1vw] max-sm:p-0">
@@ -21,7 +23,7 @@ export default function Home(){
                 </div>
             </div>
             <div className="flex-[20] flex">
-                <HomeDisp curr={curr}/>
+                <HomeDisp curr={curr}/><p className="text-[9vw] text-white"></p>
             </div>
         </div>
     );
