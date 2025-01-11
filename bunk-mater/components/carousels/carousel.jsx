@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import BunkMate from '../../app/_assets/Bunk-Mate.png';
+import Image from "next/image";
+import BunkMate from "@/public/assets/Bunk-Mate.png"
 
 export default function Carousel() {
    const logos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];

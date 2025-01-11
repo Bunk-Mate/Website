@@ -1,9 +1,9 @@
 'use client';
 
-import NavMapped from '@/components/nav_select/nav_mapped';
-import { usePathname } from 'next/navigation';
-import Logo from '@/app/_assets/logo.png';
-import Image from 'next/image';
+import NavMapped from "@/components/nav_select/nav_mapped";
+import { usePathname } from "next/navigation";
+import Logo from "@/public/assets/logo.png"
+import Image from "next/image";
 
 export default function Layout({ children }) {
    const pathname = usePathname();

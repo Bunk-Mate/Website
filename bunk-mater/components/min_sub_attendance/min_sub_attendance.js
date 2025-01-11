@@ -1,6 +1,5 @@
-import { useState } from 'react';
-import CurvedArrowHead from '../../app/_assets/curved_arrowhead_white.png';
-import Image from 'next/image';
+import CurvedArrowHead from "@/public/assets/curved_arrowhead_white.png"
+import Image from "next/image";
 
 export default function MinSubAttendance({ criteria, setCriteria }) {
    const handleChange = (event) => {

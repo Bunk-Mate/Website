@@ -1,7 +1,7 @@
-import RewindTime from '@/app/_assets/rewind_time.png';
-import Statusman from '@/app/_assets/statusman.png';
-import CoursesDropped from '@/app/_assets/courses_drop_cropped.png';
-import Image from 'next/image';
+import RewindTime from "@/public/assets/rewind_time.png"
+import Statusman from "@/public/assets/statusman.png"
+import CoursesDropped from "@/public/assets/courses_drop_cropped.png"
+import Image from "next/image"
 
 export default function Feature() {
    return (

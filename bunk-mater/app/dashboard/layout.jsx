@@ -1,10 +1,10 @@
 'use client';
 
-import { options } from '../_utils/navbarConstants';
+import { options } from '@/app/_utils/navbarConstants';
 import NavMapped from '@/components/nav_select/nav_mapped';
 import { usePathname } from 'next/navigation';
 import SideMenu from '@/components/nav_select/side_menu';
-import Logo from '../_assets/logo.png';
+import Logo from "@/public/assets/logo.png"
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
@@ -12,7 +12,7 @@ import {
    API_BASE_URL,
    ACCESS_TOKEN_NAME,
    ACCESS_TIMETABLE_NAME,
-} from '../_utils/apiConstants';
+} from '@/app/_utils/apiConstants';
 import Logout from '@/components/svg/logout';
 import { useEffect, useRef } from 'react';
 import SlideInNotifications from '@/components/notifications/side_notification';

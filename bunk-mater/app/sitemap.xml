@@ -1,0 +1,18 @@
+<urlset>
+  <url>
+    <loc>https://www.bunkmate.college/</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.bunkmate.college/login</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.bunkmate.college/lander#features</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.bunkmate.college/lander#contact-us</loc>
+    <priority>0.8</priority>
+  </url>
+</urlset>

@@ -1,9 +1,8 @@
-import Logo from '@/app/_assets/logo.png';
-import Tape from '@/app/_assets/name_strip.png';
-import Image from 'next/image';
-import Link from 'next/link';
-import BackToTop from '../svg/back_to_top';
-import PopOutButton from '../ui/popout_button';
+import Logo from "@/public/assets/logo.png"
+import Image from "next/image"
+import Link from "next/link"
+import BackToTop from "@/components/svg/back_to_top"
+import PopOutButton from "@/components/ui/popout_button"
 
 export default function ContactFooter() {
    return (

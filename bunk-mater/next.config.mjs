@@ -1,19 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-   async redirects() {
-      return [
-         {
-            source: '/',
-            destination: '/lander',
+    async redirects() {
+        return [
+        {
+            source: '/lander',
+            destination: '/',
             permanent: true,
-         },
-         {
-            source: '/lander/test',
+        },
+        {
+            source: '/test',
             destination: '/404',
             permanent: true,
-         },
-         {
-            source: '/lander/zindex',
+        },
+        {
+            source: '/zindex',
             destination: '/404',
             permanent: true,
          },

@@ -1,6 +1,4 @@
-import { useRef } from 'react';
-import Strip from '@/app/_assets/name_strip.png';
-import Image from 'next/image';
+import { useRef } from "react";
 import {
    motion,
    useScroll,

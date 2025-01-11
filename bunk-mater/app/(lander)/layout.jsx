@@ -1,10 +1,18 @@
 'use client';
 
+<<<<<<< HEAD:bunk-mater/app/lander/layout.jsx
 import Link from 'next/link';
 import { useEffect, useState, useRef } from 'react';
 import ReactLenis from 'lenis/react';
 import Logo from '@/app/_assets/logo.png';
 import Image from 'next/image';
+=======
+import Link from "next/link";
+import { useEffect, useState, useRef } from "react";
+import ReactLenis from "lenis/react";
+import Logo from "@/public/assets/logo.png"
+import Image from "next/image";
+>>>>>>> 1812bb2 (refactor: added sitemap, moved assets to public and moved lander to root url):bunk-mater/app/(lander)/layout.jsx
 
 export default function RootLayout({ children }) {
    const [open, setOpen] = useState(true);
