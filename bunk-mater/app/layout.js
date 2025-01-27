@@ -17,9 +17,7 @@ export default function RootLayout({ children }) {
             <link rel="icon" href="/icon.png" sizes="any" />
          </head>
          <body className={urbanist.className}>
-            <UserProvider>
-               <TimetableProvider>{children}</TimetableProvider>
-            </UserProvider>
+            <UserProvider>{children}</UserProvider>
          </body>
       </html>
    );

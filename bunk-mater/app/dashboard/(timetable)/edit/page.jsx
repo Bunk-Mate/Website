@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import XSvg from '../../../components/svg/x.jsx';
-import CheckSvg from '../../../components/svg/check.jsx';
-import PlusSvg from '../../../components/svg/plus.jsx';
-import TrashSvg from '../../../components/svg/trash.jsx';
-import Drop from '../../../components/drop_select/drop_select.jsx';
+import { useState, useEffect, useRef, useContext } from 'react';
+import XSvg from '@/components/svg/x.jsx';
+import CheckSvg from '@/components/svg/check.jsx';
+import PlusSvg from '@/components/svg/plus.jsx';
+import TrashSvg from '@/components/svg/trash.jsx';
+import Drop from '@/components/drop_select/drop_select.jsx';
 import Popup from '@/components/popup/popup.jsx';
 import { useRouter } from 'next/navigation';
 import HeightLimit from '@/components/height_limit_scrollable/heightLimit.js';
@@ -17,116 +17,116 @@ import {
 } from '@/app/_utils/apiConstants.js';
 import axios from 'axios';
 import SlideInNotifications from '@/components/notifications/side_notification.jsx';
+import { TimetableContext } from '@/app/_contexts/timetable';
 
 export default function EditTable() {
    const [tableData, setTableData] = useState([[]]);
    const [optionList, setOptionList] = useState([{}]);
    const router = useRouter();
-   const [saveCheck, setSaveCheck] = useState(null);
-   const [hw, setHw] = useState('50vh');
+   const [popupDecision, setPopupDecision] = useState(null);
+   const [maxHeight, setMaxHeight] = useState('50vh');
    const smRatio = 212;
    const lgRatio = 0.1415;
    const notificationRef = useRef(null);
+   const { timetable, setTimetable } = useContext(TimetableContext);
 
    useEffect(() => {
-      HeightLimit({ setHw, smRatio, lgRatio });
-      if (sessionStorage.getItem(ACCESS_TIMETABLE_NAME) != null) {
-         const timetable = JSON.parse(
-            sessionStorage.getItem(ACCESS_TIMETABLE_NAME)
-         ).courses_data;
-         setTableData(timetable);
-         setOptionList(getOptions({ timetable }));
-      }
+      HeightLimit({ setHw: setMaxHeight, smRatio, lgRatio });
       return () => {
          window.removeEventListener('resize', {});
       };
    }, []);
 
    useEffect(() => {
-      if (saveCheck == 'Save') {
-         // alert("saved");
-         if (notificationRef.current) {
-            notificationRef.current.addNotif(
-               Math.random(),
-               'Request sent. Please wait.'
-            );
-         }
-         //console.log(tableData, 'here is the updated one')
-         const header = {
-            Authorization:
-               'Token ' + JSON.parse(localStorage.getItem(ACCESS_TOKEN_NAME)),
-         };
-         axios
-            .patch(
-               API_BASE_URL + '/collection',
-               { courses_data: tableData },
-               { headers: header }
-            )
-            .then((response) => {
-               //console.log(response.status, response.data)
-               if (response.status == 200) {
-                  sessionStorage.removeItem(ACCESS_TIMETABLE_NAME);
-                  if (notificationRef.current) {
-                     notificationRef.current.addNotif(
-                        Math.random(),
-                        'Timetable updated.'
-                     );
-                  }
-                  //console.log('removed from local')
-               }
-               router.push('/dashboard/table');
-            })
-            .catch((error) => {
-               if (notificationRef.current) {
-                  notificationRef.current.addNotif(
-                     Math.random(),
-                     'Request failed. Please try again.'
-                  );
-               }
-               if (error) {
-                  if (error?.response?.status == 401) {
-                     router.push('/login');
-                  }
-               }
-               //console.log("caught an error in post\n",error)
-            });
-      } else if (saveCheck == 'Discard') {
+      if (
+         JSON.stringify(timetable) !=
+         JSON.stringify([[null, null, null, null, null]])
+      ) {
+         setTableData(timetable);
+         setOptionList(getOptions({ timetable }));
+      }
+   }, [timetable]);
+
+   useEffect(() => {
+      if (popupDecision == 'Save') {
+         handleSaveTimetable();
+      } else if (popupDecision == 'Discard') {
          if (notificationRef.current) {
             notificationRef.current.addNotif(
                Math.random(),
                'Changes discarded.'
             );
          }
-         // alert("discarded");
          router.push('/dashboard/table');
       }
-   }, [saveCheck]);
+   }, [popupDecision]);
 
-   const handleUpdate = ({ data, row, col }) => {
-      var thirdparty = tableData;
-      if (data != null) {
-         thirdparty[row][col] = data.label;
-      } else {
-         thirdparty[row][col] = '';
+   const handleSaveTimetable = () => {
+      if (notificationRef.current) {
+         notificationRef.current.addNotif(
+            Math.random(),
+            'Request sent. Please wait.'
+         );
       }
-      setTableData(thirdparty);
+      const header = {
+         Authorization:
+            'Token ' + JSON.parse(localStorage.getItem(ACCESS_TOKEN_NAME)),
+      };
+      axios
+         .patch(
+            API_BASE_URL + '/collection',
+            { courses_data: tableData },
+            { headers: header }
+         )
+         .then((response) => {
+            if (response.status == 200) {
+               setTimetable(tableData);
+               sessionStorage.removeItem(ACCESS_TIMETABLE_NAME);
+               notify('Timetable updated.');
+            }
+            router.push('/dashboard/table');
+         })
+         .catch((error) => {
+            notify('Request failed. Please try again.');
+            if (error) {
+               if (error?.response?.status == 401) {
+                  router.push('/login');
+               }
+            }
+         });
    };
 
-   const addRow = (index) => {
-      const thirdparty = tableData;
+   const notify = (message) => {
+      if (notificationRef.current) {
+         notificationRef.current.addNotif(Math.random(), message);
+      }
+   };
+
+   const handleUpdate = ({ data, row, col }) => {
+      var updatedTable = [...tableData];
+      if (data != null) {
+         updatedTable[row][col] = data.label;
+      } else {
+         updatedTable[row][col] = '';
+      }
+      setTableData(updatedTable);
+   };
+
+   const addRow = (rowIndex) => {
+      const updatedTable = [...tableData];
       setTableData(
-         thirdparty.toSpliced(index, 0, [null, null, null, null, null])
+         updatedTable.toSpliced(rowIndex, 0, [null, null, null, null, null])
       );
    };
 
-   const delRow = (index) => {
-      const thirdparty = tableData;
-      setTableData(thirdparty.toSpliced(index, 1));
+   const delRow = (rowIndex) => {
+      const updatedTable = [...tableData];
+      setTableData(updatedTable.toSpliced(rowIndex, 1));
    };
 
    return (
       <div className="flex h-full flex-col pt-[3vw]">
-         {/* <div className="flex-1"></div> */}
+         {/* Mobile Save Options */}
          <div className="mb-5 mt-2 flex sm:hidden">
             <div className="mr-1 flex flex-1 items-center justify-end overflow-hidden rounded-full">
                <Popup
@@ -135,7 +135,7 @@ export default function EditTable() {
                         Save
                      </div>
                   }
-                  setDecisionCheck={setSaveCheck}
+                  setDecisionCheck={setPopupDecision}
                   message={{
                      message: 'Are you sure you want to save the changes?',
                      opt: ['Cancel', 'Save'],
@@ -149,7 +149,7 @@ export default function EditTable() {
                         Cancel
                      </div>
                   }
-                  setDecisionCheck={setSaveCheck}
+                  setDecisionCheck={setPopupDecision}
                   message={{
                      message: 'Are you sure you want to discard the changes?',
                      opt: ['Cancel', 'Discard'],
@@ -157,39 +157,35 @@ export default function EditTable() {
                />
             </div>
          </div>
+
+         {/* Table Header */}
          <div className="flex justify-center">
             <table>
                <thead>
                   <tr className="text-[4vw] text-[#737373] max-sm:text-4xl">
-                     <th className="w-[13vw] font-light max-sm:w-[19.5vw]">
-                        Mon
-                     </th>
-                     <th className="w-[13vw] font-light max-sm:w-[19.5vw]">
-                        Tue
-                     </th>
-                     <th className="w-[13vw] font-light max-sm:w-[19.5vw]">
-                        Wed
-                     </th>
-                     <th className="w-[13vw] font-light max-sm:w-[19.5vw]">
-                        Thu
-                     </th>
-                     <th className="w-[13vw] font-light max-sm:w-[19.5vw]">
-                        Fri
-                     </th>
+                     {['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].map((day) => (
+                        <th
+                           key={day}
+                           className="w-[13vw] text-center font-light max-sm:w-[19.5vw]"
+                        >
+                           {day}
+                        </th>
+                     ))}
                   </tr>
                </thead>
             </table>
          </div>
          <div className="flex flex-[9] justify-center" id="victim">
-            {/* <div className="h-16 w-16"></div> */}
+            {/* Table Body */}
             <div
                className="no-scrollbar overflow-auto"
-               style={{ maxHeight: `${hw}` }}
+               style={{ maxHeight: `${maxHeight}` }}
             >
                <table className="w-[70.4vw] table-fixed border-separate max-sm:w-full">
                   <tbody>
                      {tableData.map((rowVal, rowId) => (
                         <Fragment key={rowId}>
+                           {/* Row Mobile Options */}
                            <tr className="w-[4.7vw] max-sm:h-10 max-sm:w-full sm:hidden sm:h-[19.5vw]">
                               <td className="flex h-10 flex-1 items-end justify-center overflow-hidden rounded-full sm:h-16 sm:w-16">
                                  <button
@@ -213,10 +209,12 @@ export default function EditTable() {
                                  </button>
                               </td>
                            </tr>
+
                            <tr
                               key={rowId}
                               className="text-[1.5vw] font-light max-sm:text-lg"
                            >
+                              {/* Row Desktop Options */}
                               <td className="flex w-[4.7vw] flex-col items-end justify-center max-sm:hidden">
                                  <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full">
                                     <button
@@ -239,6 +237,7 @@ export default function EditTable() {
                                     </button>
                                  </div>
                               </td>
+
                               {Object.values(rowVal).map(
                                  (cellValue, colIndex) => (
                                     <td
@@ -262,6 +261,8 @@ export default function EditTable() {
                            </tr>
                         </Fragment>
                      ))}
+
+                     {/* Add Row At The End Option */}
                      <tr className="text-[1.5vw] font-light">
                         <td className="max-sm:hidden"></td>
                         <td className="flex h-[13vw] w-[13vw] border border-black text-center max-sm:h-[19.5vw] max-sm:w-[19.5vw]">
@@ -279,11 +280,13 @@ export default function EditTable() {
                   </tbody>
                </table>
             </div>
+
+            {/* Desktop Save Option */}
             <div className="max-sm:hidden">
                <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full">
                   <Popup
                      compToPass={<CheckSvg />}
-                     setDecisionCheck={setSaveCheck}
+                     setDecisionCheck={setPopupDecision}
                      message={{
                         message:
                            'Are you sure you want to save the changes? Warning: All the data of the previous timetable will be lost!',
@@ -294,7 +297,7 @@ export default function EditTable() {
                <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full">
                   <Popup
                      compToPass={<XSvg />}
-                     setDecisionCheck={setSaveCheck}
+                     setDecisionCheck={setPopupDecision}
                      message={{
                         message:
                            'Are you sure you want to discard the changes?',
@@ -310,7 +313,6 @@ export default function EditTable() {
 }
 
 function getOptions({ timetable }) {
-   //console.log(timetable, 'here you go')
    var thirdparty = [];
    var options = [];
    for (let i = 0; i < timetable.length; i++) {
@@ -325,6 +327,5 @@ function getOptions({ timetable }) {
          options.push({ label: thirdparty[i], value: thirdparty[i] });
       }
    }
-   //console.log(options, thirdparty)
    return options;
 }
