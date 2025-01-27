@@ -1,18 +1,16 @@
 'use client';
 
 import { useState, useEffect, useContext } from 'react';
-import EditSvg from '../../../components/svg/edit.jsx';
-import TrashSvg from '../../../components/svg/trash.jsx';
+import EditSvg from '@/components/svg/edit.jsx';
+import TrashSvg from '@/components/svg/trash.jsx';
 import Link from 'next/link.js';
-import Popup from '../../../components/popup/popup.jsx';
+import Popup from '@/components/popup/popup.jsx';
 import HeightLimit from '@/components/height_limit_scrollable/heightLimit.js';
-import axios from 'axios';
-import { API_BASE_URL, ACCESS_TOKEN_NAME } from '@/app/_utils/apiConstants.js';
 import { useRouter } from 'next/navigation';
 import { TimetableContext } from '@/app/_contexts/timetable.js';
 
 export default function Table() {
-   const {timetable, setTimetable} = useContext(TimetableContext);
+   const { timetable, _ } = useContext(TimetableContext);
    const [delCheck, setDelCheck] = useState(null);
    const [maxHeight, setMaxHeight] = useState('50vh');
    const smRatio = 170;
@@ -34,35 +32,8 @@ export default function Table() {
       };
    }, []);
 
-   useEffect(() => {
-      const fetchTimetable = async () => {
-         try {
-            const token = JSON.parse(localStorage.getItem(ACCESS_TOKEN_NAME));
-            const headers = { Authorization: `Token ${token}` };
-            const response = await axios.get(`${API_BASE_URL}/collection`, {
-               headers,
-            });
-
-            if (response.status === 200) {
-               setTimetable(response.data.courses_data);
-            } else {
-               console.error('Failed to fetch timetable:', response.data);
-            }
-         } catch (error) {
-            if (error.response?.status === 401) {
-               router.push('/login');
-            } else {
-               console.error('Error fetching timetable:', error);
-            }
-         }
-      };
-
-      fetchTimetable();
-   }, []);
-
    return (
       <div className="flex h-full flex-col pt-[3vw] max-sm:pt-4">
-
          {/* Mobile Options */}
          <div className="max-sm:flex max-sm:justify-center sm:hidden">
             <Link
@@ -91,8 +62,11 @@ export default function Table() {
             <table>
                <thead>
                   <tr className="text-[4vw] text-[#737373] max-sm:text-4xl">
-                     {["Mon", "Tue", "Wed", "Thu", "Fri"].map((day) => (
-                        <th key={day} className="font-light w-[13vw] max-sm:w-[19.5vw]">
+                     {['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].map((day) => (
+                        <th
+                           key={day}
+                           className="w-[13vw] font-light max-sm:w-[19.5vw]"
+                        >
                            {day}
                         </th>
                      ))}
