@@ -9,13 +9,15 @@ import HeightLimit from '@/components/height_limit_scrollable/heightLimit.js';
 import axios from 'axios';
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from '@/app/_utils/apiConstants.js';
 import { useRouter } from 'next/navigation';
+import { TimetableContext } from '@/app/_contexts/timetable.js';
 
 export default function Table() {
-   const [timetable, setTimetable] = useState(['null','null','null','null','null']);
-
+   const {timetable, setTimetable} = useContext(TimetableContext);
    const [delCheck, setDelCheck] = useState(null);
-   const [hw, setHw] = useState('50vh');
-   //console.log("maybe mounting?")
+   const [maxHeight, setMaxHeight] = useState('50vh');
+   const smRatio = 170;
+   const lgRatio = 0.1415;
+
    const router = useRouter();
 
    useEffect(() => {
@@ -24,12 +26,9 @@ export default function Table() {
       }
    }, [delCheck]);
 
-   const smRatio = 170;
-   const lgRatio = 0.1415;
-
    useEffect(() => {
       56;
-      HeightLimit({ setHw, smRatio, lgRatio });
+      HeightLimit({ setHw: setMaxHeight, smRatio, lgRatio });
       return () => {
          window.removeEventListener('resize', {});
       };
@@ -59,10 +58,12 @@ export default function Table() {
       };
 
       fetchTimetable();
-   }, [router, setTimetable]);
+   }, []);
 
    return (
       <div className="flex h-full flex-col pt-[3vw] max-sm:pt-4">
+
+         {/* Mobile Options */}
          <div className="max-sm:flex max-sm:justify-center sm:hidden">
             <Link
                href={{
@@ -84,34 +85,28 @@ export default function Table() {
                />
             </button>
          </div>
+
+         {/* Timetable Header */}
          <div className="flex justify-center max-sm:mt-3 max-sm:items-end sm:flex-1">
             <table>
                <thead>
                   <tr className="text-[4vw] text-[#737373] max-sm:text-4xl">
-                     <th className="w-[13vw] font-light max-sm:w-[19.5vw]">
-                        Mon
-                     </th>
-                     <th className="w-[13vw] font-light max-sm:w-[19.5vw]">
-                        Tue
-                     </th>
-                     <th className="w-[13vw] font-light max-sm:w-[19.5vw]">
-                        Wed
-                     </th>
-                     <th className="w-[13vw] font-light max-sm:w-[19.5vw]">
-                        Thu
-                     </th>
-                     <th className="w-[13vw] font-light max-sm:w-[19.5vw]">
-                        Fri
-                     </th>
+                     {["Mon", "Tue", "Wed", "Thu", "Fri"].map((day) => (
+                        <th key={day} className="font-light w-[13vw] max-sm:w-[19.5vw]">
+                           {day}
+                        </th>
+                     ))}
                   </tr>
                </thead>
             </table>
          </div>
          <div className="flex flex-[9] justify-center" id="victim">
             <div id="fake-buttons" className="h-16 w-16 max-sm:hidden"></div>
+
+            {/* TimeTable Body */}
             <div
                className="no-scrollbar overflow-auto"
-               style={{ maxHeight: `${hw}` }}
+               style={{ maxHeight: `${maxHeight}` }}
             >
                <table className="border-separate">
                   <tbody>
@@ -123,11 +118,9 @@ export default function Table() {
                            {Object.values(rowVal).map((cellValue, colIndex) => (
                               <td
                                  key={colIndex}
-                                 className={`h-[13vw] w-[13vw] text-center ${timetable[rowId][colIndex] == '' ? 'hover:bg-[#0e0e0f]' : 'bg-[#202224] hover:bg-[#292b2e]'} border border-black max-sm:h-[19.5vw] max-sm:w-[19.5vw]`}
+                                 className={`h-[13vw] w-[13vw] text-center ${!timetable[rowId][colIndex] ? 'hover:bg-[#0e0e0f]' : 'bg-[#202224] hover:bg-[#292b2e]'} border border-black max-sm:h-[19.5vw] max-sm:w-[19.5vw]`}
                               >
                                  <div className="flex h-full flex-wrap items-center justify-center break-all">
-                                    {/* {colIndex}
-                                                {rowId} */}
                                     {timetable[rowId][colIndex]}
                                  </div>
                               </td>
@@ -137,6 +130,8 @@ export default function Table() {
                   </tbody>
                </table>
             </div>
+
+            {/* Desktop Options */}
             <div className="max-sm:hidden">
                <button
                   className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full"
