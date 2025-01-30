@@ -2,11 +2,9 @@
 
 import React, { useState, useRef, useContext } from 'react';
 import axios from 'axios';
-import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../../_utils/apiConstants';
+import { API_BASE_URL, ACCESS_TOKEN_NAME } from '@/app/_utils/apiConstants';
 import { useRouter } from 'next/navigation';
-import Google from '../../_assets/google.png';
-import Image from 'next/image';
-import Carousel from '@/components/carousels/carousel';
+import Google from '@/app/_assets/google.png';
 import Link from 'next/link';
 import SlideInNotifications from '@/components/notifications/side_notification';
 import { UserContext } from '@/app/_contexts/user_name';
@@ -100,11 +98,6 @@ function LoginForm() {
    };
 
    return (
-      <div className="flex min-h-screen max-md:flex-col">
-         <div className="flex flex-1 md:items-center md:justify-end md:pl-[5vw]">
-            {/* <Image src={ModernArt} width={680} className='lg:rotate-[270deg]'/> */}
-            <Carousel />
-         </div>
          <div className="flex flex-1 items-center justify-center">
             <div className="flex-1 p-[14vw] md:p-[9vw]">
                <p className="text-[40px]">Welcome</p>
@@ -171,7 +164,6 @@ function LoginForm() {
                </form>
             </div>
          </div>
-      </div>
    );
 }
 

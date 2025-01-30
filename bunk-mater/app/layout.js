@@ -1,7 +1,6 @@
 import { Urbanist } from 'next/font/google';
 import './globals.css';
 import { UserProvider } from './_contexts/user_name';
-import { TimetableProvider } from './_contexts/timetable';
 
 const urbanist = Urbanist({ subsets: ['latin'] });
 
