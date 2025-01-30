@@ -1,14 +1,13 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import axios from 'axios';
-import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../../_utils/apiConstants';
+import { API_BASE_URL, ACCESS_TOKEN_NAME } from '@/app/_utils/apiConstants';
 import { useRouter } from 'next/navigation';
-import Google from '../../_assets/google.png';
-import Image from 'next/image';
-import Carousel from '@/components/carousels/carousel';
+import Google from '@/app/_assets/google.png';
 import Link from 'next/link';
 import SlideInNotifications from '@/components/notifications/side_notification';
+import { UserContext } from '@/app/_contexts/user_name';
 //axios.defaults.headers.common['Access-Control-Allow-Origin']= '*'
 
 export default function RegistrationForm(props) {
@@ -21,13 +20,10 @@ export default function RegistrationForm(props) {
    const header = {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
-      // 'Authorization':'Bearer '+localStorage.getItem(ACCESS_TOKEN_NAME),
-      // 'Access-Control-Allow-Origin':'*',
    };
 
-   ////console.log(header)
-   const router = useRouter();
    const notificationRef = useRef(null);
+   const router = useRouter();
 
    const handleChange = (e) => {
       const { id, value } = e.target;
@@ -38,7 +34,6 @@ export default function RegistrationForm(props) {
    };
 
    const sendDetailsToServer = () => {
-      //console.log("im here");
       if (
          state.username.length &&
          state.password.length &&
@@ -54,13 +49,12 @@ export default function RegistrationForm(props) {
             username: state.username,
             password: state.password,
          };
-         // axios.defaults.headers.common['Access-Control-Allow-Origin']= '*'
-         // console.log(state, "korewa state desne");
+         axios.defaults.headers.common['Access-Control-Allow-Origin']= '*'
+         console.log(state, "korewa state desne");
          axios
             .post(API_BASE_URL + '/register', payload)
             .then((response) => {
                if (response.status === 201) {
-                  //console.log(response.body);
                   setState((prevState) => ({
                      ...prevState,
                      succesMessage:
@@ -69,13 +63,11 @@ export default function RegistrationForm(props) {
                   if (notificationRef.current) {
                      notificationRef.current.addNotif(
                         Math.random(),
-                        'Registration successful. Try logging in.'
+                        'Registration successful. Logging you in.'
                      );
+                     handleLogin({state});
                   }
-                  // redirectToLogin();
-                  //console.log("created")
                } else {
-                  // console.log('failed')
                   if (notificationRef.current) {
                      notificationRef.current.addNotif(
                         Math.random(),
@@ -92,8 +84,6 @@ export default function RegistrationForm(props) {
                         'Registration failed. Please try again.'
                      );
                   }
-                  //console.log(error.response.data);
-                  //console.log(error.response.status)
                } else {
                   if (notificationRef.current) {
                      notificationRef.current.addNotif(
@@ -103,6 +93,13 @@ export default function RegistrationForm(props) {
                   }
                }
             });
+         if (notificationRef.current) {
+                        notificationRef.current.addNotif(
+                           Math.random(),
+                           'Registration successful. Logging you in.'
+                        );
+                        handleLogin({state, notificationRef, router});
+                     }
       } else {
          if (notificationRef.current) {
             notificationRef.current.addNotif(
@@ -110,22 +107,14 @@ export default function RegistrationForm(props) {
                'Please fill the empty input fields.'
             );
          }
-         // props.showError("Please enter valid credentials")
-         // alert("Please fill the empty boxes");
       }
-   };
-
-   const redirectToLogin = () => {
-      router.push('/login');
    };
 
    const handleSubmitClick = (e) => {
       e.preventDefault();
-      //console.log("here")
       if (state.password === state.confirmpassword) {
          sendDetailsToServer();
       } else {
-         // alert("Password do not match... ");
          if (notificationRef.current) {
             notificationRef.current.addNotif(
                Math.random(),
@@ -136,11 +125,6 @@ export default function RegistrationForm(props) {
    };
 
    return (
-      <div className="flex min-h-screen max-md:flex-col">
-         <div className="flex flex-1 md:items-center md:justify-end md:pl-[5vw]">
-            {/* <Image src={ModernArt} width={680} className='lg:rotate-[270deg]'/> */}
-            <Carousel />
-         </div>
          <div className="flex flex-1 items-center justify-center">
             <div className="flex-1 p-[14vw] md:p-[9vw]">
                <p className="text-[40px]">Welcome</p>
@@ -226,7 +210,59 @@ export default function RegistrationForm(props) {
                </form>
             </div>
             <SlideInNotifications ref={notificationRef} />
-         </div>
-      </div>
+            </div>
    );
 }
+
+const handleLogin = ({state, notificationRef, router}) => {
+   if (notificationRef.current) {
+      notificationRef.current.addNotif(
+         Math.random(),
+         'Login request sent. Please wait.'
+      );
+   }
+   const payload = {
+      username: state.username,
+      password: state.password,
+   };
+
+   axios
+      .post(API_BASE_URL + '/login', payload)
+      .then(function (response) {
+         if (response.status === 202) {
+            if (notificationRef.current) {
+               notificationRef.current.addNotif(
+                  Math.random(),
+                  'Login successful'
+               );
+            }
+            const { _, setUserID } = useContext(UserContext);
+            setUserID(state.username);
+            localStorage.setItem(
+               ACCESS_TOKEN_NAME,
+               JSON.stringify(response.data.token)
+            );
+            redirectToHome();
+         }
+         else {
+            if (notificationRef.current) {
+               notificationRef.current.addNotif(
+                  Math.random(),
+                  'Login failed. Please try again.'
+               );
+            }
+         }
+      })
+      .catch(function (error) {
+         if (notificationRef.current) {
+            notificationRef.current.addNotif(
+               Math.random(),
+               'Login failed. Please try again.'
+            );
+         }
+      });
+
+      const redirectToHome = () => {
+         router.push('/dashboard');
+      };
+};
