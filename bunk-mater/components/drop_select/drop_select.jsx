@@ -20,12 +20,10 @@ export default function Drop({
 
    function handleSelect(data) {
       setSelectedOptions(data);
-      //console.log(data.label, row, col);
       handleUpdate({ data, row, col });
    }
 
    const createOption = (label) => {
-      //console.log({label: label, value: label})
       return { label: label, value: label };
    };
 
@@ -33,7 +31,7 @@ export default function Drop({
       const newOption = createOption(inputValue);
       setOptionList((prev) => [...prev, newOption]);
       setSelectedOptions(newOption);
-      handleUpdate({ inputValue, row, col });
+      handleUpdate({ data: newOption, row, col });
    };
 
    return (

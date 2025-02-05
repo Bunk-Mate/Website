@@ -52,7 +52,6 @@ export default function Status({ dateCurr, refreshCont, setRefreshCont, hw }) {
             }
             //console.log(JSON.stringify(error));
          });
-      //console.log("after useEffect",dateQuery)
    }, [dateCurr]);
 
    useEffect(() => {
@@ -61,7 +60,6 @@ export default function Status({ dateCurr, refreshCont, setRefreshCont, hw }) {
 
    useEffect(() => {
       if (thirdparty.current.length > 0 && dateQuery.length > 0) {
-         //console.log("not isInitialRender, here is thirdparty.current", thirdparty.current)
          console.log('updating', dateQuery);
          console.log('hhhh', color[dateQuery[0].status][2], thirdparty.current);
          update(
@@ -73,13 +71,12 @@ export default function Status({ dateCurr, refreshCont, setRefreshCont, hw }) {
             notificationRef
          );
       } else {
-         console.log(
-            'first rend',
-            dateQuery,
-            dateQuery.length,
-            thirdparty.current
-         );
-         // console.log('hhhh', color[dateQuery[0].status][2]);
+         // console.log(
+         //    'first rend',
+         //    dateQuery,
+         //    dateQuery.length,
+         //    thirdparty.current
+         // );
       }
    }, [dateQuery]);
 

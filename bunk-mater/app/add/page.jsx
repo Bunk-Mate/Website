@@ -78,8 +78,7 @@ export default function Add() {
                   );
                }
                router.push('/dashboard/home');
-            }
-            else {
+            } else {
                if (notificationRef.current) {
                   notificationRef.current.addNotif(
                      Math.random(),
