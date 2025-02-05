@@ -4,7 +4,7 @@ import React, { useState, useRef, useContext } from 'react';
 import axios from 'axios';
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from '@/app/_utils/apiConstants';
 import { useRouter } from 'next/navigation';
-import Google from '@/app/_assets/google.png';
+import Google from '@/public/assets/google.png';
 import Link from 'next/link';
 import SlideInNotifications from '@/components/notifications/side_notification';
 import { UserContext } from '@/app/_contexts/user_name';

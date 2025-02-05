@@ -1,18 +1,10 @@
 'use client';
 
-<<<<<<< HEAD:bunk-mater/app/lander/layout.jsx
-import Link from 'next/link';
-import { useEffect, useState, useRef } from 'react';
-import ReactLenis from 'lenis/react';
-import Logo from '@/app/_assets/logo.png';
-import Image from 'next/image';
-=======
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import ReactLenis from "lenis/react";
 import Logo from "@/public/assets/logo.png"
 import Image from "next/image";
->>>>>>> 1812bb2 (refactor: added sitemap, moved assets to public and moved lander to root url):bunk-mater/app/(lander)/layout.jsx
 
 export default function RootLayout({ children }) {
    const [open, setOpen] = useState(true);
@@ -82,9 +74,9 @@ export default function RootLayout({ children }) {
                   About
                </button>
             </div>
-            <button className="ease mx-[1vw] rounded-full px-[1vw] py-[0.5vw] transition duration-300 hover:bg-white hover:text-black max-md:pr-[2vw]">
-               <Link href={'/login'}>Login</Link>
-            </button>
+            <Link href={'/login'} className="ease mx-[1vw] rounded-full px-[1vw] py-[0.5vw] transition duration-300 hover:bg-white hover:text-black max-md:pr-[2vw]">
+               Login
+            </Link>
          </nav>
          <div className="max-w-screen">
             <ReactLenis
