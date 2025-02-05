@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-
 export default function DateRangePicker({ interval, setInterval }) {
    const handleDate = (e) => {
       if (e.target.id == 'start_date') {

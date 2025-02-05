@@ -68,24 +68,24 @@ export default function CircleScale() {
       // console.log('here')
       if (window.innerHeight >= window.innerWidth) {
          setH(
-            (h) =>
+            () =>
                (winH.current / winW.current) * (window.scrollY - offs.current)
          );
          setW(
-            (w) =>
+            () =>
                (winH.current / winW.current) * (window.scrollY - offs.current)
          );
          // console.log('addition', scrollDir)
       } else {
          setH(
-            (h) =>
+            () =>
                (winW.current / winH.current) * (window.scrollY - offs.current)
          );
          setW(
-            (w) =>
+            () =>
                (winW.current / winH.current) * (window.scrollY - offs.current)
          );
-         // console.log('subttraction', scrollDir)
+         // console.log('subtraction', scrollDir)
       }
       //console.log(window.scrollY-offs.current, offs.current, window.scrollY)
       // console.log(h,w)

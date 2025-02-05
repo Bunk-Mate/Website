@@ -1,6 +1,6 @@
-import Link from "next/link"
-import Image from "next/image"
-import Cat from "@/public/assets/cat_pointing.jpg"
+import Link from 'next/link';
+import Image from 'next/image';
+import Cat from '@/public/assets/cat_pointing.jpg';
 
 export default function ForgotPass() {
    return (

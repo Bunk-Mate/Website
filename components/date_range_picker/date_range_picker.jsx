@@ -3,13 +3,10 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs from 'dayjs';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 
-export default function BasicDatePicker({ mssg }) {
-   // //console.log(typeof (dateCurr), dateCurr.format("DD-MM-YYYY"), "in basicdatepicker")
-   const color = 'white';
+export default function BasicDatePicker({ mssg, setDateCurr }) {
    const darkTheme = createTheme({
       palette: {
          mode: 'dark',

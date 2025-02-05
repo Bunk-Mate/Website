@@ -8,7 +8,6 @@ import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 
 export default function BasicDatePicker({ dateCurr, setDateCurr }) {
-   // //console.log(typeof (dateCurr), dateCurr.format("DD-MM-YYYY"), "in basicdatepicker")
    const color = 'white';
    const newTheme = (theme) =>
       createTheme({
@@ -34,13 +33,6 @@ export default function BasicDatePicker({ dateCurr, setDateCurr }) {
                },
             },
             MuiIconButton: {
-               styleOverrides: {
-                  root: {
-                     color,
-                  },
-               },
-            },
-            MuiOutlinedInput: {
                styleOverrides: {
                   root: {
                      color,

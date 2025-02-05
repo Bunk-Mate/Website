@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 export function getCurrentDate(separator = '') {
    let newDate = new Date();
    let date = newDate.getDate();

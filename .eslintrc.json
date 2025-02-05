@@ -1,12 +1,33 @@
 {
    "extends": [
       "eslint:recommended",
-      "plugin:@next/next/recommended",
-      "plugin:prettier/recommended"
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended",
+      "plugin:tailwindcss/recommended",
+      "plugin:prettier/recommended",
+      "next/core-web-vitals"
    ],
-   "plugins": ["prettier"],
+   "plugins": ["react", "tailwindcss", "prettier"],
    "rules": {
-      "prettier/prettier": ["error", { "endOfLine": "auto" }],
-      "react/react-in-jsx-scope": "off"
+      "prettier/prettier": "warn",
+      "react/prop-types": "off",
+      "tailwindcss/classnames-order": "warn",
+      // suppress errors for missing 'import React' in files
+      "react/react-in-jsx-scope": "off",
+      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+   },
+   "ignorePatterns": ["components/scroll_shenanigans/stash"],
+   "settings": {
+      "react": {
+         "version": "detect"
+      }
+   },
+   "parserOptions": {
+      "sourceType": "module"
+   },
+   "env": {
+      "browser": true,
+      "es2021": true,
+      "node": true
    }
 }

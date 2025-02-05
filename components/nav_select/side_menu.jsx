@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import Bars from '../svg/bars-3';
 
-export default function SideMenu({ options, href, pathname, handleLogout }) {
+export default function SideMenu({ options, handleLogout }) {
    const [open, setOpen] = useState(false);
    return (
       <>

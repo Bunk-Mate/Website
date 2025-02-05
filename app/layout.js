@@ -1,7 +1,7 @@
-import { Urbanist } from "next/font/google";
-import "./globals.css";
-import GoogleAnalytics from "@/components/google_analytics/google_analytics";
-import { UserProvider } from "@/app/_contexts/user_name";
+import { Urbanist } from 'next/font/google';
+import './globals.css';
+import GoogleAnalytics from '@/components/google_analytics/google_analytics';
+import { UserProvider } from '@/app/_contexts/user_name';
 
 const urbanist = Urbanist({ subsets: ['latin'] });
 

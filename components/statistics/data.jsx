@@ -62,15 +62,15 @@ export default function Data({ refreshCont }) {
                   ACCESS_TIMETABLE_NAME,
                   JSON.stringify(response.data)
                );
-               //console.log(response.data,'check this out')
                const str = response.data.name;
+               var list;
                if (str.indexOf(' ') != -1) {
-                  var list = [
+                  list = [
                      str.substring(0, str.indexOf(' ')),
                      str.substring(str.indexOf(' ') + 1),
                   ];
                } else {
-                  var list = [str];
+                  list = [str];
                }
                setName(list);
                setThreshold(response.data.threshold);

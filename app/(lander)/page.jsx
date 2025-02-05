@@ -1,16 +1,16 @@
 'use client';
 
-import Link from "next/link";
-import Image from "next/image";
-import Dashboard from "@/public/assets/dashboard.png"
-import EditTable from "@/public/assets/edit_timetable.png"
-import CircleScale from "@/components/scroll_shenanigans/circle_scale";
-import HorizontalScrollCarousel from "@/components/scroll_shenanigans/dependent_horizontal_scroll";
-import ContactFooter from "@/components/contact_us/contact_footer";
-import Feature from "@/components/feature/feature";
-import NameStrip from "@/components/name_strip/name_strip";
-import FeatureStrip from "@/components/name_strip/feature_strip"
-import { useEffect } from "react";
+import Link from 'next/link';
+import Image from 'next/image';
+import Dashboard from '@/public/assets/dashboard.png';
+import EditTable from '@/public/assets/edit_timetable.png';
+import CircleScale from '@/components/scroll_shenanigans/circle_scale';
+import HorizontalScrollCarousel from '@/components/scroll_shenanigans/dependent_horizontal_scroll';
+import ContactFooter from '@/components/contact_us/contact_footer';
+import Feature from '@/components/feature/feature';
+import NameStrip from '@/components/name_strip/name_strip';
+import FeatureStrip from '@/components/name_strip/feature_strip';
+import { useEffect } from 'react';
 
 export default function Home() {
    useEffect(() => {

@@ -23,7 +23,6 @@ export default function AddNewSubs({
    const [optionList, setOptionList] = useState([]);
    const [message, setMessage] = useState('Add another subject');
    const router = useRouter();
-   const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
    const notificationRef = useRef(null);
 
    useEffect(() => {
@@ -190,7 +189,7 @@ export default function AddNewSubs({
       }
    };
 
-   const handleUpdate = ({ data, row, col }) => {
+   const handleUpdate = ({ data }) => {
       //console.log
       if (data != null) {
          setNewSub(data.value);

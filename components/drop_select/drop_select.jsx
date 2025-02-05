@@ -76,7 +76,7 @@ export default function Drop({
                              display: 'flex',
                              fontSize: statusman ? '1.5vw' : '',
                           },
-                  valueContainer: (baseStyles, state) =>
+                  valueContainer: (baseStyles) =>
                      windowWidth < 640
                         ? {
                              ...baseStyles,
@@ -86,7 +86,7 @@ export default function Drop({
                              ...baseStyles,
                              overflow: 'auto',
                           },
-                  menu: (baseStyles, state) => ({
+                  menu: (baseStyles) => ({
                      ...baseStyles,
                      backgroundColor: 'black',
                   }),
@@ -99,15 +99,15 @@ export default function Drop({
                           : undefined,
                      fontSize: statusman ? '30px' : '',
                   }),
-                  placeholder: (baseStyles, state) => ({
+                  placeholder: (baseStyles) => ({
                      ...baseStyles,
                      color: 'white',
                   }),
-                  singleValue: (baseStyles, state) => ({
+                  singleValue: (baseStyles) => ({
                      ...baseStyles,
                      color: '#99FF9B',
                   }),
-                  input: (baseStyles, state) => ({
+                  input: (baseStyles) => ({
                      ...baseStyles,
                      color: 'white',
                      fontSize: statusman ? '1.5vw' : '',

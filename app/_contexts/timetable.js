@@ -1,15 +1,19 @@
 'use client';
 
+import axios from 'axios';
 import { createContext, useEffect, useState } from 'react';
 import {
    ACCESS_TIMETABLE_NAME,
    ACCESS_TOKEN_NAME,
+   API_BASE_URL,
 } from '../_utils/apiConstants';
+import { useRouter } from 'next/navigation';
 
 export const TimetableContext = createContext();
 
 export const TimetableProvider = ({ children }) => {
    const [timetable, setTimetable] = useState([[null, null, null, null, null]]);
+   const router = useRouter();
    useEffect(() => {
       if (sessionStorage.getItem(ACCESS_TIMETABLE_NAME) != null) {
          setTimetable(

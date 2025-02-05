@@ -4,7 +4,7 @@ import { options } from '@/app/_utils/navbarConstants';
 import NavMapped from '@/components/nav_select/nav_mapped';
 import { usePathname } from 'next/navigation';
 import SideMenu from '@/components/nav_select/side_menu';
-import Logo from "@/public/assets/logo.png"
+import Logo from '@/public/assets/logo.png';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
@@ -49,8 +49,9 @@ export default function Layout({ children }) {
                localStorage.removeItem(ACCESS_TOKEN_NAME);
                try {
                   sessionStorage.removeItem(ACCESS_TIMETABLE_NAME);
-               } catch {}
-               //console.log("logged out")
+               } catch {
+                  // empty
+               }
                router.push('/login');
             } else {
                if (notificationRef.current) {

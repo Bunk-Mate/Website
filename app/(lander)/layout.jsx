@@ -1,10 +1,10 @@
 'use client';
 
-import Link from "next/link";
-import { useEffect, useState, useRef } from "react";
-import ReactLenis from "lenis/react";
-import Logo from "@/public/assets/logo.png"
-import Image from "next/image";
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import ReactLenis from 'lenis/react';
+import Logo from '@/public/assets/logo.png';
+import Image from 'next/image';
 
 export default function RootLayout({ children }) {
    const [open, setOpen] = useState(true);
@@ -74,7 +74,10 @@ export default function RootLayout({ children }) {
                   About
                </button>
             </div>
-            <Link href={'/login'} className="ease mx-[1vw] rounded-full px-[1vw] py-[0.5vw] transition duration-300 hover:bg-white hover:text-black max-md:pr-[2vw]">
+            <Link
+               href={'/login'}
+               className="ease mx-[1vw] rounded-full px-[1vw] py-[0.5vw] transition duration-300 hover:bg-white hover:text-black max-md:pr-[2vw]"
+            >
                Login
             </Link>
          </nav>

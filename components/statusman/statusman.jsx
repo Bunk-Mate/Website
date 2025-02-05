@@ -5,22 +5,15 @@ import dayjs from 'dayjs';
 import BasicDatePicker from './rewind';
 import Status from './status';
 import HeightLimit from '../height_limit_scrollable/heightLimit';
-import { useRouter } from 'next/navigation';
 
 export default function Statusman({ setRefreshCont, refreshCont }) {
    const [dateCurr, setDateCurr] = useState(dayjs());
    const [hw, setHw] = useState('50vh');
    const smRatio = 258.1;
    const lgRatio = 0.13;
-   const router = useRouter();
-
-   // useEffect(()=>{
-   //     console.log("Here is datequer ", dateQuer)
-   // },[dateQuer])
 
    useEffect(() => {
       HeightLimit({ setHw, smRatio, lgRatio });
-      //console.log('statusman')
       return () => {
          window.removeEventListener('resize', {});
       };

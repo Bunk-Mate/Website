@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
 import { motion, useScroll } from 'framer-motion';
 
 export default function CircleScale() {

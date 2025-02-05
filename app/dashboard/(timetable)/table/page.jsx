@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import { TimetableContext } from '@/app/_contexts/timetable.js';
 
 export default function Table() {
-   const { timetable, _ } = useContext(TimetableContext);
+   const { timetable } = useContext(TimetableContext);
    const [delCheck, setDelCheck] = useState(null);
    const [maxHeight, setMaxHeight] = useState('50vh');
    const smRatio = 170;

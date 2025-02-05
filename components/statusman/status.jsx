@@ -5,10 +5,12 @@ import axios from 'axios';
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from '@/app/_utils/apiConstants.js';
 import AddNewSubs from './add_new_sub';
 import SlideInNotifications from '../notifications/side_notification';
+import { useRouter } from 'next/navigation';
 
 export default function Status({ dateCurr, refreshCont, setRefreshCont, hw }) {
    const thirdparty = useRef([]);
    const notificationRef = useRef(null);
+   const router = useRouter();
    const statusMap = {
       present: 'bunked',
       bunked: 'cancelled',
@@ -68,7 +70,8 @@ export default function Status({ dateCurr, refreshCont, setRefreshCont, hw }) {
             dateQuery,
             setRefreshCont,
             thirdparty,
-            notificationRef
+            notificationRef,
+            router
          );
       } else {
          // console.log(
@@ -141,11 +144,9 @@ function update(
    dateQuery,
    setRefreshCont,
    thirdparty,
-   notificationRef
+   notificationRef,
+   router
 ) {
-   //console.log("this is update", thirdparty.current)
-   // console.log(dateQuery[thirdparty.current[1]].session_url, thirdparty.current[1])
-   console.log(thirdparty.current[1], thirdparty.current[1], dateQuery);
    const header = {
       Authorization:
          'Token ' + JSON.parse(localStorage.getItem(ACCESS_TOKEN_NAME)),
@@ -167,13 +168,11 @@ function update(
                );
             }
          }
-         //console.log(response.status, response.data)
          if (refreshCont == []) {
             setRefreshCont(['hello']);
          } else {
             setRefreshCont([]);
          }
-         //console.log("set refreshCont")
       })
       .catch((error) => {
          if (error.response) {
@@ -187,6 +186,5 @@ function update(
                'Request failed. Please try again.'
             );
          }
-         //console.log("caught an error in post\n",error)
       });
 }

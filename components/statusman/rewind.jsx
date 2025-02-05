@@ -4,7 +4,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
-import Calender from "@/public/assets/calender-light.png";
+import Calender from '@/public/assets/calender-light.png';
 import Image from 'next/image';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,6 +12,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 function ButtonField(props) {
    const {
       setOpen,
+      // eslint-disable-next-line no-unused-vars
       label,
       id,
       disabled,
@@ -48,7 +49,7 @@ function ButtonDatePicker(props) {
    );
 }
 
-export default function PickerWithButtonField({ dateCurr, setDateCurr }) {
+export default function PickerWithButtonField({ setDateCurr }) {
    const [value, setValue] = useState(dayjs());
    useEffect(() => {
       setDateCurr(value);

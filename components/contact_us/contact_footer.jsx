@@ -1,8 +1,8 @@
-import Logo from "@/public/assets/logo.png"
-import Image from "next/image"
-import Link from "next/link"
-import BackToTop from "@/components/svg/back_to_top"
-import PopOutButton from "@/components/ui/popout_button"
+import Logo from '@/public/assets/logo.png';
+import Image from 'next/image';
+import Link from 'next/link';
+import BackToTop from '@/components/svg/back_to_top';
+import PopOutButton from '@/components/ui/popout_button';
 
 export default function ContactFooter() {
    return (
@@ -141,10 +141,10 @@ export default function ContactFooter() {
             <div className="ml-[10vh] flex h-[12vh]">
                <Insider />
             </div>
-            <div className="h-[12vh flex">
+            <div className="flex h-[12vh]">
                <Insider />
             </div>
-            <div className="ml-[15vh flex h-[12vh]">
+            <div className="ml-[15vh] flex h-[12vh]">
                <Insider />
             </div>
             <div className="ml-[5vh] flex h-[12vh]">
