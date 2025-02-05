@@ -55,7 +55,6 @@ export default function Add() {
          threshold: criteria.value,
          courses_data: removeNull(tableData),
       };
-      //console.log(payload)
       const header = {
          Authorization:
             'Token ' + JSON.parse(localStorage.getItem(ACCESS_TOKEN_NAME)),
@@ -80,9 +79,6 @@ export default function Add() {
                }
                router.push('/dashboard/home');
             }
-            // else if(response.code === 204){
-            //     props.showError("Username and password do not match");
-            // }
             else {
                if (notificationRef.current) {
                   notificationRef.current.addNotif(
@@ -90,8 +86,6 @@ export default function Add() {
                      'Creation failed. Please try again.'
                   );
                }
-               // alert("Some error has occurred");
-               //console.log(response.data)
             }
          })
          .catch(function (error) {
@@ -104,7 +98,6 @@ export default function Add() {
                   'Request failed. Please try again.'
                );
             }
-            //console.log(error);
          });
    };
 
