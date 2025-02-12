@@ -11,6 +11,7 @@ import MinSubAttendance from '@/components/min_sub_attendance/min_sub_attendance
 import { ACCESS_TOKEN_NAME, API_BASE_URL } from '../_utils/apiConstants.js';
 import axios from 'axios';
 import SlideInNotifications from '@/components/notifications/side_notification.jsx';
+import CheckboxIcon from '@/components/ui/checkbox.jsx';
 
 export default function Add() {
    const [tableData, setTableData] = useState([[null, null, null, null, null]]);
@@ -22,6 +23,7 @@ export default function Add() {
       start_date: '',
       end_date: '',
    });
+   const [checked, setChecked] = useState(false);
    const [range, setRange] = useState(0);
    const [criteria, setCriteria] = useState({ value: 75 });
    const notificationRef = useRef(null);
@@ -54,6 +56,7 @@ export default function Add() {
          end_date: interval.end_date,
          threshold: criteria.value,
          courses_data: removeNull(tableData),
+         shared: checked,
       };
       const header = {
          Authorization:
@@ -298,7 +301,18 @@ export default function Add() {
                   </tbody>
                </table>
             </div>
-            <div className="w-32"></div>
+            <div className="w-[2.7vw]"></div>
+         </div>
+         <div className="flex justify-center">
+            <div className="flex items-center max-sm:mr-6 sm:w-[62vw] my-[1vw]">
+               <CheckboxIcon checked={checked} setChecked={setChecked}/>
+               <p className="ml-[1vw] text-[1.1vw] max-sm:text-lg max-[400px]:text-base">
+                  Share timetable? <br />
+                  <span className="text-[#727272]">
+                     Make this timetable template public for everyone to use
+                  </span>
+               </p>
+            </div>
          </div>
          <div className="flex justify-end sm:justify-center">
             <div className="flex justify-end max-sm:mr-6 sm:w-[62vw]">
