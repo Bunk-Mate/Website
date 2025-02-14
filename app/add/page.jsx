@@ -313,9 +313,9 @@ export default function Add() {
             <div className="w-[2.7vw]"></div>
          </div>
          <div className="flex justify-center">
-            <div className="flex items-center max-sm:mr-6 sm:w-[62vw] my-[1vw]">
+            <div className="flex items-center sm:w-[62vw] my-[1vw] max-sm:pl-3 max-sm:my-3">
                <CheckboxIcon checked={checked} setChecked={setChecked}/>
-               <p className="ml-[1vw] text-[1.1vw] max-sm:text-lg max-[400px]:text-base">
+               <p className="ml-[1vw] max-sm:ml-3 text-[1.1vw] max-sm:text-lg max-[400px]:text-base">
                   Share timetable? <br />
                   <span className="text-[#727272]">
                      Make this timetable template public for everyone to use

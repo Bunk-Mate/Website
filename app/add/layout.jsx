@@ -10,7 +10,7 @@ export default function Layout({ children }) {
    return (
       <div className="flex h-screen flex-col bg-[#1c1c1c]">
          <div className="">
-            <nav className="flex h-[5vw] overflow-hidden max-md:h-[72px]">
+            <nav className="flex h-[5vw] overflow-hidden max-sm:h-[72px]">
                <div className="mb-2 ml-2 flex items-center p-[1vw] text-[2vw] max-sm:mt-3 max-sm:flex-1 max-sm:text-3xl">
                   <Image
                      src={Logo}

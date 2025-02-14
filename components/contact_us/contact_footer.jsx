@@ -112,7 +112,7 @@ export default function ContactFooter() {
                <div className="ml-[0.1vh] mt-[0.1vh] min-w-[15vw] rounded-full border-[0.5vh] border-solid border-black bg-black max-md:min-w-[40vw]"></div>
                <div className="flex min-w-[20vw] rounded-full max-md:min-w-[45vw]">
                   <PopOutButton
-                     href={'https://github.com/Bunk-Mate/Mobile-App'}
+                     href={'https://play.google.com/store/apps/details?id=college.bunkmate'}
                      mssg={'We also have an app'}
                   />
                </div>
