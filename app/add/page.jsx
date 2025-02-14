@@ -12,6 +12,7 @@ import { ACCESS_TOKEN_NAME, API_BASE_URL } from '../_utils/apiConstants.js';
 import axios from 'axios';
 import SlideInNotifications from '@/components/notifications/side_notification.jsx';
 import CheckboxIcon from '@/components/ui/checkbox.jsx';
+import SearchTimetable from '@/components/shared_timetable/search_timetable.jsx';
 
 export default function Add() {
    const [tableData, setTableData] = useState([[null, null, null, null, null]]);
@@ -129,6 +130,14 @@ export default function Add() {
                </p>
             </div>
          </div>
+         <SearchTimetable router={router}/>
+         <div className='my-[2vw] flex text-[3vw] max-sm:text-[40px] max-[400px]:text-base sm:items-center sm:justify-center'>
+            <div className='sm:max-w-[80vw] flex flex-1 items-center max-sm:w-full'>
+               <div className='h-[1px] bg-[#727272] w-full'></div>
+               <p className='mx-[1vw]'>OR</p>
+               <div className='h-[1px] bg-[#727272] w-full'></div>
+            </div>
+            </div>
          <div className="my-[2vw] flex flex-col text-[1.1vw] max-sm:text-lg max-[400px]:text-base sm:items-center sm:justify-center">
             <div className="mb-[2vw] flex justify-center max-sm:items-center">
                <div className="flex justify-center max-sm:flex-1">
