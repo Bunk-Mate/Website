@@ -14,8 +14,10 @@ import { RefreshContext } from '@/app/_contexts/refresh';
 
 export default function Data() {
    const [hw, setHw] = useState('50vh');
-   const smRatio = 297;
-   const lgRatio = 0.218;
+   // const smRatio = 297;
+   // const lgRatio = 0.218;
+   const smRatio = 180;
+   const lgRatio = 0.07;
    const [statData, setStatData] = useState([]);
    const [name, setName] = useState('');
    const [threshold, setThreshold] = useState(0);
@@ -91,47 +93,51 @@ export default function Data() {
    };
 
    return (
-      <div className="mx-[3vw] flex h-full flex-1 flex-col font-light max-sm:m-5 max-sm:mb-0">
-         <div className="mb-[1.5vw] max-sm:mb-2">
-            <p className="text-[6vw] max-sm:text-6xl">
-               {name[0]} <span className="font-thin">{name[1]}</span>
-            </p>
-         </div>
-         <div className="flex">
-            <div className="flex flex-[2] items-center">
-               <p className="text-[4.3vw] leading-none max-sm:text-5xl">
-                  {avg('percentage')}
-                  <span className="text-[3vw] max-sm:text-4xl">%</span>
-               </p>
-               <p className="ml-4 text-[1.4vw] leading-[1.8vw] max-sm:ml-1 max-sm:text-sm max-sm:leading-4">
-                  Overall
-                  <br />
-                  attendance
+      <div className="mx-[3vw] flex h-full flex-1 flex-col overflow-auto font-light max-sm:m-5 max-sm:mb-0 no-scrollbar"
+         style={{ height: hw }}>
+         <div className="sticky top-0 bg-[#1c1c1c]">
+            <div className="mb-[0vw] max-sm:mb-2">
+               <p className="text-[6vw] max-sm:text-6xl">
+               <ExpandableName name={name} />
                </p>
             </div>
-            <div className="flex flex-[3] items-center justify-start max-sm:justify-center">
-               <p className="text-[4.3vw] leading-none max-sm:text-5xl">
-                  {avg('bunks_available')}
-                  <span className="text-[3vw] max-sm:text-4xl">b</span>
-               </p>
-               <p className="ml-4 text-[1.5vw] leading-[2vw] max-sm:ml-1 max-sm:text-sm max-sm:leading-4">
-                  Overall
-                  <br />
-                  bunks left
-               </p>
-            </div>
-            <div className="flex items-center text-center">
-               <p className="ml-4 text-[1.5vw] leading-[2vw] max-sm:ml-1 max-sm:text-sm max-sm:leading-4">
-                  Bunks
-                  <br />
-                  left
-               </p>
+            <div className="flex">
+               <div className="flex flex-[2] items-center">
+                  <p className="text-[4.3vw] leading-none max-sm:text-5xl">
+                     {avg('percentage')}
+                     <span className="text-[3vw] max-sm:text-4xl">%</span>
+                  </p>
+                  <p className="ml-4 text-[1.4vw] leading-[1.8vw] max-sm:ml-1 max-sm:text-sm max-sm:leading-4">
+                     Overall
+                     <br />
+                     attendance
+                  </p>
+               </div>
+               <div className="flex flex-[3] items-center justify-start max-sm:justify-center">
+                  <p className="text-[4.3vw] leading-none max-sm:text-5xl">
+                     {avg('bunks_available')}
+                     <span className="text-[3vw] max-sm:text-4xl">b</span>
+                  </p>
+                  <p className="ml-4 text-[1.5vw] leading-[2vw] max-sm:ml-1 max-sm:text-sm max-sm:leading-4">
+                     Overall
+                     <br />
+                     bunks left
+                  </p>
+               </div>
+               <div className="flex items-center text-center">
+                  <p className="ml-4 text-[1.5vw] leading-[2vw] max-sm:ml-1 max-sm:text-sm max-sm:leading-4">
+                     Bunks
+                     <br />
+                     left
+                  </p>
+               </div>
             </div>
          </div>
          <div className="flex h-full flex-1" id="victimer">
             <div
-               className="no-scrollbar flex h-full flex-1 overflow-auto"
-               style={{ height: hw }}
+               className="flex h-full flex-1"
+               // overflow-auto"
+               // style={{ height: hw }}
             >
                <Graph
                   statData={statData}
@@ -140,6 +146,62 @@ export default function Data() {
                />
             </div>
          </div>
+      </div>
+   );
+}
+
+function ExpandableName({ name }) {
+   const [expanded, setExpanded] = useState(false);
+   const [isWrapped, setIsWrapped] = useState(false);
+
+   useEffect(() => {
+      if ((name[0]+name[1]).length>20){
+         setIsWrapped(true)
+         setExpanded(false);
+      }else{
+         setExpanded(true)
+      }
+   }, [name]);
+
+   return (
+      <div
+         className="cursor-pointer w-full break-words text-[6vw] max-sm:text-6xl"
+         onClick={() => {isWrapped && setExpanded(!expanded)}}
+      >
+         <p className='max-sm:hidden'>
+            {expanded ? 
+               <>
+                  <span>{name[0]}</span>
+                  &nbsp;
+                  <span className='font-thin'>{name[1]}</span>
+               </>
+               :
+               name[0]?.length>20 ?
+                  <>
+                     <span>
+                        {name[0].slice(0, 20)}
+                     </span>
+                  </> :
+                  <>
+                     <span>
+                        {name[0]}
+                     </span>
+                     &nbsp;
+                     <span className='font-thin'>
+                        {name[1]?.slice(0,20-name[0].length) + "..."}
+                     </span>
+                  </>
+            }
+         </p>
+         <p className='sm:hidden'>
+            <span>
+               {name[0]}
+            </span>
+            &nbsp;
+            <span className='font-thin'>
+               {name[1]}
+            </span>
+         </p>
       </div>
    );
 }
