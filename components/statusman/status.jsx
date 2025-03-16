@@ -1,13 +1,14 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import axios from 'axios';
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from '@/app/_utils/apiConstants.js';
 import AddNewSubs from './add_new_sub';
 import SlideInNotifications from '../notifications/side_notification';
 import { useRouter } from 'next/navigation';
+import { RefreshContext } from '@/app/_contexts/refresh';
 
-export default function Status({ dateCurr, refreshCont, setRefreshCont, hw }) {
+export default function Status({ dateCurr, hw }) {
    const thirdparty = useRef([]);
    const notificationRef = useRef(null);
    const router = useRouter();
@@ -16,6 +17,8 @@ export default function Status({ dateCurr, refreshCont, setRefreshCont, hw }) {
       bunked: 'cancelled',
       cancelled: 'present',
    };
+   // eslint-disable-next-line prettier/prettier
+   const { refreshCont, setRefreshCont, refreshCourseList } = useContext(RefreshContext);
    const [dateQuery, setDateQuery] = useState([
       // {
       //     "name": "history",
@@ -54,7 +57,7 @@ export default function Status({ dateCurr, refreshCont, setRefreshCont, hw }) {
             }
             //console.log(JSON.stringify(error));
          });
-   }, [dateCurr]);
+   }, [dateCurr, refreshCourseList]);
 
    useEffect(() => {
       thirdparty.current = [];
@@ -62,16 +65,15 @@ export default function Status({ dateCurr, refreshCont, setRefreshCont, hw }) {
 
    useEffect(() => {
       if (thirdparty.current.length > 0 && dateQuery.length > 0) {
-         console.log('updating', dateQuery);
-         console.log('hhhh', color[dateQuery[0].status][2], thirdparty.current);
-         update(
-            refreshCont,
-            dateCurr,
+         // console.log('updating', dateQuery);
+         // console.log('hhhh', color[dateQuery[0].status][2], thirdparty.current);
+         UpdateStatus(
             dateQuery,
-            setRefreshCont,
             thirdparty,
             notificationRef,
-            router
+            router,
+            refreshCont,
+            setRefreshCont
          );
       } else {
          // console.log(
@@ -98,12 +100,7 @@ export default function Status({ dateCurr, refreshCont, setRefreshCont, hw }) {
          style={{ height: hw }}
       >
          <div className="no-scrollbar flex-1 overflow-auto">
-            <AddNewSubs
-               dateCurr={dateCurr}
-               dateQuery={dateQuery}
-               refreshCont={refreshCont}
-               setRefreshCont={setRefreshCont}
-            />
+            <AddNewSubs dateCurr={dateCurr} dateQuery={dateQuery} />
             {Object.keys(dateQuery).map((key, index) => (
                <div className="mt-1 flex h-[8.9vw] max-sm:h-[15vh]" key={index}>
                   <div
@@ -114,7 +111,7 @@ export default function Status({ dateCurr, refreshCont, setRefreshCont, hw }) {
                   <div
                      className={`flex h-full ${color[dateQuery[key]?.status][0]} ${color[dateQuery[key].status][1]} rounded-r-lg`}
                   >
-                     <div className="m-[1px]">
+                     <div className="m-px">
                         <button
                            className={`flex h-full w-[12vw] items-center justify-center overflow-hidden ${color[dateQuery[key].status][2]} rounded-lg max-sm:w-[15vh]`}
                            onClick={() => {
@@ -138,14 +135,13 @@ export default function Status({ dateCurr, refreshCont, setRefreshCont, hw }) {
    );
 }
 
-function update(
-   refreshCont,
-   dateCurr,
+function UpdateStatus(
    dateQuery,
-   setRefreshCont,
    thirdparty,
    notificationRef,
-   router
+   router,
+   refreshCont,
+   setRefreshCont
 ) {
    const header = {
       Authorization:
@@ -185,6 +181,7 @@ function update(
                Math.random(),
                'Request failed. Please try again.'
             );
+            console.log('here is the error', error);
          }
       });
 }

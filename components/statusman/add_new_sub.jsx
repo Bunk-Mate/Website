@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useContext } from 'react';
+import { RefreshContext } from '@/app/_contexts/refresh';
 import Popup from '../popup/popup';
 import Drop from '../drop_select/drop_select';
 import CheckSvg from '../svg/check';
@@ -12,18 +13,15 @@ import {
 } from '@/app/_utils/apiConstants';
 import SlideInNotifications from '../notifications/side_notification';
 
-export default function AddNewSubs({
-   dateCurr,
-   dateQuery,
-   refreshCont,
-   setRefreshCont,
-}) {
+export default function AddNewSubs({ dateCurr, dateQuery }) {
    const [addNewSub, setAddNewSub] = useState('');
    const [newSub, setNewSub] = useState('');
    const [optionList, setOptionList] = useState([]);
    const [message, setMessage] = useState('Add another subject');
    const router = useRouter();
    const notificationRef = useRef(null);
+   // eslint-disable-next-line prettier/prettier
+   const { refreshCourseList, setRefreshCourseList } = useContext(RefreshContext);
 
    useEffect(() => {
       if (dateQuery.length == 0) {
@@ -72,7 +70,6 @@ export default function AddNewSubs({
                   })
                   .then((response) => {
                      if (response.status == 200) {
-                        //console.log(response.data, 'response')
                         let flag = false;
                         for (let i = 0; i < response.data.length; i++) {
                            if (response.data[i].name == newSub) {
@@ -108,8 +105,6 @@ export default function AddNewSubs({
                      if (error.response && error.response.status == 401) {
                         router.push('/login');
                      }
-                     //console.log(error.response.data);
-                     //console.log(error.response.status)
                   });
             }
          } else {
@@ -132,12 +127,6 @@ export default function AddNewSubs({
          })
          .then((response) => {
             if (response.status === 201) {
-               //console.log("subject updated")
-               if (refreshCont == []) {
-                  setRefreshCont(['hello']);
-               } else {
-                  setRefreshCont([]);
-               }
                if (endpoint == 'schedule_selector') {
                   if (notificationRef.current) {
                      notificationRef.current.addNotif(
@@ -160,10 +149,15 @@ export default function AddNewSubs({
                      );
                   }
                }
+
+               if (refreshCourseList == []) {
+                  setRefreshCourseList(['hello']);
+               } else {
+                  setRefreshCourseList([]);
+               }
                setNewSub('');
                setAddNewSub('');
                sessionStorage.removeItem(ACCESS_TIMETABLE_NAME);
-               //console.log('addnewsub getting reset again??')
             }
          })
          .catch((error) => {
@@ -177,20 +171,11 @@ export default function AddNewSubs({
                if (error.response.status == 401) {
                   router.push('/login');
                }
-               //console.log(error.response.data);
-               //console.log(error.response.status)
             }
          });
-      //console.log(payload,'payload that posted');
-      if (refreshCont == []) {
-         setRefreshCont('Hello');
-      } else {
-         setRefreshCont([]);
-      }
    };
 
    const handleUpdate = ({ data }) => {
-      //console.log
       if (data != null) {
          setNewSub(data.value);
       } else {
@@ -201,7 +186,7 @@ export default function AddNewSubs({
    return (
       <>
          <div
-            className={`mt-1 flex h-[8.9vw] rounded-[1vw] border-[2px] border-dashed border-[#727272] bg-[#0c0c0c] hover:bg-black max-sm:h-[15vh]`}
+            className={`mt-1 flex h-[8.9vw] rounded-[1vw] border-2 border-dashed border-[#727272] bg-[#0c0c0c] hover:bg-black max-sm:h-[15vh]`}
          >
             {addNewSub == '' ||
             addNewSub == 'Discard' ||
@@ -229,7 +214,7 @@ export default function AddNewSubs({
          <div
             className={`flex justify-end ${addNewSub == '' || addNewSub == 'Discard' || addNewSub == 'Save' ? 'hidden' : ''}`}
          >
-            <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full">
+            <div className="flex size-16 items-center justify-center overflow-hidden rounded-full">
                <Popup
                   compToPass={<CheckSvg />}
                   setDecisionCheck={setAddNewSub}
@@ -239,7 +224,7 @@ export default function AddNewSubs({
                   }}
                />
             </div>
-            <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full">
+            <div className="flex size-16 items-center justify-center overflow-hidden rounded-full">
                <Popup
                   compToPass={<XSvg />}
                   setDecisionCheck={setAddNewSub}
@@ -256,7 +241,6 @@ export default function AddNewSubs({
 }
 
 function getOptions({ timetable }) {
-   //console.log(timetable, 'here you go')
    var thirdparty = [];
    var options = [];
    for (let i = 0; i < timetable.length; i++) {
@@ -271,29 +255,5 @@ function getOptions({ timetable }) {
          options.push({ label: thirdparty[i], value: thirdparty[i] });
       }
    }
-   //console.log(options, thirdparty)
    return options;
 }
-// function setOptions({setOptionList}){
-//     var thirdparty=[];
-//     var options=[]
-//     const header={
-//         'Authorization':'Token '+JSON.parse(localStorage.getItem(ACCESS_TOKEN_NAME))
-//     }
-//     axios.get(API_BASE_URL + '/courses', { headers: header })
-//       .then(function(response){
-//         if (response.status === 200) {
-//             thirdparty=response.data;
-//             for (let i=0; i<thirdparty.length; i++){
-//                 if (!options.includes(thirdparty[i].name)){
-//                     options.push({label: thirdparty[i]["name"], value: thirdparty[i]["name"]})
-//                 }
-//             }
-//             setOptionList(options);
-//           }
-//         })
-//         .catch(function(error) {
-//           console.error("Error fetching data:", error);
-//         }
-//      );
-// }

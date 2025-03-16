@@ -8,7 +8,7 @@ export default function Home() {
 
    return (
       <div className="flex h-full flex-col p-[1vw] max-sm:p-0">
-         <div className="mb-3 mt-3 flex min-h-16 flex-1 flex-col items-center justify-center p-1 sm:hidden">
+         <div className="my-3 flex min-h-16 flex-1 flex-col items-center justify-center p-1 sm:hidden">
             <div className="flex w-60 flex-1 items-center justify-center rounded-[40px] bg-[#1c1c1c]">
                <button
                   onClick={() => {

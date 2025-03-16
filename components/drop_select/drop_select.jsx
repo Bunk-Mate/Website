@@ -109,7 +109,6 @@ export default function Drop({
                input: (baseStyles) => ({
                   ...baseStyles,
                   color: 'white',
-                  fontSize: statusman ? '1.5vw' : '',
                }),
             }}
          />

@@ -6,7 +6,7 @@ import BasicDatePicker from './rewind';
 import Status from './status';
 import HeightLimit from '../height_limit_scrollable/heightLimit';
 
-export default function Statusman({ setRefreshCont, refreshCont }) {
+export default function Statusman() {
    const [dateCurr, setDateCurr] = useState(dayjs());
    const [hw, setHw] = useState('50vh');
    const smRatio = 258.1;
@@ -19,7 +19,7 @@ export default function Statusman({ setRefreshCont, refreshCont }) {
       };
    }, []);
 
-   let month = [
+   let months = [
       'Jan',
       'Feb',
       'Mar',
@@ -32,24 +32,7 @@ export default function Statusman({ setRefreshCont, refreshCont }) {
       'Oct',
       'Nov',
       'Dec',
-   ][dateCurr.month()];
-
-   useEffect(() => {
-      month = [
-         'Jan',
-         'Feb',
-         'Mar',
-         'Apr',
-         'May',
-         'Jun',
-         'Jul',
-         'Aug',
-         'Sep',
-         'Oct',
-         'Nov',
-         'Dec',
-      ][dateCurr.month()];
-   }, [dateCurr]);
+   ];
 
    function renderSwitch(param) {
       if (Math.floor(param / 10) == 1) return 'th';
@@ -73,7 +56,8 @@ export default function Statusman({ setRefreshCont, refreshCont }) {
             <>
                {dateCurr.date()}
                <span className="font-extralight text-[rgba(125,125,125,1)]">
-                  {renderSwitch(dateCurr.date() % 100)} {month}
+                  {renderSwitch(dateCurr.date() % 100)}{' '}
+                  {months[dateCurr.month()]}
                </span>
             </>
          );
@@ -94,12 +78,7 @@ export default function Statusman({ setRefreshCont, refreshCont }) {
             </div>
          </div>
          <div className="flex flex-1 pt-[0.5px]" id="victim">
-            <Status
-               dateCurr={dateCurr}
-               refreshCont={refreshCont}
-               setRefreshCont={setRefreshCont}
-               hw={hw}
-            />
+            <Status dateCurr={dateCurr} hw={hw} />
          </div>
       </div>
    );

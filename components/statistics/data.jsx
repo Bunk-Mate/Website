@@ -7,17 +7,19 @@ import {
 } from '@/app/_utils/apiConstants';
 import axios from 'axios';
 import Graph from './graph';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import HeightLimit from '../height_limit_scrollable/heightLimit';
 import { useRouter } from 'next/navigation';
+import { RefreshContext } from '@/app/_contexts/refresh';
 
-export default function Data({ refreshCont }) {
+export default function Data() {
    const [hw, setHw] = useState('50vh');
    const smRatio = 297;
    const lgRatio = 0.218;
    const [statData, setStatData] = useState([]);
    const [name, setName] = useState('');
    const [threshold, setThreshold] = useState(0);
+   const { refreshCont } = useContext(RefreshContext);
    const router = useRouter();
    const header = {
       Authorization:
@@ -30,7 +32,6 @@ export default function Data({ refreshCont }) {
          .then(function (response) {
             if (response.status === 200) {
                setStatData(response.data);
-               //console.log("statdata", response.data)
             }
          })
          .catch(function (error) {
@@ -43,17 +44,12 @@ export default function Data({ refreshCont }) {
 
    useEffect(() => {
       HeightLimit({ setHw, smRatio, lgRatio });
-      //console.log('data')
       return () => {
          window.removeEventListener('resize', {});
       };
    }, []);
 
    useEffect(() => {
-      const header = {
-         Authorization:
-            'Token ' + JSON.parse(localStorage.getItem(ACCESS_TOKEN_NAME)),
-      };
       axios
          .get(API_BASE_URL + '/collection', { headers: header })
          .then(function (response) {
@@ -103,7 +99,7 @@ export default function Data({ refreshCont }) {
          </div>
          <div className="flex">
             <div className="flex flex-[2] items-center">
-               <p className="text-[4.3vw] leading-[1] max-sm:text-5xl">
+               <p className="text-[4.3vw] leading-none max-sm:text-5xl">
                   {avg('percentage')}
                   <span className="text-[3vw] max-sm:text-4xl">%</span>
                </p>
@@ -114,7 +110,7 @@ export default function Data({ refreshCont }) {
                </p>
             </div>
             <div className="flex flex-[3] items-center justify-start max-sm:justify-center">
-               <p className="text-[4.3vw] leading-[1] max-sm:text-5xl">
+               <p className="text-[4.3vw] leading-none max-sm:text-5xl">
                   {avg('bunks_available')}
                   <span className="text-[3vw] max-sm:text-4xl">b</span>
                </p>
