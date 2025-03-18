@@ -93,12 +93,14 @@ export default function Data() {
    };
 
    return (
-      <div className="mx-[3vw] flex h-full flex-1 flex-col overflow-auto font-light max-sm:m-5 max-sm:mb-0 no-scrollbar"
-         style={{ height: hw }}>
+      <div
+         className="no-scrollbar mx-[3vw] flex h-full flex-1 flex-col overflow-auto font-light max-sm:m-5 max-sm:mb-0"
+         style={{ height: hw }}
+      >
          <div className="sticky top-0 bg-[#1c1c1c]">
-            <div className="mb-[0vw] max-sm:mb-2">
+            <div className="mb-0 max-sm:mb-2">
                <p className="text-[6vw] max-sm:text-6xl">
-               <ExpandableName name={name} />
+                  <ExpandableName name={name} />
                </p>
             </div>
             <div className="flex">
@@ -124,7 +126,7 @@ export default function Data() {
                      bunks left
                   </p>
                </div>
-               <div className="flex items-center text-center">
+               <div className="flex items-center text-center max-sm:hidden">
                   <p className="ml-4 text-[1.5vw] leading-[2vw] max-sm:ml-1 max-sm:text-sm max-sm:leading-4">
                      Bunks
                      <br />
@@ -155,52 +157,46 @@ function ExpandableName({ name }) {
    const [isWrapped, setIsWrapped] = useState(false);
 
    useEffect(() => {
-      if ((name[0]+name[1]).length>20){
-         setIsWrapped(true)
+      if ((name[0] + name[1]).length > 20) {
+         setIsWrapped(true);
          setExpanded(false);
-      }else{
-         setExpanded(true)
+      } else {
+         setExpanded(true);
       }
    }, [name]);
 
    return (
       <div
-         className="cursor-pointer w-full break-words text-[6vw] max-sm:text-6xl"
-         onClick={() => {isWrapped && setExpanded(!expanded)}}
+         className="w-full cursor-pointer break-words text-[6vw] max-sm:text-6xl"
+         onClick={() => {
+            isWrapped && setExpanded(!expanded);
+         }}
       >
-         <p className='max-sm:hidden'>
-            {expanded ? 
+         <p className="max-sm:hidden">
+            {expanded ? (
                <>
                   <span>{name[0]}</span>
                   &nbsp;
-                  <span className='font-thin'>{name[1]}</span>
+                  <span className="font-thin">{name[1]}</span>
                </>
-               :
-               name[0]?.length>20 ?
-                  <>
-                     <span>
-                        {name[0].slice(0, 20)}
-                     </span>
-                  </> :
-                  <>
-                     <span>
-                        {name[0]}
-                     </span>
-                     &nbsp;
-                     <span className='font-thin'>
-                        {name[1]?.slice(0,20-name[0].length) + "..."}
-                     </span>
-                  </>
-            }
+            ) : name[0]?.length > 20 ? (
+               <>
+                  <span>{name[0].slice(0, 20)}</span>
+               </>
+            ) : (
+               <>
+                  <span>{name[0]}</span>
+                  &nbsp;
+                  <span className="font-thin">
+                     {name[1]?.slice(0, 20 - name[0].length) + '...'}
+                  </span>
+               </>
+            )}
          </p>
-         <p className='sm:hidden'>
-            <span>
-               {name[0]}
-            </span>
+         <p className="sm:hidden">
+            <span>{name[0]}</span>
             &nbsp;
-            <span className='font-thin'>
-               {name[1]}
-            </span>
+            <span className="font-thin">{name[1]}</span>
          </p>
       </div>
    );

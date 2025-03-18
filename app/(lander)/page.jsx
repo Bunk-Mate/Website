@@ -41,7 +41,7 @@ export default function Home() {
          <div className="flex h-screen items-center justify-center text-[3vw] max-md:text-[7vw]">
             <p className="max-w-[60vw] max-md:max-w-[85vw]">
                Bunk Mate helps you track your attendance and plan your bunks.
-               Who else is better to rely on that oneself..
+               Who else is better to rely on than oneself..
             </p>
          </div>
          <div className="mt-[50vh] flex flex-col items-center justify-center max-md:mt-[15vh]">

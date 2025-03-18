@@ -14,17 +14,15 @@ export default function Graph({ statData, threshold, setThreshold }) {
    }, []);
 
    return (
-      <div className="my-[2vw] size-full max-sm:gap-y-3 flex flex-col">
+      <div className="my-[2vw] flex size-full flex-col max-sm:gap-y-3">
          {statData.map((key, value) => (
             <div
                key={value}
                className="mb-[2vw] flex flex-1 flex-col text-[1.5vw]"
             >
                <div className="flex max-sm:flex-col sm:items-center">
-
                   {/* Sub Name */}
                   <div className="group mr-9 flex min-w-[4.6vw] max-sm:m-0 max-sm:min-w-16 max-sm:text-2xl">
-
                      {/* Desktop */}
                      <p className="flex max-sm:hidden">
                         {key.name.slice(0, 4)}
@@ -37,8 +35,13 @@ export default function Graph({ statData, threshold, setThreshold }) {
                      <p className="flex-1 sm:hidden">
                         <span className="">{key.name}</span>
                      </p>
-                     <div className="text-center text-[2.5vw] max-sm:text-3xl sm:hidden sm:font-thin">
+                     <div className="flex text-[2.5vw] max-sm:text-3xl sm:hidden sm:font-thin">
                         {key.bunks_available}
+                        <p className="ml-4 text-[1.5vw] leading-[2vw] max-sm:ml-1 max-sm:text-sm max-sm:leading-4">
+                           bunks
+                           <br />
+                           left
+                        </p>
                      </div>
                   </div>
 
@@ -49,7 +52,7 @@ export default function Graph({ statData, threshold, setThreshold }) {
                            <p className="flex items-center justify-center text-[2.5vw] font-extralight text-black max-sm:hidden max-sm:text-3xl sm:h-[10vh] sm:p-6">
                               0
                            </p>
-                           <p className="text-[2.5vw] font-extralight text-black max-sm:text-3xl sm:hidden sm:p-6 max-sm:p-3">
+                           <p className="text-[2.5vw] font-extralight text-black max-sm:p-3 max-sm:text-3xl sm:hidden sm:p-6">
                               {threshold}
                            </p>
                         </div>
@@ -73,10 +76,10 @@ export default function Graph({ statData, threshold, setThreshold }) {
                                  ),
                               }}
                            >
-                              <p className="flex w-[10vh] items-center justify-center rounded-full bg-[#55eb50] bg-opacity-20 text-left text-[2.5vw] font-extralight text-black max-sm:hidden max-sm:text-3xl sm:h-[10vh] sm:p-6">
+                              <p className="flex w-[10vh] items-center justify-center rounded-full bg-[#55eb50]/20 text-left text-[2.5vw] font-extralight text-black max-sm:hidden max-sm:text-3xl sm:h-[10vh] sm:p-6">
                                  {threshold}
                               </p>
-                              <p className="flex-1 text-right text-[2.5vw] font-extralight text-black max-sm:text-3xl sm:p-6 max-sm:p-3">
+                              <p className="flex-1 text-right text-[2.5vw] font-extralight text-black max-sm:p-3 max-sm:text-3xl sm:p-6">
                                  {key.percentage}
                               </p>
                            </div>
