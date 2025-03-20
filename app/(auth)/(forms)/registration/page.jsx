@@ -20,7 +20,7 @@ export default function RegistrationForm() {
    //    'Content-Type': 'application/json',
    //    'Access-Control-Allow-Origin': '*',
    // };
-
+   const { setUserID } = useContext(UserContext);
    const notificationRef = useRef(null);
    const router = useRouter();
 
@@ -48,8 +48,7 @@ export default function RegistrationForm() {
             username: state.username,
             password: state.password,
          };
-         axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-         console.log(state, 'korewa state desne');
+
          axios
             .post(API_BASE_URL + '/register', payload)
             .then((response) => {
@@ -64,7 +63,7 @@ export default function RegistrationForm() {
                         Math.random(),
                         'Registration successful. Logging you in.'
                      );
-                     handleLogin({ state });
+                     handleLogin({ state, notificationRef, router, setUserID });
                   }
                } else {
                   if (notificationRef.current) {
@@ -80,7 +79,7 @@ export default function RegistrationForm() {
                   if (notificationRef.current) {
                      notificationRef.current.addNotif(
                         Math.random(),
-                        'Registration failed. Please try again.'
+                        'Something went wrong during registration. Please try again.'
                      );
                   }
                } else {
@@ -92,20 +91,6 @@ export default function RegistrationForm() {
                   }
                }
             });
-         if (notificationRef.current) {
-            notificationRef.current.addNotif(
-               Math.random(),
-               'Registration successful. Logging you in.'
-            );
-            handleLogin({ state, notificationRef, router });
-         }
-      } else {
-         if (notificationRef.current) {
-            notificationRef.current.addNotif(
-               Math.random(),
-               'Please fill the empty input fields.'
-            );
-         }
       }
    };
 
@@ -147,7 +132,7 @@ export default function RegistrationForm() {
                      value={state.username}
                      onChange={handleChange}
                      required
-                     className="min-h-[50px] rounded-[30px] border-[1px] border-solid border-white bg-black pl-[20px] autofill:shadow-[inset_0_0_0px_1000px_rgb(250,250,200)]"
+                     className="min-h-[50px] rounded-[30px] border border-solid border-white bg-black pl-[20px] autofill:shadow-[inset_0_0_0px_1000px_rgb(250,250,200)]"
                   />
                </div>
                <div className="flex flex-col">
@@ -161,7 +146,7 @@ export default function RegistrationForm() {
                      value={state.password}
                      onChange={handleChange}
                      required
-                     className="min-h-[50px] rounded-[30px] border-[1px] border-solid border-white bg-black pl-[20px] autofill:shadow-[inset_0_0_0px_1000px_rgb(250,250,200)]"
+                     className="min-h-[50px] rounded-[30px] border border-solid border-white bg-black pl-[20px] autofill:shadow-[inset_0_0_0px_1000px_rgb(250,250,200)]"
                   />
                </div>
                <div className="flex flex-col">
@@ -175,7 +160,7 @@ export default function RegistrationForm() {
                      value={state.confirmpassword}
                      onChange={handleChange}
                      required
-                     className="min-h-[50px] rounded-[30px] border-[1px] border-solid border-white bg-black pl-[20px] autofill:shadow-[inset_0_0_0px_1000px_rgb(250,250,200)]"
+                     className="min-h-[50px] rounded-[30px] border border-solid border-white bg-black pl-[20px] autofill:shadow-[inset_0_0_0px_1000px_rgb(250,250,200)]"
                   />
                </div>
                <div className="my-4 flex text-right">
@@ -191,7 +176,7 @@ export default function RegistrationForm() {
                </div>
                <button
                   type="submit"
-                  className="min-h-[56px] w-full rounded-[30px] border-[1px] border-solid border-white bg-white text-black"
+                  className="min-h-[56px] w-full rounded-[30px] border border-solid border-white bg-white text-black"
                >
                   Register
                </button>
@@ -207,7 +192,7 @@ export default function RegistrationForm() {
    );
 }
 
-const handleLogin = ({ state, notificationRef, router }) => {
+const handleLogin = ({ state, notificationRef, router, setUserID }) => {
    if (notificationRef.current) {
       notificationRef.current.addNotif(
          Math.random(),
@@ -229,7 +214,6 @@ const handleLogin = ({ state, notificationRef, router }) => {
                   'Login successful'
                );
             }
-            const { setUserID } = useContext(UserContext);
             setUserID(state.username);
             localStorage.setItem(
                ACCESS_TOKEN_NAME,
@@ -249,7 +233,7 @@ const handleLogin = ({ state, notificationRef, router }) => {
          if (notificationRef.current) {
             notificationRef.current.addNotif(
                Math.random(),
-               'Login failed. Please try again.'
+               'Something went wrong during login. Please try again.'
             );
          }
       });

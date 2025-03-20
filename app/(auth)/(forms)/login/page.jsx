@@ -39,6 +39,7 @@ function LoginForm() {
          username: state.username,
          password: state.password,
       };
+
       axios
          .post(API_BASE_URL + '/login', payload)
          .then(function (response) {
@@ -79,12 +80,11 @@ function LoginForm() {
             if (notificationRef.current) {
                notificationRef.current.addNotif(
                   Math.random(),
-                  'Login failed. Please try again.'
+                  'Something went wrong during login. Please try again.'
                );
             }
             //console.log(error);
          });
-      // redirectToHome()//make sure to comment this out
    };
 
    const redirectToHome = () => {
@@ -115,7 +115,7 @@ function LoginForm() {
                      value={state.username}
                      onChange={handleChange}
                      required
-                     className="min-h-[50px] rounded-[30px] border-[1px] border-solid border-white bg-black pl-[20px] autofill:shadow-[inset_0_0_0px_1000px_rgb(250,250,200)]"
+                     className="min-h-[50px] rounded-[30px] border border-solid border-white bg-black pl-[20px] autofill:shadow-[inset_0_0_0px_1000px_rgb(250,250,200)]"
                   />
                </div>
                <div className="flex flex-col">
@@ -129,7 +129,7 @@ function LoginForm() {
                      value={state.password}
                      onChange={handleChange}
                      required
-                     className="min-h-[50px] rounded-[30px] border-[1px] border-solid border-white bg-black pl-[20px] autofill:shadow-[inset_0_0_0px_1000px_rgb(250,250,200)]"
+                     className="min-h-[50px] rounded-[30px] border border-solid border-white bg-black pl-[20px] autofill:shadow-[inset_0_0_0px_1000px_rgb(250,250,200)]"
                   />
                </div>
                <div className="my-2 text-right">
@@ -143,7 +143,7 @@ function LoginForm() {
                </div>
                <button
                   type="submit"
-                  className="min-h-[56px] w-full rounded-[30px] border-[1px] border-solid border-white bg-white text-black"
+                  className="min-h-[56px] w-full rounded-[30px] border border-solid border-white bg-white text-black"
                >
                   Login
                </button>
