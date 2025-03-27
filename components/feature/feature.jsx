@@ -6,7 +6,7 @@ import Image from 'next/image';
 export default function Feature() {
    return (
       <>
-         <div className="grid max-h-[210vw] max-w-[100vw] grid-flow-col grid-rows-7 justify-center overflow-hidden max-md:hidden">
+         <div className="grid max-h-[210vw] max-w-[100vw] grid-flow-col grid-rows-8 justify-center overflow-hidden max-md:hidden">
             {/* Feature 1 */}
             <div className="grid min-w-[140vw] max-w-[140vw] grid-cols-5">
                <div className="size-full border border-solid border-[#1c1c1c]"></div>
@@ -92,6 +92,14 @@ export default function Feature() {
                   </p>
                </div>
                <div className="size-full border border-solid border-[#1c1c1c] bg-gradient-to-bl from-[#0f240d73] transition hover:bg-[#0f240d73]"></div>
+               <div className="size-full border border-solid border-[#1c1c1c]"></div>
+               <div className="size-full border border-solid border-[#1c1c1c]"></div>
+            </div>
+
+            <div className="grid min-w-[140vw] max-w-[140vw] grid-cols-5">
+               <div className="size-full border border-solid border-[#1c1c1c]"></div>
+               <div className="size-full border border-solid border-[#1c1c1c] bg-gradient-to-bl from-[#0f240d73] transition hover:bg-[#0f240d73]"></div>
+               <div className="size-full border border-solid border-[#1c1c1c]"></div>
                <div className="size-full border border-solid border-[#1c1c1c]"></div>
                <div className="size-full border border-solid border-[#1c1c1c]"></div>
             </div>

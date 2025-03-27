@@ -147,12 +147,14 @@ export default function CircleScale() {
       <div className="h-full">
          <div className="h-[50vh]"></div>
          <div
-            className="-mb-[100vh] flex h-[200vh] justify-center max-sm:-mb-[150vh]"
+            // todo: make text a child rather than depending upon height of parent which leads to inconsistencies(max-md:h-[85vh])
+            // migrate to scale rather than h & w states
+            className="mb-[-100vh] flex h-[200vh] justify-center max-sm:mb-[-150vh]"
             ref={circleRef}
             //style={{height:`${Math.round(Math.sqrt((window.innerHeight)**2+(window.innerWidth)**2))}px`}}
          >
             <div
-               className={`fixed rounded-full bg-white ${h > windH ? 'top-[50vh] -translate-y-1/2 transform' : 'bottom-0'}`}
+               className={`fixed rounded-full bg-white ${h > windH ? 'top-[50vh] -translate-y-1/2' : 'bottom-0'}`}
                style={{
                   minHeight: `${h}px`,
                   minWidth: `${w}px`,

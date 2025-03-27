@@ -1,28 +1,17 @@
 'use client';
 
-import SlideInNotifications from '@/components/notifications/side_notification';
-export default function test() {
+import { useState } from 'react';
+import Parallax from './parallax';
+import Circle from './circle';
+// import HorizontalScrollCarousel from './dependent_horizontal_scroll';
+
+export default function NewCircle() {
+   const [isFill, setIsFill] = useState(false);
    return (
-      <div className="">
-         <SlideInNotifications component={ButtonWithNotification} />
+      <div className="min-h-[900vh] bg-gradient-to-r from-black to-white">
+         <div className='min-h-[150vh]'></div>
+         <Parallax/>
+         {/* <Circle/> */}
       </div>
    );
 }
-
-const ButtonWithNotification = ({ addNotif }) => {
-   const handleAddNotification = () => {
-      const id = Math.random();
-      const text = 'Custom notification text';
-      addNotif(id, text);
-   };
-   return (
-      <div>
-         <button
-            onClick={handleAddNotification}
-            className="rounded bg-indigo-500 px-3 py-2 text-sm font-medium text-white transition-all hover:bg-indigo-600 active:scale-95"
-         >
-            Add Notification
-         </button>
-      </div>
-   );
-};

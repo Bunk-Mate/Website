@@ -53,10 +53,9 @@ function ParallaxText({ children, baseVelocity = 100 }) {
 
 export default function NameStrip() {
    return (
-      <section className="max-w-screen flex min-h-[34vw] flex-col items-center justify-center overflow-hidden">
+      <section className="flex min-h-[34vw] max-w-[100vw] flex-col items-center justify-center overflow-hidden">
          <div className="flex rotate-[5deg] bg-black">
             <ParallaxText baseVelocity={-5}>
-               {/* <Image src={Strip} className=""></Image> */}
                <div className="flex items-center">
                   <p className="ml-[2vw] text-[5vw] text-white">BUNKMATE</p>
                   <div className="ml-[2vw] min-h-[4vw] min-w-[4vw] rounded-full bg-white"></div>
@@ -66,9 +65,8 @@ export default function NameStrip() {
             </ParallaxText>
          </div>
          <div className="h-[23vw] w-[110vw] rotate-[5deg] bg-black"></div>
-         <div className="-mt-[21vw] flex -rotate-[5deg] bg-white text-black">
+         <div className="mt-[-21vw] flex rotate-[-5deg] bg-white text-black">
             <ParallaxText baseVelocity={5}>
-               {/* <Image src={Strip} sizes={6000} className=""></Image> */}
                <div className="flex items-center text-black">
                   <p className="ml-[2vw] text-[5vw]">BUNKMATE</p>
                   <div className="ml-[2vw] min-h-[4vw] min-w-[4vw] rounded-full bg-black"></div>
