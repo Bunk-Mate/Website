@@ -41,6 +41,7 @@ export default function CircleScale() {
       return () => window.removeEventListener('scroll', onScroll);
    }, []);
 
+   // this side effect deals with window dimension change events
    useEffect(() => {
       winH.current = window.innerHeight;
       winW.current = window.innerWidth;
@@ -62,8 +63,9 @@ export default function CircleScale() {
    }, []);
 
    useEffect(() => {
-      //console.log('dir change to ', scrollDir)
+      console.log('dir change to ', scrollDir)
    }, [scrollDir]);
+
    const handleScroll = () => {
       // console.log('here')
       if (window.innerHeight >= window.innerWidth) {
@@ -87,7 +89,7 @@ export default function CircleScale() {
          );
          // console.log('subtraction', scrollDir)
       }
-      //console.log(window.scrollY-offs.current, offs.current, window.scrollY)
+      console.log(window.scrollY-offs.current, offs.current, window.scrollY)
       // console.log(h,w)
    };
    useEffect(() => {
@@ -147,11 +149,8 @@ export default function CircleScale() {
       <div className="h-full">
          <div className="h-[50vh]"></div>
          <div
-            // todo: make text a child rather than depending upon height of parent which leads to inconsistencies(max-md:h-[85vh])
-            // migrate to scale rather than h & w states
             className="mb-[-100vh] flex h-[200vh] justify-center max-sm:mb-[-150vh]"
             ref={circleRef}
-            //style={{height:`${Math.round(Math.sqrt((window.innerHeight)**2+(window.innerWidth)**2))}px`}}
          >
             <div
                className={`fixed rounded-full bg-white ${h > windH ? 'top-[50vh] -translate-y-1/2' : 'bottom-0'}`}
@@ -161,10 +160,6 @@ export default function CircleScale() {
                }}
             ></div>
          </div>
-         {/* <div className={`flex justify-center bg-blue-600 transform ${h>window.innerHeight?"fixed left-1/2 -translate-x-1/2 -translate-y-1/2 top-[50vh]":"bottom-0"}`}>
-            <div ref={circleRef} className="bg-white transition rounded-full" style={{minHeight: `${h}px`, minWidth: `${w}px`}}></div>
-        </div> */}
-         {/* <div className="h-[200vh]"></div> */}
       </div>
    );
 }

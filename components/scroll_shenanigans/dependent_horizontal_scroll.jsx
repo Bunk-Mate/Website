@@ -27,11 +27,12 @@ const HorizontalScrollCarousel = () => {
             <motion.div style={{ x }} className="flex whitespace-nowrap">
                <p
                   ref={ref}
-                  className="ml-[100vw] flex h-screen items-center bg-white text-[80vh] max-md:text-[40vh]"
+                  // todo: the parallax speed is dependent on the text size(text-18vh @ max-md)
+                  className="ml-[100vw] flex h-screen items-center bg-white text-[65vh] font-medium max-md:text-[40vh]"
                >
                   LET&apos;S GO BUNKMATE
                </p>
-               <div className="-mr-[100vw] min-h-[100vh] min-w-[100vw] bg-white"></div>
+               <div className="mr-[-100vw] min-h-screen min-w-[100vw] bg-white"></div>
             </motion.div>
          </div>
       </section>
