@@ -16,7 +16,7 @@ import {
 import Logout from '@/components/svg/logout';
 import { useEffect, useRef } from 'react';
 import SlideInNotifications from '@/components/notifications/side_notification';
-import DomainChange from '@/components/popup/domain_change_modal.jsx';
+import DomainChangeModal from '@/components/popup/domain_change/domain_change_modal.jsx';
 
 export default function Layout({ children }) {
    const pathname = usePathname();
@@ -135,7 +135,7 @@ export default function Layout({ children }) {
          </div>
          <div className="h-full bg-black">{children}</div>
          <SlideInNotifications ref={notificationRef} />
-         <DomainChange />
+         <DomainChangeModal />
       </div>
    );
 }
