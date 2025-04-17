@@ -30,6 +30,10 @@ export default function Parallax() {
       };
    }, []);
 
+   useEffect(()=>{
+      console.log("activate cuz linting")
+   },[activate])
+
    useEffect(() => {
       const container = containerRef.current;
       const scalingEl = scalingRef.current;

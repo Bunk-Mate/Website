@@ -201,17 +201,25 @@ export default function HParallax() {
    useEffect(() => {
       console.log('changed end ref', stop);
    }, [stop]);
+
+   const getMinHeight = () => {
+      if (winW.current <= 640) {
+         return `${2.4 * winW.current + Math.sqrt(Math.pow(winH.current, 2) + Math.pow(winW.current, 2))}px`;
+      }
+      return `${1.6 * winW.current + Math.sqrt(Math.pow(winH.current, 2) + Math.pow(winW.current, 2))}px`;
+   };
+
    return (
       <div
          style={{
-            minHeight: `${2.3 * window.innerWidth + Math.sqrt(Math.pow(windH, 2) + Math.pow(window.innerWidth, 2))}px`,
+            minHeight: getMinHeight(),
          }}
       >
          <div
             className={`flex justify-center`}
             ref={circleRef}
             style={{
-               minHeight: `${2.3 * window.innerWidth + Math.sqrt(Math.pow(windH, 2) + Math.pow(window.innerWidth, 2))}px`,
+               minHeight: getMinHeight(),
             }}
          >
             <div
@@ -225,7 +233,7 @@ export default function HParallax() {
                }}
             >
                <div
-                  className="text-[25vw]"
+                  className="text-[20vw] max-sm:text-[30vw]"
                   style={{
                      scale: isFill ? `${scaleOffs.current}` : `${h / 1000}`,
                      transform: !isFill
@@ -253,10 +261,151 @@ export default function HParallax() {
                      }}
                   >
                      <span ref={horiRef} className="invisible">
-                        LET&apos;S&nbsp;GO&nbsp;BUNKMA
+                        LET&apos;S&nbsp;GO&nbsp;BUNK<span className='max-sm:hidden'>MA</span>
                      </span>
                      LET&apos;S&nbsp;GO&nbsp;BUNKMATE
                   </p>
+               </div>
+               <div
+                  className="absolute text-[25vw]"
+                  style={{
+                     scale: isFill ? `${scaleOffs.current}` : `${h / 1000}`,
+                     transform: !isFill
+                        ? '0'
+                        : !stop
+                          ? `translate(-${2 * (h - hParallaxOffs.current)}px)`
+                          : `translate(-${hParallaxEnd.current}px)`,
+                  }}
+               >
+                  <div
+                     className="flex text-[1vw] max-md:text-[4vw]"
+                     style={{
+                        opacity: activate
+                           ? isFill
+                              ? 1
+                              : Math.min(
+                                   (2 * h) /
+                                      Math.sqrt(
+                                         windH ** 2 + window.innerWidth ** 2
+                                      ),
+                                   1
+                                )
+                           : 0,
+                        transition: 'opacity 0.5s ease-in-out',
+                     }}
+                  >
+                     <p ref={horiRef} className="invisible text-[25vw]">
+                        LET&apos;S&nbsp;GO&nbsp;BUNKMALET&apos;S&nbsp;GOBUNK
+                        <span className="sm:hidden">BUUUUU</span>
+                     </p>
+                     <div className="flex min-w-[70vw] flex-col max-sm:min-w-[100vw]">
+                        <div className="flex-1"></div>
+                        <div className="flex gap-x-[0.5vw] max-sm:gap-x-[1.5vw] max-sm:-my-[23vh] max-sm:mx-0 sm:m-[12vh]">
+                           <Image
+                              src={'/assets/bunkmate-blown-server.jpg'}
+                              width={1}
+                              height={1}
+                              className="max-h-[10vw] min-h-[10vw] w-[8vw] object-cover max-sm:min-h-[35vw] max-sm:w-[28vw]"
+                              unoptimized
+                           />
+                           <div className="flex flex-col gap-y-[0.1vw]">
+                              <div className="flex-1"></div>
+                              <p className="max-w-[10vw] leading-[1vw] max-sm:max-w-[30vw] max-sm:leading-[4vw]">
+                                 The BunkMate <br />
+                                 Mothership
+                              </p>
+                              {/* <div className='h-[1px] my-[0.5vw] bg max-sm:hidden-black'></div> */}
+                              <p className="max-w-[10vw] max-sm:hidden leading-[.7vw] text-[#575757] max-sm:text-[2vw] max-sm:leading-[1.5vw] sm:text-[0.6vw]">
+                                 <i>&quot;I&apos;m tired boss&quot;</i>
+                                 <br /> Bunkmate used to run on an overworked
+                                 homeserver
+                              </p>
+                           </div>
+                        </div>
+                     </div>
+                     <div className="flex min-w-[70vw] flex-col max-sm:min-w-[100vw]">
+                        <div className="flex gap-x-[0.5vw] max-sm:gap-x-[1.5vw] max-sm:-my-[23vh] max-sm:mx-0 sm:m-[12vh]">
+                           <Image
+                              src={'/assets/bunkmate-server-1.jpg'}
+                              width={1}
+                              height={1}
+                              className="max-h-[10vw] min-h-[10vw] w-[12vw] object-cover max-sm:min-h-[35vw] max-sm:w-[30vw]"
+                              unoptimized
+                           />
+                           <div className="flex flex-col gap-y-[0.1vw]">
+                              <p className="max-w-[12vw] leading-[1vw] max-sm:max-w-[30vw] max-sm:leading-[4vw]">
+                                 Remnants of the 10 year old PSU that powered the mothership
+                              </p>
+                              <p className="max-w-[10vw] leading-[.7vw] text-[#575757] max-sm:hidden max-sm:text-[2vw] max-sm:leading-[1.5vw] sm:text-[0.6vw]">
+                                 Tech-priests wept. Only slag remains.
+                              </p>
+                           </div>
+                        </div>
+                        <div className="flex-1"></div>
+                     </div>
+                     <div className="flex min-w-[70vw] flex-col max-sm:min-w-[100vw]">
+                        <div className="flex-1"></div>
+                        <div className="flex gap-x-[0.5vw] max-sm:gap-x-[1.5vw] max-sm:-my-[23vh] max-sm:mx-0 sm:m-[12vh]">
+                           <Image
+                              src={'/assets/bunkmate-server-2.jpg'}
+                              width={1}
+                              height={1}
+                              className="max-h-[10vw] min-h-[10vw] w-[10vw] object-cover object-[center_70%] max-sm:min-h-[35vw] max-sm:w-[35vw]"
+                              unoptimized
+                           />
+                           <div className="flex flex-col gap-y-[0.1vw]">
+                              <div className="flex-1"></div>
+                              <p className="max-w-[10vw] leading-[1vw] max-sm:max-w-[30vw] max-sm:leading-[4vw]">
+                                 Power supply failure caused an explosion
+                              </p>
+                              <p className="max-w-[10vw] leading-[.7vw] text-[#575757] max-sm:hidden max-sm:text-[2vw] max-sm:leading-[1.5vw] sm:text-[0.6vw]">
+                                 Some parts were not found in solid state
+                              </p>
+                           </div>
+                        </div>
+                     </div>
+                     <div className="flex min-w-[70vw] flex-col max-sm:min-w-[100vw]">
+                        <div className="flex gap-x-[0.5vw] max-sm:gap-x-[1.5vw] max-sm:-my-[23vh] max-sm:mx-0 sm:m-[12vh]">
+                           <Image
+                              src={'/assets/bunkmate-ssh-bomb.png'}
+                              width={1}
+                              height={1}
+                              className="max-h-[10vw] min-h-[10vw] w-auto max-sm:min-h-[35vw]"
+                              unoptimized
+                           />
+                           <div className="flex flex-col gap-y-[0.1vw]">
+                              <p className="max-w-[12vw] leading-[1vw] max-sm:max-w-[30vw] max-sm:leading-[4vw]">
+                                 Number of chinese hackers who have tried to infilitrate the bunkmate mainframe
+                              </p>
+                              <p className="max-w-[10vw] leading-[.7vw] text-[#575757] max-sm:hidden max-sm:text-[2vw] max-sm:leading-[1.5vw] sm:text-[0.6vw]">
+                                 Yikes. Turns out they wanted to bunk classes that bad.
+                              </p>
+                           </div>
+                        </div>
+                        <div className="flex-1"></div>
+                     </div>
+                     <div className="flex min-w-[70vw] flex-col max-sm:min-w-[100vw]">
+                        <div className="flex-1"></div>
+                        <div className="flex gap-x-[0.5vw] max-sm:gap-x-[1.5vw] max-sm:-my-[23vh] max-sm:mx-0 sm:m-[12vh]">
+                           <Image
+                              src={'/assets/bunkmate-v1.jpg'}
+                              width={1}
+                              height={1}
+                              className="max-h-[10vw] min-h-[10vw] w-auto max-sm:min-h-[35vw]"
+                              unoptimized
+                           />
+                           <div className="flex flex-col gap-y-[0.1vw]">
+                              <div className="flex-1"></div>
+                              <p className="max-w-[10vw] leading-[1vw] max-sm:max-w-[30vw] max-sm:leading-[4vw]">
+                                 Bunkmate V0
+                              </p>
+                              <p className="max-w-[10vw] leading-[.7vw] text-[#575757] max-sm:hidden max-sm:text-[2vw] max-sm:leading-[1.5vw] sm:text-[0.6vw]">
+                                 The dev was bullied that day
+                              </p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
                </div>
             </div>
          </div>
