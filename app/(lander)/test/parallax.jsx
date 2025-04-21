@@ -19,20 +19,18 @@ export default function Parallax() {
 
       if (scalingRef.current) {
          observer.observe(scalingRef.current);
-         ////console.log('observing')
       }
 
       return () => {
          if (scalingRef.current) {
             observer.unobserve(scalingRef.current);
-            ////console.log('not observing')
          }
       };
    }, []);
 
-   useEffect(()=>{
-      console.log("activate cuz linting")
-   },[activate])
+   useEffect(() => {
+      console.log('activate cuz linting');
+   }, [activate]);
 
    useEffect(() => {
       const container = containerRef.current;
@@ -48,31 +46,21 @@ export default function Parallax() {
          const containerRect = container.getBoundingClientRect();
          const textRect = textEl.getBoundingClientRect();
 
-         // Handle text translation when div reaches top
-         if (containerRect.top <= 0 && textRect.top <= 0) {
-            setIsFill(true);
-            textEl.style.transform = `translateX(${containerRect.top}px)`;
-         }
-
-         // Calculate scale factor based on container position
-         if (containerRect.top < window.innerHeight) {
-            // Linear scaling from 0 to 1 as trigger point enters viewport
-            const viewportHeight = window.innerHeight;
-            const scrollProgress = 1 - (containerRect.top+0.02*window.innerWidth) / viewportHeight;
-            scale.current = Math.min(Math.max(scrollProgress, 0), 1);
-
-            console.log("scaling up ", scale.current, containerRect.top)
-            // console.log("thisi s offset ", (1-scale.current)*Math.sqrt(
-            //             Math.pow(window.innerHeight, 2) + Math.pow(window.innerWidth, 2)
-            //          )/2)
-
-            // Apply scale to the scaling element
-            scalingEl.style.transform = `scale(${scale.current})`;
-            scalingEl.style.marginTop = `-${scale.current*0.17*window.innerWidth}px`
+         if (containerRect.top <= window.innerHeight) { // if container is scrolled past
+            if (containerRect.top <= -1*((Math.sqrt(Math.pow(window.innerHeight, 2) + Math.pow(window.innerWidth, 2)) - window.innerHeight))){ // if greater than inscription radius
+               // setIsFill(true);
+               // console.log(containerRect.top, -1*((Math.sqrt(Math.pow(window.innerHeight, 2) + Math.pow(window.innerWidth, 2)) - window.innerHeight)/2))
+            } else { // scale till inscription radius
+               setIsFill(false);
+               const viewportHeight = window.innerHeight;
+               const scrollProgress = 1 - containerRect.top / viewportHeight;
+               scale.current = (Math.max(scrollProgress, 0));
+               console.log('scaling up ', scale.current, containerRect.top);
+               scalingEl.style.transform = `scale(${scale.current})`;
+            }
          }
       };
 
-      // Run once to set initial state
       onScroll();
 
       window.addEventListener('scroll', onScroll);
@@ -82,60 +70,33 @@ export default function Parallax() {
    return (
       <div
          ref={containerRef}
-         className="relative flex max-w-[100vw] bg-red-500 min-h-[2px]"
-         style={{
-            // minHeight: Math.sqrt(
-            //    Math.pow(window.innerHeight, 2) + Math.pow(window.innerWidth, 2)
-            // ),
-         }}
+         className="relative flex min-h-[2px] max-w-[100vw] bg-red-500"
+         style={{}}
       >
-         {/* This invisible element helps measure scroll position without being affected by scaling */}
          <div
             ref={scalingRef}
-            className={`absolute flex w-full p-[17vw] rounded-full overflow-clip bg-gradient-to-r from-black to-blue-300`}
+            // eslint-disable-next-line tailwindcss/migration-from-tailwind-2
+            className={`absolute flex w-full overflow-clip rounded-full bg-gradient-to-r from-black to-blue-300`}
             style={
-               !isFill
-                  ? {
-                       left: -(
-                          Math.sqrt(
-                             Math.pow(window.innerHeight, 2) +
-                                Math.pow(window.innerWidth, 2)
-                          ) /
-                             2 -
-                          window.innerWidth / 2
-                       ),
-                       minWidth: Math.sqrt(
-                          Math.pow(window.innerHeight, 2) +
-                             Math.pow(window.innerWidth, 2)
-                       ),
-                       minHeight: Math.sqrt(
-                          Math.pow(window.innerHeight, 2) +
-                             Math.pow(window.innerWidth, 2)
-                       ),
-                       maxWidth: Math.sqrt(
-                          Math.pow(window.innerHeight, 2) +
-                             Math.pow(window.innerWidth, 2)
-                       ),
-                       maxHeight: Math.sqrt(
-                          Math.pow(window.innerHeight, 2) +
-                             Math.pow(window.innerWidth, 2)
-                       ),
-                       top: `-${Math.sqrt(
-                        Math.pow(window.innerHeight, 2) + Math.pow(window.innerWidth, 2)
-                     )/2-window.innerHeight/2}px`,
-                    }
-                  : {
-                     //   minHeight: 2.5 * window.innerWidth,
-                     //   maxHeight: 2.5 * window.innerWidth,
-                       minWidth: window.innerHeight+0.3*window.innerWidth,
-                     //   padding: 0.1*window.innerWidth,
-                     //   marginTop: -0.1*window.innerWidth
-                    }
+               isFill?{}:
+               {
+                  minHeight: window.innerHeight,
+                  minWidth: window.innerHeight,
+                  // left: -window.innerWidth/2
+                  // left: -(
+                  //    Math.sqrt(
+                  //       Math.pow(window.innerHeight, 2) +
+                  //          Math.pow(window.innerWidth, 2)
+                  //    ) /
+                  //       2 -
+                  //    window.innerWidth / 2
+                  // ),
+               }
             }
          >
             <p
                ref={textRef}
-               className={`sticky top-0 flex min-h-screen min-w-[250vw] items-center bg-white text-[25vw] text-black ${isFill ? '' : 'rounded-full'}`}
+               className={`sticky top-0 flex min-w-[250vw] items-center bg-white text-[25vw] text-black`}
             >
                HELLO WORLD
             </p>
