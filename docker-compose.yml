@@ -1,0 +1,16 @@
+# docker-compose version
+version: '3.8'
+
+# docker-compose services
+services:
+  # service name anything we want we called it web
+  web:
+    # path to dockerfile is called build
+    build: .
+
+    # image name we called it nextjs-cicd-docker:version
+    image: nextjs-cicd-docker:1.0
+
+    # ports to expose first 3000 is the port of the container and the second 3000 is the port we define in the dockerfile
+    ports:
+      - '3000:3000'
