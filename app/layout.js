@@ -17,6 +17,7 @@ export default function RootLayout({ children }) {
             <link rel="icon" href="/icon.png" sizes="any" />
          </head>
          <body className={urbanist.className}>
+            Hello everynyan this is a test so please pay no head
             <GoogleAnalytics />
             <UserProvider>{children}</UserProvider>
          </body>
