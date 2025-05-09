@@ -35,7 +35,7 @@ export default function Parallax() {
    useEffect(() => {
       const container = containerRef.current;
       const scalingEl = scalingRef.current;
-      const textEl = textRef.current;
+      // const textEl = textRef.current;
 
       // Set initial scale
       scalingEl.style.transform = 'scale(0)';
@@ -44,7 +44,7 @@ export default function Parallax() {
       const onScroll = () => {
          // Use the container as a measuring point (doesn't get scaled)
          const containerRect = container.getBoundingClientRect();
-         const textRect = textEl.getBoundingClientRect();
+         // const textRect = textEl.getBoundingClientRect();
 
          if (containerRect.top <= window.innerHeight) { // if container is scrolled past
             if (containerRect.top <= -1*((Math.sqrt(Math.pow(window.innerHeight, 2) + Math.pow(window.innerWidth, 2)) - window.innerHeight))){ // if greater than inscription radius
