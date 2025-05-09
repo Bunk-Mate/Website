@@ -8,15 +8,15 @@ import ContactFooter from '@/components/contact_us/contact_footer';
 import Feature from '@/components/feature/feature';
 import NameStrip from '@/components/name_strip/name_strip';
 import FeatureStrip from '@/components/name_strip/feature_strip';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import HParallax from '@/components/scroll_shenanigans/horizontal_parallax';
 
 export default function Home() {
+   const featurePos = useRef(0);
    useEffect(() => {
       window.onbeforeunload = () => {
          window.scrollTo(0, 0);
       };
-      //console.log('reload')
    });
    return (
       <div className="h-[94vh] scroll-smooth">
@@ -62,10 +62,10 @@ export default function Home() {
          <div className="mb-[-13vw] mt-[-20vw] max-w-[100vw]">
             <FeatureStrip />
          </div>
-         <div id="feature">
+         <div id="feature" ref={featurePos}>
             <Feature />
          </div>
-         <HParallax />
+         <HParallax featurePos={featurePos} />
          {/* <div className="h-[150vh] max-w-[100vw] bg-black"></div> */}
          <div className="max-w-[100vw] bg-white">
             <NameStrip />

@@ -10,11 +10,11 @@ const nextConfig = {
             destination: '/',
             permanent: true,
          },
-         // {
-         //    source: '/test',
-         //    destination: '/404',
-         //    permanent: true,
-         // },
+         {
+            source: '/test',
+            destination: '/404',
+            permanent: true,
+         },
          {
             source: '/zindex',
             destination: '/404',

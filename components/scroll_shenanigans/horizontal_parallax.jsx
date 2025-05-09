@@ -1,9 +1,51 @@
 'use client';
 
+/**
+ * Horizontal Parallax Scroll Animation Component
+ *
+ * This component implements a scroll-triggered expanding circle animation,
+ * followed by horizontal text parallax once the circle fills the screen.
+ *
+ * === Key Concepts ===
+ *
+ * ▸ `h` — The horizontal offset from the scroll start point.
+ *     → Calculated as `window.scrollY - offs.current`.
+ *     → All scroll calculations are relative to this.
+ *
+ * ▸ `activate` — Becomes `true` when the circle container enters the viewport.
+ *     → Triggers scroll listener and animation logic.
+ *
+ * ▸ `isFill` — Boolean flag that becomes true once the circle fills the screen.
+ *     → Determines when horizontal parallax begins.
+ *     → Computed when `h` surpasses the diagonal screen length (sqrt(w² + h²)).
+ *
+ * ▸ `winH`, `winW` — References to current window height and width.
+ * ▸ `windH` — Tracked window height used to update when resized (legacy / redundancy).
+ *
+ * ▸ `hParallaxOffs` — Horizontal offset when `isFill` becomes `true`.
+ * ▸ `hParallaxEnd` — Offset used to lock parallax after circle finishes scrolling.
+ *     → `hParallaxEnd = h - hParallaxOffs`
+ * ▸ `scaleOffs` — Used to scale the text when parallax is active (`= h / 1000`)
+ *
+ * ▸ `scrolledPast` — True when the text has started moving horizontally past the left edge.
+ * ▸ `stop` — True when the animation reaches the end (bottom of circle leaves screen).
+ *
+ * === Behavior ===
+ *
+ * 1. Initial state: Circle grows as you scroll.
+ * 2. Once circle fills the screen, `isFill` becomes true.
+ * 3. Text begins moving horizontally using transform: translate.
+ * 4. When the animation finishes, `stop` freezes the movement.
+ *
+ * === Notes ===
+ * - Circle positioning switches between `fixed` and `sticky` depending on `stop`.
+ * - Text opacity is animated based on how close it is to filling the screen.
+ */
+
 import { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 
-export default function HParallax() {
+export default function HParallax({ featurePos }) {
    const [h, setH] = useState(0);
    const [w, setW] = useState(0);
    const [activate, setActivate] = useState(false);
@@ -17,12 +59,19 @@ export default function HParallax() {
    const horiRef = useRef(null);
    const [scrolledPast, setScrolledPast] = useState(false);
    const [stop, setStop] = useState(false);
+   const stopRef = useRef(0);
 
    const scaleOffs = useRef(0);
    const hParallaxOffs = useRef(0);
    const hParallaxEnd = useRef(0);
 
    const [isFill, setIsFill] = useState(false);
+
+   const featureRect = useRef(0);
+
+   useEffect(() => {
+      featureRect.current = featurePos.current.getBoundingClientRect();
+   }, []);
 
    useEffect(() => {
       let lastScrollY = window.scrollY;
@@ -51,20 +100,18 @@ export default function HParallax() {
       return () => window.removeEventListener('scroll', onScroll);
    }, []);
 
-   // this side effect deals with window dimension change events @OUTDATED
+   // this side effect deals with window dimension change events
    useEffect(() => {
       winH.current = window.innerHeight;
       winW.current = window.innerWidth;
-      ////console.log('setting windows', winH.current, winW.current)
       const handleResize = () => {
          setTimeout(() => {
+            featureRect.current = featurePos.current.getBoundingClientRect();
+            offs.current =
+               featureRect.current.bottom + window.scrollY - winH.current;
             prev.current = winH.current;
             winH.current = window.innerHeight;
             winW.current = window.innerWidth;
-            if (winH.current - prev.current != 0) {
-               offs.current = offs.current + winH.current - prev.current;
-            }
-            ////console.log('firing resize', scrollY, offs.current, prev.current)
          }, 10);
       };
       window.addEventListener('resize', handleResize);
@@ -73,34 +120,15 @@ export default function HParallax() {
       };
    }, []);
 
-   useEffect(() => {
-      //console.log('dir change to ', scrollDir);
-   }, [scrollDir]);
-
    const handleScroll = () => {
       if (window.innerHeight >= window.innerWidth) {
-         setH(
-            () =>
-               // (winH.current / winW.current) * (window.scrollY - offs.current)
-               window.scrollY - offs.current
-         );
-         setW(
-            () =>
-               // (winH.current / winW.current) * (window.scrollY - offs.current)
-               window.scrollY - offs.current
-         );
-         // //console.log('addition', scrollDir)
-      } else {
-         setH(
-            () =>
-               // (winW.current / winH.current) * (window.scrollY - offs.current)
-               window.scrollY - offs.current
-         );
+         setH(() => window.scrollY - offs.current);
          setW(() => window.scrollY - offs.current);
-         // //console.log('subtraction', scrollDir)
+      } else {
+         setH(() => window.scrollY - offs.current);
+         setW(() => window.scrollY - offs.current);
       }
-      //console.log(window.scrollY - offs.current, offs.current, window.scrollY);
-      // //console.log(h,w)
+      console.log(window.scrollY - offs.current, offs.current, window.scrollY);
    };
 
    useEffect(() => {
@@ -112,13 +140,17 @@ export default function HParallax() {
          //  console.log(activate,'activate')
          window.addEventListener('scroll', handleScroll);
       } else {
-         setH(0);
-         setW(0);
+         if (stopRef.current == false) {
+            setH(0);
+            setW(0);
+         }
          window.removeEventListener('scroll', handleScroll);
       }
       return () => {
-         setH(0);
-         setW(0);
+         if (stopRef.current == false) {
+            setH(0);
+            setW(0);
+         }
          window.removeEventListener('scroll', handleScroll);
       };
    }, [activate]);
@@ -171,8 +203,7 @@ export default function HParallax() {
          scaleOffs.current = h / 1000;
          hParallaxOffs.current = h;
       }
-      //   console.log(h - hParallaxOffs.current, 'here is translate offsest');
-      //console.log("this is not supposed to be called like this", isFill)
+      // console.log(h, 'here is translate offsest');
    }, [isFill]);
 
    useEffect(() => {
@@ -184,13 +215,12 @@ export default function HParallax() {
          if (horiRef.current) {
             const rect = horiRef.current.getBoundingClientRect();
             setScrolledPast(rect.left < 0); // top has gone above the screen
-            //  console.log(rect.top, rect.left)
          }
          if (circleRef.current) {
             const rectEnd = circleRef.current.getBoundingClientRect();
             setStop(rectEnd.bottom < window.innerHeight);
+            stopRef.current = rectEnd.bottom < window.innerHeight;
             hParallaxEnd.current = h - hParallaxOffs.current;
-            // console.log(rectEnd.right, "her eis end");
          }
       };
 
@@ -261,7 +291,8 @@ export default function HParallax() {
                      }}
                   >
                      <span ref={horiRef} className="invisible">
-                        LET&apos;S&nbsp;GO&nbsp;BUNK<span className='max-sm:hidden'>MA</span>
+                        LET&apos;S&nbsp;GO&nbsp;BUNK
+                        <span className="max-sm:hidden">MA</span>
                      </span>
                      LET&apos;S&nbsp;GO&nbsp;BUNKMATE
                   </p>
@@ -294,18 +325,19 @@ export default function HParallax() {
                         transition: 'opacity 0.5s ease-in-out',
                      }}
                   >
-                     <p ref={horiRef} className="invisible text-[25vw]">
+                     <p className="invisible text-[25vw]">
                         LET&apos;S&nbsp;GO&nbsp;BUNKMALET&apos;S&nbsp;GOBUNK
                         <span className="sm:hidden">BUUUUU</span>
                      </p>
                      <div className="flex min-w-[70vw] flex-col max-sm:min-w-[100vw]">
                         <div className="flex-1"></div>
-                        <div className="flex gap-x-[0.5vw] max-sm:gap-x-[1.5vw] max-sm:-my-[23vh] max-sm:mx-0 sm:m-[12vh]">
+                        <div className="flex gap-x-[0.5vw] max-sm:mx-0 max-sm:my-[-23vh] max-sm:gap-x-[1.5vw] sm:m-[7vw]">
                            <Image
                               src={'/assets/bunkmate-blown-server.jpg'}
                               width={1}
                               height={1}
                               className="max-h-[10vw] min-h-[10vw] w-[8vw] object-cover max-sm:min-h-[35vw] max-sm:w-[28vw]"
+                              alt="bunkmate-blown-server-1"
                               unoptimized
                            />
                            <div className="flex flex-col gap-y-[0.1vw]">
@@ -315,7 +347,7 @@ export default function HParallax() {
                                  Mothership
                               </p>
                               {/* <div className='h-[1px] my-[0.5vw] bg max-sm:hidden-black'></div> */}
-                              <p className="max-w-[10vw] max-sm:hidden leading-[.7vw] text-[#575757] max-sm:text-[2vw] max-sm:leading-[1.5vw] sm:text-[0.6vw]">
+                              <p className="max-w-[10vw] leading-[.7vw] text-[#575757] max-sm:hidden max-sm:text-[2vw] max-sm:leading-[1.5vw] sm:text-[0.6vw]">
                                  <i>&quot;I&apos;m tired boss&quot;</i>
                                  <br /> Bunkmate used to run on an overworked
                                  homeserver
@@ -324,17 +356,19 @@ export default function HParallax() {
                         </div>
                      </div>
                      <div className="flex min-w-[70vw] flex-col max-sm:min-w-[100vw]">
-                        <div className="flex gap-x-[0.5vw] max-sm:gap-x-[1.5vw] max-sm:-my-[23vh] max-sm:mx-0 sm:m-[12vh]">
+                        <div className="flex gap-x-[0.5vw] max-sm:mx-0 max-sm:my-[-23vh] max-sm:gap-x-[1.5vw] sm:m-[7vw]">
                            <Image
                               src={'/assets/bunkmate-server-1.jpg'}
                               width={1}
                               height={1}
                               className="max-h-[10vw] min-h-[10vw] w-[12vw] object-cover max-sm:min-h-[35vw] max-sm:w-[30vw]"
+                              alt="bunkmate-server"
                               unoptimized
                            />
                            <div className="flex flex-col gap-y-[0.1vw]">
                               <p className="max-w-[12vw] leading-[1vw] max-sm:max-w-[30vw] max-sm:leading-[4vw]">
-                                 Remnants of the 10 year old PSU that powered the mothership
+                                 Remnants of the 10 year old PSU that powered
+                                 the mothership
                               </p>
                               <p className="max-w-[10vw] leading-[.7vw] text-[#575757] max-sm:hidden max-sm:text-[2vw] max-sm:leading-[1.5vw] sm:text-[0.6vw]">
                                  Tech-priests wept. Only slag remains.
@@ -345,12 +379,13 @@ export default function HParallax() {
                      </div>
                      <div className="flex min-w-[70vw] flex-col max-sm:min-w-[100vw]">
                         <div className="flex-1"></div>
-                        <div className="flex gap-x-[0.5vw] max-sm:gap-x-[1.5vw] max-sm:-my-[23vh] max-sm:mx-0 sm:m-[12vh]">
+                        <div className="flex gap-x-[0.5vw] max-sm:mx-0 max-sm:my-[-23vh] max-sm:gap-x-[1.5vw] sm:m-[7vw]">
                            <Image
                               src={'/assets/bunkmate-server-2.jpg'}
                               width={1}
                               height={1}
                               className="max-h-[10vw] min-h-[10vw] w-[10vw] object-cover object-[center_70%] max-sm:min-h-[35vw] max-sm:w-[35vw]"
+                              alt="bunkmate-blown-server-2"
                               unoptimized
                            />
                            <div className="flex flex-col gap-y-[0.1vw]">
@@ -365,20 +400,23 @@ export default function HParallax() {
                         </div>
                      </div>
                      <div className="flex min-w-[70vw] flex-col max-sm:min-w-[100vw]">
-                        <div className="flex gap-x-[0.5vw] max-sm:gap-x-[1.5vw] max-sm:-my-[23vh] max-sm:mx-0 sm:m-[12vh]">
+                        <div className="flex gap-x-[0.5vw] max-sm:mx-0 max-sm:my-[-23vh] max-sm:gap-x-[1.5vw] sm:m-[7vw]">
                            <Image
                               src={'/assets/bunkmate-ssh-bomb.png'}
                               width={1}
                               height={1}
                               className="max-h-[10vw] min-h-[10vw] w-auto max-sm:min-h-[35vw]"
+                              alt="bunkmate-ssh-bomb"
                               unoptimized
                            />
                            <div className="flex flex-col gap-y-[0.1vw]">
                               <p className="max-w-[12vw] leading-[1vw] max-sm:max-w-[30vw] max-sm:leading-[4vw]">
-                                 Number of chinese hackers who have tried to infilitrate the bunkmate mainframe
+                                 Number of chinese hackers who have tried to
+                                 infilitrate the bunkmate mainframe
                               </p>
                               <p className="max-w-[10vw] leading-[.7vw] text-[#575757] max-sm:hidden max-sm:text-[2vw] max-sm:leading-[1.5vw] sm:text-[0.6vw]">
-                                 Yikes. Turns out they wanted to bunk classes that bad.
+                                 Yikes. Turns out they wanted to bunk classes
+                                 that bad.
                               </p>
                            </div>
                         </div>
@@ -386,12 +424,13 @@ export default function HParallax() {
                      </div>
                      <div className="flex min-w-[70vw] flex-col max-sm:min-w-[100vw]">
                         <div className="flex-1"></div>
-                        <div className="flex gap-x-[0.5vw] max-sm:gap-x-[1.5vw] max-sm:-my-[23vh] max-sm:mx-0 sm:m-[12vh]">
+                        <div className="flex gap-x-[0.5vw] max-sm:mx-0 max-sm:my-[-23vh] max-sm:gap-x-[1.5vw] sm:m-[7vw]">
                            <Image
                               src={'/assets/bunkmate-v1.jpg'}
                               width={1}
                               height={1}
                               className="max-h-[10vw] min-h-[10vw] w-auto max-sm:min-h-[35vw]"
+                              alt="bunkmate-v1"
                               unoptimized
                            />
                            <div className="flex flex-col gap-y-[0.1vw]">
@@ -409,6 +448,39 @@ export default function HParallax() {
                </div>
             </div>
          </div>
+         {/* <div className="fixed left-0 top-[20vh] z-50 bg-yellow-400 text-black">
+            <b>{h}</b> h<br />
+            <b>{w}</b> w<br />
+            <b>{JSON.stringify(activate)}</b> activate
+            <br />
+            <b>{scrollDir.current}</b> scrollDir
+            <br />
+            <b>{offs.current}</b> offs
+            <br />
+            <b>{winH.current}</b> winH
+            <br />
+            <b>{winW.current}</b> winW
+            <br />
+            <b>{prev.current}</b> prev
+            <br />
+            <b>{windH}</b> windH
+            <br />
+            <b>{JSON.stringify(scrolledPast)}</b> scrolledPast
+            <br />
+            <b>{JSON.stringify(stop)}</b> stop
+            <br />
+            <b>{scaleOffs.current}</b> scaleOffs
+            <br />
+            <b>{hParallaxOffs.current}</b> hParallaxOffs
+            <br />
+            <b>{hParallaxEnd.current}</b> hParallaxEnd
+            <br />
+            <b>{JSON.stringify(isFill)}</b> isFill
+            <br />
+            <p className="bg-red-300">
+               {featureRect.current.bottom} featureRect
+            </p>
+         </div> */}
       </div>
    );
 }
