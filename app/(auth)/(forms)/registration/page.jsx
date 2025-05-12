@@ -16,10 +16,6 @@ export default function RegistrationForm() {
       confirmpassword: '',
       successMessage: null,
    });
-   // const header = {
-   //    'Content-Type': 'application/json',
-   //    'Access-Control-Allow-Origin': '*',
-   // };
    const { setUserID } = useContext(UserContext);
    const notificationRef = useRef(null);
    const router = useRouter();
@@ -192,7 +188,7 @@ export default function RegistrationForm() {
    );
 }
 
-const handleLogin = ({ state, notificationRef, router, setUserID }) => {
+const handleLogin = async ({ state, notificationRef, router, setUserID }) => {
    if (notificationRef.current) {
       notificationRef.current.addNotif(
          Math.random(),
@@ -204,9 +200,19 @@ const handleLogin = ({ state, notificationRef, router, setUserID }) => {
       password: state.password,
    };
 
-   axios
-      .post(API_BASE_URL + '/login', payload)
-      .then(function (response) {
+   const redirectToHome = () => {
+      router.push('/dashboard');
+   };
+
+   try {
+      const response = await fetch('/login/api', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+         const data = await response.json();
          if (response.status === 202) {
             if (notificationRef.current) {
                notificationRef.current.addNotif(
@@ -217,7 +223,7 @@ const handleLogin = ({ state, notificationRef, router, setUserID }) => {
             setUserID(state.username);
             localStorage.setItem(
                ACCESS_TOKEN_NAME,
-               JSON.stringify(response.data.token)
+               JSON.stringify(data.data.token)
             );
             redirectToHome();
          } else {
@@ -228,17 +234,13 @@ const handleLogin = ({ state, notificationRef, router, setUserID }) => {
                );
             }
          }
-      })
-      .catch(function () {
-         if (notificationRef.current) {
-            notificationRef.current.addNotif(
-               Math.random(),
-               'Something went wrong during login. Please try again.'
-            );
-         }
-      });
-
-   const redirectToHome = () => {
-      router.push('/dashboard');
-   };
+      }
+   } catch (error) {
+      if (notificationRef.current) {
+         notificationRef.current.addNotif(
+            Math.random(),
+            'Something went wrong during login. Please try again.'
+         );
+      }
+   }
 };

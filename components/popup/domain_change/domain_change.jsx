@@ -24,15 +24,9 @@ export default function DomainChangeInfo({ setShowModal }) {
                      </p>
                   }
                />
-               {/* <p className="flex flex-1 items-center justify-center">
-                  Important Notice!
-               </p> */}
                <FileTabStack />
-               {/* <div className="invisible">
-                  <FileTab props={<p className="px-[2vw]">Close</p>} />
-               </div> */}
             </div>
-            <div className="flex flex-col gap-y-[1vw] rounded-b-[20px] rounded-tr-[20px] border border-solid border-[#333333] bg-black/90 px-[2vw] pt-[1.5vw] shadow-[0px_0px_50px_rgb(50,50,50)] backdrop-blur-lg max-sm:p-[10px]">
+            <div className="flex flex-col gap-y-[1vw] rounded-[20px] rounded-tl-none border border-solid border-[#333333] bg-black/90 px-[2vw] pt-[1.5vw] shadow-[0px_0px_50px_rgb(50,50,50)] backdrop-blur-lg max-sm:p-[10px]">
                <div className="flex max-w-[30vw] flex-1 flex-col items-center justify-center gap-y-[0.5vw] text-[1.2vw] text-[#9e9e9e] max-sm:max-w-[92vw] max-sm:text-[20px]">
                   <Image
                      src={'/assets/construction.png'}
@@ -53,12 +47,10 @@ export default function DomainChangeInfo({ setShowModal }) {
                   />
                   {/* <h1 className='bold text-[2vw]'>🚨 Important Announcement 🚨</h1> */}
                   <p className="mb-[1vw] mt-[-0.5vw] text-center text-[2vw] font-medium text-white max-sm:text-[30px]">
-                     BunkMate is Moving to a New Domain!
+                     BunkMate Has Officially Moved!
                   </p>
                   <p className="">
-                     We&apos;re excited to inform you that BunkMate is changing
-                     its domain from{' '}
-                     <span className="text-white">bunkmate.college</span> to{' '}
+                     We&apos;re happy to announce that BunkMate is now live at{' '}
                      <Link
                         href="https://www.bunkmate.in/"
                         className="font-bold text-white underline"
@@ -67,9 +59,13 @@ export default function DomainChangeInfo({ setShowModal }) {
                      </Link>
                   </p>
                   <ul className="list-inside list-disc marker:text-white">
+                     <li>All your data and services are available as usual.</li>
                      <li>
-                        The transition will happen soon, and all services will
-                        remain available.
+                        If you had the old domain{' '}
+                        <span className="text-white">
+                           &#40;bunkmate.college&#41;
+                        </span>{' '}
+                        bookmarked, please update it to the new one.
                      </li>
                      <li>
                         If you encounter any issues, feel free to reach out to

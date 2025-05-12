@@ -21,11 +21,7 @@ export default function DomainChangeModal() {
       <>
          {showModal &&
             createPortal(
-               <DomainChangeInfo
-                  //   props={message}
-                  //   setDecisionCheck={setDecisionCheck}
-                  setShowModal={setShowModal}
-               />,
+               <DomainChangeInfo setShowModal={setShowModal} />,
                document.body
             )}
       </>

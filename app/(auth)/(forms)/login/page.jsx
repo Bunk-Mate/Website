@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState, useRef, useContext } from 'react';
-import axios from 'axios';
-import { API_BASE_URL, ACCESS_TOKEN_NAME } from '@/app/_utils/apiConstants';
+// import axios from 'axios';
+// import { cookies } from 'next/headers';
+import { ACCESS_TOKEN_NAME } from '@/app/_utils/apiConstants';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import SlideInNotifications from '@/components/notifications/side_notification';
@@ -27,7 +28,7 @@ function LoginForm() {
       }));
    };
 
-   const handleSubmitClick = (e) => {
+   const handleSubmitClick = async (e) => {
       e.preventDefault();
       if (notificationRef.current) {
          notificationRef.current.addNotif(
@@ -40,9 +41,17 @@ function LoginForm() {
          password: state.password,
       };
 
-      axios
-         .post(API_BASE_URL + '/login', payload)
-         .then(function (response) {
+      console.log(payload, 'payload');
+
+      try {
+         const response = await fetch('/login/api', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+         });
+
+         if (response.ok) {
+            const data = await response.json();
             if (response.status === 202) {
                setState((prevState) => ({
                   ...prevState,
@@ -55,10 +64,12 @@ function LoginForm() {
                      'Login successful'
                   );
                }
+
+               console.log('here is the token', data);
                setUserID(state.username);
                localStorage.setItem(
                   ACCESS_TOKEN_NAME,
-                  JSON.stringify(response.data.token)
+                  JSON.stringify(data.data.token)
                );
                redirectToHome();
             }
@@ -69,22 +80,21 @@ function LoginForm() {
                if (notificationRef.current) {
                   notificationRef.current.addNotif(
                      Math.random(),
-                     'Login failed. Please try again.'
+                     'Login failed. Please try again.' + response.status
                   );
                }
                // alert("Username does not exists");
                //console.log(response.data)
             }
-         })
-         .catch(function () {
-            if (notificationRef.current) {
-               notificationRef.current.addNotif(
-                  Math.random(),
-                  'Something went wrong during login. Please try again.'
-               );
-            }
-            //console.log(error);
-         });
+         }
+      } catch (err) {
+         if (notificationRef.current) {
+            notificationRef.current.addNotif(
+               Math.random(),
+               'Something went wrong during login. Please try again.'
+            );
+         }
+      }
    };
 
    const redirectToHome = () => {
