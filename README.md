@@ -29,7 +29,7 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/Bunk-Mate/Website.git
-cd Website/bunk-mater
+cd Website/
 ```
 
 Install the dependencies:
