@@ -1,6 +1,6 @@
 # Bunk-Mate (Website)
 
-**[Bunk-Mate](https://www.bunkmate.college/lander)** is an attendance tracker designed to help users track and plan their bunks effectively. Whether you're a student managing your attendance or someone who needs a system to stay on top of absences, Bunk-Mate provides a simple and intuitive solution.<br>
+**[Bunk-Mate](https://www.bunkmate.in)** is an attendance tracker designed to help users track and plan their bunks effectively. Whether you're a student managing your attendance or someone who needs a system to stay on top of absences, Bunk-Mate provides a simple and intuitive solution.<br>
 This repository contains the source code and documentation for Bunk-Mate.
 <br>
 
@@ -29,7 +29,7 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/Bunk-Mate/Website.git
-cd Website/bunk-mater
+cd Website/
 ```
 
 Install the dependencies:
