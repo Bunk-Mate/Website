@@ -2,6 +2,7 @@ import { Urbanist } from 'next/font/google';
 import './globals.css';
 import GoogleAnalytics from '@/components/google_analytics/google_analytics';
 import { UserProvider } from '@/app/_contexts/user_name';
+import { NotificationProvider } from './_contexts/notification';
 
 const urbanist = Urbanist({ subsets: ['latin'] });
 
@@ -18,7 +19,9 @@ export default function RootLayout({ children }) {
          </head>
          <body className={urbanist.className}>
             <GoogleAnalytics />
-            <UserProvider>{children}</UserProvider>
+            <NotificationProvider>
+               <UserProvider>{children}</UserProvider>
+            </NotificationProvider>
          </body>
       </html>
    );

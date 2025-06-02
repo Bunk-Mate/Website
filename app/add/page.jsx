@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import PlusSvg from '../../components/svg/plus.jsx';
 import TrashSvg from '../../components/svg/trash.jsx';
 import Drop from '../../components/drop_select/drop_select.jsx';
@@ -10,9 +10,9 @@ import DateRangePicker from '@/components/date_range_picker/date_range_picker_le
 import MinSubAttendance from '@/components/min_sub_attendance/min_sub_attendance.js';
 import { ACCESS_TOKEN_NAME, API_BASE_URL } from '../_utils/apiConstants.js';
 import axios from 'axios';
-import SlideInNotifications from '@/components/notifications/side_notification.jsx';
 import CheckboxIcon from '@/components/ui/checkbox.jsx';
 import SearchTimetable from '@/components/shared_timetable/search_timetable.jsx';
+import { useNotifications } from '../_contexts/notification.js';
 
 export default function Add() {
    const [tableData, setTableData] = useState([[null, null, null, null, null]]);
@@ -27,7 +27,22 @@ export default function Add() {
    const [checked, setChecked] = useState(false);
    const [range, setRange] = useState(0);
    const [criteria, setCriteria] = useState({ value: 75 });
-   const notificationRef = useRef(null);
+
+   const { addNotification } = useNotifications();
+
+   useEffect(() => {
+      const cookie = document.cookie
+         .split('; ')
+         .find((row) => row.startsWith('toastMessage='));
+
+      if (cookie) {
+         const message = decodeURIComponent(cookie.split('=')[1]);
+         addNotification(message);
+
+         // clear cookie after notification
+         document.cookie = 'toastMessage=; Max-Age=0; path=/';
+      }
+   });
 
    useEffect(() => {
       if (interval.start_date != '' && interval.end_date != '') {
@@ -63,44 +78,24 @@ export default function Add() {
          Authorization:
             'Token ' + JSON.parse(localStorage.getItem(ACCESS_TOKEN_NAME)),
       };
-      if (notificationRef.current) {
-         notificationRef.current.addNotif(
-            Math.random(),
-            'Request sent. Please wait.'
-         );
-      }
+      addNotification('Request sent. Please wait.');
       axios
          .post(API_BASE_URL + '/collection', payload, {
             headers: header,
          })
          .then(function (response) {
             if (response.status === 201) {
-               if (notificationRef.current) {
-                  notificationRef.current.addNotif(
-                     Math.random(),
-                     'Created timetable.'
-                  );
-               }
+               addNotification('Created timetable.');
                router.push('/dashboard/home');
             } else {
-               if (notificationRef.current) {
-                  notificationRef.current.addNotif(
-                     Math.random(),
-                     'Creation failed. Please try again.'
-                  );
-               }
+               addNotification('Creation failed. Please try again.');
             }
          })
          .catch(function (error) {
             if (error.response.status == 401) {
                router.push('/login');
             }
-            if (notificationRef.current) {
-               notificationRef.current.addNotif(
-                  Math.random(),
-                  'Request failed. Please try again.'
-               );
-            }
+            addNotification('Request failed. Please try again.');
          });
    };
 
@@ -130,14 +125,14 @@ export default function Add() {
                </p>
             </div>
          </div>
-         <SearchTimetable router={router}/>
-         <div className='my-[2vw] flex text-[3vw] max-sm:text-[40px] max-[400px]:text-base sm:items-center sm:justify-center'>
-            <div className='sm:max-w-[80vw] flex flex-1 items-center max-sm:w-full'>
-               <div className='h-[1px] bg-[#727272] w-full'></div>
-               <p className='mx-[1vw]'>OR</p>
-               <div className='h-[1px] bg-[#727272] w-full'></div>
+         <SearchTimetable router={router} />
+         <div className="my-[2vw] flex text-[3vw] max-sm:text-[40px] max-[400px]:text-base sm:items-center sm:justify-center">
+            <div className="flex flex-1 items-center max-sm:w-full sm:max-w-[80vw]">
+               <div className="h-px w-full bg-[#727272]"></div>
+               <p className="mx-[1vw]">OR</p>
+               <div className="h-px w-full bg-[#727272]"></div>
             </div>
-            </div>
+         </div>
          <div className="my-[2vw] flex flex-col text-[1.1vw] max-sm:text-lg max-[400px]:text-base sm:items-center sm:justify-center">
             <div className="mb-[2vw] flex justify-center max-sm:items-center">
                <div className="flex justify-center max-sm:flex-1">
@@ -147,7 +142,7 @@ export default function Add() {
                      onChange={handleName}
                      value={name}
                      placeholder="Timetable Name"
-                     className="mx-[1vw] min-w-[15vw] border-[1px] border-[#3a3a3a] bg-black pl-4 hover:border-white max-sm:min-h-14 max-sm:w-[45vw]"
+                     className="mx-[1vw] min-w-[15vw] border border-[#3a3a3a] bg-black pl-4 hover:border-white max-sm:min-h-14 max-sm:w-[45vw]"
                      required
                   />
                </div>
@@ -207,21 +202,14 @@ export default function Add() {
                </thead>
             </table>
          </div>
-         <div
-            className="flex flex-[9] items-center justify-center"
-            //id="victim"
-         >
-            {/* <div className="h-16 w-16"></div> */}
-            <div
-            //className="overflow-auto no-scrollbar"
-            // style={{maxHeight:`${hw}`}}
-            >
+         <div className="flex flex-[9] items-center justify-center">
+            <div>
                <table className="w-[70.4vw] table-fixed border-separate max-sm:w-full">
                   <tbody>
                      {tableData.map((rowVal, rowId) => (
                         <Fragment key={rowId}>
                            <tr className="w-[4.7vw] max-sm:h-10 max-sm:w-full sm:hidden sm:h-[19.5vw]">
-                              <td className="flex h-10 flex-1 items-end justify-center overflow-hidden rounded-full sm:h-16 sm:w-16">
+                              <td className="flex h-10 flex-1 items-end justify-center overflow-hidden rounded-full sm:size-16">
                                  <button
                                     type="button"
                                     onClick={() => {
@@ -234,7 +222,7 @@ export default function Add() {
                               <td className="w-[19.5vw]"></td>
                               <td className="w-[19.5vw]"></td>
                               <td className="w-[19.5vw]"></td>
-                              <td className="flex h-10 flex-1 items-end justify-center overflow-hidden rounded-full sm:h-16 sm:w-16">
+                              <td className="flex h-10 flex-1 items-end justify-center overflow-hidden rounded-full sm:size-16">
                                  <button
                                     type="button"
                                     onClick={() => {
@@ -250,7 +238,7 @@ export default function Add() {
                               className="text-[1.5vw] font-light max-sm:text-lg"
                            >
                               <td className="flex w-[4.7vw] flex-col items-end justify-center max-sm:hidden">
-                                 <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full">
+                                 <div className="flex size-16 items-center justify-center overflow-hidden rounded-full">
                                     <button
                                        type="button"
                                        onClick={() => {
@@ -260,7 +248,7 @@ export default function Add() {
                                        <PlusSvg />
                                     </button>
                                  </div>
-                                 <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full">
+                                 <div className="flex size-16 items-center justify-center overflow-hidden rounded-full">
                                     <button
                                        type="button"
                                        onClick={() => {
@@ -275,7 +263,7 @@ export default function Add() {
                                  (cellValue, colIndex) => (
                                     <td
                                        key={colIndex}
-                                       className={`h-[13vw] w-[13vw] text-center max-sm:h-[19.5vw] max-sm:w-[19.5vw] ${tableData[rowId][colIndex] == null ? 'bg-[#0d0e0f] hover:bg-[#202224]' : 'bg-[#202224] hover:bg-[#292b2e]'} border border-black`}
+                                       className={`size-[13vw] text-center max-sm:size-[19.5vw] ${tableData[rowId][colIndex] == null ? 'bg-[#0d0e0f] hover:bg-[#202224]' : 'bg-[#202224] hover:bg-[#292b2e]'} border border-black`}
                                     >
                                        <div>
                                           <Drop
@@ -295,7 +283,7 @@ export default function Add() {
                      ))}
                      <tr className="text-[1.5vw] font-light">
                         <td className="max-sm:hidden"></td>
-                        <td className="flex h-[13vw] w-[13vw] border border-black text-center max-sm:h-[19.5vw] max-sm:w-[19.5vw]">
+                        <td className="flex size-[13vw] border border-black text-center max-sm:size-[19.5vw]">
                            <button
                               type="button"
                               className="flex-1 bg-[#0d0e0f] hover:bg-[#202224] max-sm:bg-[#202224] max-sm:text-3xl"
@@ -313,9 +301,9 @@ export default function Add() {
             <div className="w-[2.7vw]"></div>
          </div>
          <div className="flex justify-center">
-            <div className="flex items-center sm:w-[62vw] my-[1vw] max-sm:pl-3 max-sm:my-3">
-               <CheckboxIcon checked={checked} setChecked={setChecked}/>
-               <p className="ml-[1vw] max-sm:ml-3 text-[1.1vw] max-sm:text-lg max-[400px]:text-base">
+            <div className="my-[1vw] flex items-center max-sm:my-3 max-sm:pl-3 sm:w-[62vw]">
+               <CheckboxIcon checked={checked} setChecked={setChecked} />
+               <p className="ml-[1vw] text-[1.1vw] max-sm:ml-3 max-sm:text-lg max-[400px]:text-base">
                   Share timetable? <br />
                   <span className="text-[#727272]">
                      Make this timetable template public for everyone to use
@@ -327,7 +315,7 @@ export default function Add() {
             <div className="flex justify-end max-sm:mr-6 sm:w-[62vw]">
                <button
                   type="button"
-                  className="border-b-blueviolet border-r-blueviolet text-blueviolet hover:border-t-blueviolet hover:border-l-blueviolet rounded-lg border-[1px] border-l-white border-t-white bg-black p-4 text-[1.5vw] font-light transition duration-1000 hover:border-b-[#ee67ee] hover:border-r-[#ee67ee] hover:bg-white hover:text-black hover:shadow-[5px_5px_rgba(240,46,170,0.4),10px_10px_rgba(240,46,170,0.3),15px_15px_rgba(240,46,170,0.2)] max-sm:text-lg"
+                  className="rounded-lg border border-l-white border-t-white bg-black p-4 text-[1.5vw] font-light transition duration-1000 hover:border-b-[#ee67ee] hover:border-r-[#ee67ee] hover:bg-white hover:text-black hover:shadow-[5px_5px_rgba(240,46,170,0.4),10px_10px_rgba(240,46,170,0.3),15px_15px_rgba(240,46,170,0.2)] max-sm:text-lg"
                   onClick={handleSubmit}
                >
                   Save Timetable
@@ -335,7 +323,6 @@ export default function Add() {
             </div>
          </div>
          <div className="min-h-[20vh]"></div>
-         <SlideInNotifications ref={notificationRef} />
       </form>
    );
 }

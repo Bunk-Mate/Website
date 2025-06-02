@@ -34,11 +34,12 @@ export default function RootLayout({ children }) {
    return (
       <div className="w-full">
          <nav
-            className={`fixed top-0 z-20 flex w-full items-center pb-[3vw] text-[1vw] max-md:text-[5vw] ${open ? '' : '-translate-y-[100%]'} mix-blend-difference transition duration-300 ease-in`}
+            className={`fixed top-0 z-20 flex w-full items-center pb-[3vw] text-[1vw] max-md:text-[5vw] ${open ? '' : '-translate-y-full'} mix-blend-difference transition duration-300 ease-in`}
          >
             <Image
                src={Logo}
-               className="-mr-[2vw] h-[7vw] w-auto max-md:pl-[2vw] md:hidden"
+               alt="logo"
+               className="mr-[-2vw] h-[7vw] w-auto max-md:pl-[2vw] md:hidden"
             ></Image>
             <button
                onClick={() => {
@@ -81,7 +82,7 @@ export default function RootLayout({ children }) {
                Login
             </Link>
          </nav>
-         <div className="max-w-screen">
+         <div className="max-w-[100vw]">
             <ReactLenis
                root
                options={{

@@ -4,13 +4,13 @@ import { useEffect, useState, useRef, useContext } from 'react';
 import axios from 'axios';
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from '@/app/_utils/apiConstants.js';
 import AddNewSubs from './add_new_sub';
-import SlideInNotifications from '../notifications/side_notification';
 import { useRouter } from 'next/navigation';
 import { RefreshContext } from '@/app/_contexts/refresh';
+import { useNotifications } from '@/app/_contexts/notification';
 
 export default function Status({ dateCurr, hw }) {
    const thirdparty = useRef([]);
-   const notificationRef = useRef(null);
+   const { addNotification } = useNotifications();
    const router = useRouter();
    const statusMap = {
       present: 'bunked',
@@ -21,9 +21,7 @@ export default function Status({ dateCurr, hw }) {
    const { refreshCont, setRefreshCont, refreshCourseList } = useContext(RefreshContext);
    const [dateQuery, setDateQuery] = useState([
       // {
-      //     "name": "history",
-      //     "status": "present",
-      //     "session_url": "http://127.0.0.1:8000/session/63171"
+      //    jession_url": "http://127.0.0.1:8000/session/63171"
       // },
    ]);
    const color = {
@@ -65,23 +63,14 @@ export default function Status({ dateCurr, hw }) {
 
    useEffect(() => {
       if (thirdparty.current.length > 0 && dateQuery.length > 0) {
-         // console.log('updating', dateQuery);
-         // console.log('hhhh', color[dateQuery[0].status][2], thirdparty.current);
          UpdateStatus(
             dateQuery,
             thirdparty,
-            notificationRef,
+            addNotification,
             router,
             refreshCont,
             setRefreshCont
          );
-      } else {
-         // console.log(
-         //    'first rend',
-         //    dateQuery,
-         //    dateQuery.length,
-         //    thirdparty.current
-         // );
       }
    }, [dateQuery]);
 
@@ -130,7 +119,6 @@ export default function Status({ dateCurr, hw }) {
                </div>
             ))}
          </div>
-         <SlideInNotifications ref={notificationRef} />
       </div>
    );
 }
@@ -138,7 +126,7 @@ export default function Status({ dateCurr, hw }) {
 function UpdateStatus(
    dateQuery,
    thirdparty,
-   notificationRef,
+   addNotification,
    router,
    refreshCont,
    setRefreshCont
@@ -157,12 +145,7 @@ function UpdateStatus(
       )
       .then((response) => {
          if (response.status == 200) {
-            if (notificationRef.current) {
-               notificationRef.current.addNotif(
-                  Math.random(),
-                  'Updated attendance status.'
-               );
-            }
+            addNotification('Updated attendance status.');
          }
          if (refreshCont == []) {
             setRefreshCont(['hello']);
@@ -176,12 +159,6 @@ function UpdateStatus(
                router.push('/login');
             }
          }
-         if (notificationRef.current) {
-            notificationRef.current.addNotif(
-               Math.random(),
-               'Request failed. Please try again.'
-            );
-            console.log('here is the error', error);
-         }
+         addNotification('Request failed. Please try again.');
       });
 }

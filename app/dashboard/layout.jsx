@@ -14,14 +14,14 @@ import {
    ACCESS_TIMETABLE_NAME,
 } from '@/app/_utils/apiConstants';
 import Logout from '@/components/svg/logout';
-import { useEffect, useRef } from 'react';
-import SlideInNotifications from '@/components/notifications/side_notification';
+import { useEffect } from 'react';
 import DomainChangeModal from '@/components/popup/domain_change/domain_change_modal.jsx';
+import { useNotifications } from '../_contexts/notification';
 
 export default function Layout({ children }) {
    const pathname = usePathname();
    const router = useRouter();
-   const notificationRef = useRef(null);
+   const { addNotification } = useNotifications();
 
    useEffect(() => {
       if (localStorage.getItem(ACCESS_TOKEN_NAME) == null) {
@@ -34,19 +34,12 @@ export default function Layout({ children }) {
          Authorization:
             'Token ' + JSON.parse(localStorage.getItem(ACCESS_TOKEN_NAME)),
       };
-      if (notificationRef.current) {
-         notificationRef.current.addNotif(Math.random(), 'Logging you out...');
-      }
+      addNotification('Logging you out...');
       axios
          .post(API_BASE_URL + '/logout', {}, { headers: header })
          .then((response) => {
             if (response.status === 200) {
-               if (notificationRef.current) {
-                  notificationRef.current.addNotif(
-                     Math.random(),
-                     'Logged out.'
-                  );
-               }
+               addNotification('Logged out.');
                localStorage.removeItem(ACCESS_TOKEN_NAME);
                try {
                   sessionStorage.removeItem(ACCESS_TIMETABLE_NAME);
@@ -55,24 +48,14 @@ export default function Layout({ children }) {
                }
                router.push('/login');
             } else {
-               if (notificationRef.current) {
-                  notificationRef.current.addNotif(
-                     Math.random(),
-                     'Some error has occurred. Please try again.'
-                  );
-               }
+               addNotification('Some error has occurred. Please try again.');
             }
          })
          .catch((error) => {
             if (error.response.status == 401) {
                router.push('/login');
             }
-            if (notificationRef.current) {
-               notificationRef.current.addNotif(
-                  Math.random(),
-                  'Some error has occurred. Please try again'
-               );
-            }
+            addNotification('Some error has occurred. Please try again');
             //console.log(error.response);
          });
    }
@@ -87,7 +70,6 @@ export default function Layout({ children }) {
                      alt="logo"
                      className="mr-[-0.5vw] max-sm:size-16 sm:size-[4vw]"
                   />
-                  {/* <div className="rounded-full h-[3.5vw] w-[3.5vw] border-white border-y-2 max-sm:w-[54px] max-sm:h-[54px] max-sm:hidden"></div> */}
                   <p className="ml-4 max-sm:ml-2 max-sm:flex-1 max-sm:text-4xl">
                      Bunk-Mate
                   </p>
@@ -134,7 +116,6 @@ export default function Layout({ children }) {
             </nav>
          </div>
          <div className="h-full bg-black">{children}</div>
-         <SlideInNotifications ref={notificationRef} />
          <DomainChangeModal />
       </div>
    );

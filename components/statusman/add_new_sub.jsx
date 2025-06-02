@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { RefreshContext } from '@/app/_contexts/refresh';
 import Popup from '../popup/popup';
 import Drop from '../drop_select/drop_select';
@@ -11,7 +11,7 @@ import {
    ACCESS_TOKEN_NAME,
    ACCESS_TIMETABLE_NAME,
 } from '@/app/_utils/apiConstants';
-import SlideInNotifications from '../notifications/side_notification';
+import { useNotifications } from '@/app/_contexts/notification';
 
 export default function AddNewSubs({ dateCurr, dateQuery }) {
    const [addNewSub, setAddNewSub] = useState('');
@@ -19,9 +19,10 @@ export default function AddNewSubs({ dateCurr, dateQuery }) {
    const [optionList, setOptionList] = useState([]);
    const [message, setMessage] = useState('Add another subject');
    const router = useRouter();
-   const notificationRef = useRef(null);
+   const { addNotification } = useNotifications();
    // eslint-disable-next-line prettier/prettier
-   const { refreshCourseList, setRefreshCourseList } = useContext(RefreshContext);
+   const { refreshCourseList, setRefreshCourseList } =
+      useContext(RefreshContext);
 
    useEffect(() => {
       if (dateQuery.length == 0) {
@@ -96,26 +97,14 @@ export default function AddNewSubs({ dateCurr, dateQuery }) {
                      }
                   })
                   .catch((error) => {
-                     if (notificationRef.current) {
-                        notificationRef.current.addNotif(
-                           Math.random(),
-                           'Request failed. Please try again.'
-                        );
-                     }
+                     addNotification('Request failed. Please try again.');
                      if (error.response && error.response.status == 401) {
                         router.push('/login');
                      }
                   });
             }
          } else {
-            if (notificationRef.current) {
-               notificationRef.current.addNotif(
-                  Math.random(),
-                  'Please fill the subject name.'
-               );
-            }
-            // alert('No empty subject name please.')
-            //console.log(newSub, addNewSub, 'this')
+            addNotification('Please fill the subject name.');
          }
       }
    }, [addNewSub]);
@@ -128,26 +117,11 @@ export default function AddNewSubs({ dateCurr, dateQuery }) {
          .then((response) => {
             if (response.status === 201) {
                if (endpoint == 'schedule_selector') {
-                  if (notificationRef.current) {
-                     notificationRef.current.addNotif(
-                        Math.random(),
-                        'Schedule added.'
-                     );
-                  }
+                  addNotification('Schedule added.');
                } else if (endpoint == 'courses') {
-                  if (notificationRef.current) {
-                     notificationRef.current.addNotif(
-                        Math.random(),
-                        'New course added.'
-                     );
-                  }
+                  addNotification('New course added.');
                } else {
-                  if (notificationRef.current) {
-                     notificationRef.current.addNotif(
-                        Math.random(),
-                        'Course added.'
-                     );
-                  }
+                  addNotification('Course added.');
                }
 
                if (refreshCourseList == []) {
@@ -162,12 +136,7 @@ export default function AddNewSubs({ dateCurr, dateQuery }) {
          })
          .catch((error) => {
             if (error.response) {
-               if (notificationRef.current) {
-                  notificationRef.current.addNotif(
-                     Math.random(),
-                     'Request failed. Please try again.'
-                  );
-               }
+               addNotification('Request failed. Please try again.');
                if (error.response.status == 401) {
                   router.push('/login');
                }
@@ -235,7 +204,6 @@ export default function AddNewSubs({ dateCurr, dateQuery }) {
                />
             </div>
          </div>
-         <SlideInNotifications ref={notificationRef} />
       </>
    );
 }

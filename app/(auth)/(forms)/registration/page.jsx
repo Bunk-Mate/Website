@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useRef, useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from '@/app/_utils/apiConstants';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import SlideInNotifications from '@/components/notifications/side_notification';
 import { UserContext } from '@/app/_contexts/user_name';
+import { useNotifications } from '@/app/_contexts/notification';
 //axios.defaults.headers.common['Access-Control-Allow-Origin']= '*'
 
 export default function RegistrationForm() {
@@ -17,8 +17,8 @@ export default function RegistrationForm() {
       successMessage: null,
    });
    const { setUserID } = useContext(UserContext);
-   const notificationRef = useRef(null);
    const router = useRouter();
+   const { addNotification } = useNotifications();
 
    const handleChange = (e) => {
       const { id, value } = e.target;
@@ -34,12 +34,7 @@ export default function RegistrationForm() {
          state.password.length &&
          state.confirmpassword.length
       ) {
-         if (notificationRef.current) {
-            notificationRef.current.addNotif(
-               Math.random(),
-               'Registration request sent. Please wait.'
-            );
-         }
+         addNotification('Registration request sent. Please wait.');
          const payload = {
             username: state.username,
             password: state.password,
@@ -54,37 +49,19 @@ export default function RegistrationForm() {
                      succesMessage:
                         'Registration successful. Redirecting to homepage',
                   }));
-                  if (notificationRef.current) {
-                     notificationRef.current.addNotif(
-                        Math.random(),
-                        'Registration successful. Logging you in.'
-                     );
-                     handleLogin({ state, notificationRef, router, setUserID });
-                  }
+                  addNotification('Registration successful. Logging you in.');
+                  handleLogin({ state, addNotification, router, setUserID });
                } else {
-                  if (notificationRef.current) {
-                     notificationRef.current.addNotif(
-                        Math.random(),
-                        'Registration failed. Please try again.'
-                     );
-                  }
+                  addNotification('Registration failed. Please try again.');
                }
             })
             .catch((error) => {
                if (error.response) {
-                  if (notificationRef.current) {
-                     notificationRef.current.addNotif(
-                        Math.random(),
-                        'Something went wrong during registration. Please try again.'
-                     );
-                  }
+                  addNotification(
+                     'Something went wrong during registration. Please try again.'
+                  );
                } else {
-                  if (notificationRef.current) {
-                     notificationRef.current.addNotif(
-                        Math.random(),
-                        'Request failed. Please try again.'
-                     );
-                  }
+                  addNotification('Request failed. Please try again.');
                }
             });
       }
@@ -95,12 +72,7 @@ export default function RegistrationForm() {
       if (state.password === state.confirmpassword) {
          sendDetailsToServer();
       } else {
-         if (notificationRef.current) {
-            notificationRef.current.addNotif(
-               Math.random(),
-               'Passwords do not match.'
-            );
-         }
+         addNotification('Passwords do not match.');
       }
    };
 
@@ -183,18 +155,12 @@ export default function RegistrationForm() {
                     </button> */}
             </form>
          </div>
-         <SlideInNotifications ref={notificationRef} />
       </div>
    );
 }
 
-const handleLogin = async ({ state, notificationRef, router, setUserID }) => {
-   if (notificationRef.current) {
-      notificationRef.current.addNotif(
-         Math.random(),
-         'Login request sent. Please wait.'
-      );
-   }
+const handleLogin = async ({ state, addNotification, router, setUserID }) => {
+   addNotification('Login request sent. Please wait.');
    const payload = {
       username: state.username,
       password: state.password,
@@ -214,12 +180,7 @@ const handleLogin = async ({ state, notificationRef, router, setUserID }) => {
       if (response.ok) {
          const data = await response.json();
          if (response.status === 202) {
-            if (notificationRef.current) {
-               notificationRef.current.addNotif(
-                  Math.random(),
-                  'Login successful'
-               );
-            }
+            addNotification('Login successful');
             setUserID(state.username);
             localStorage.setItem(
                ACCESS_TOKEN_NAME,
@@ -227,20 +188,10 @@ const handleLogin = async ({ state, notificationRef, router, setUserID }) => {
             );
             redirectToHome();
          } else {
-            if (notificationRef.current) {
-               notificationRef.current.addNotif(
-                  Math.random(),
-                  'Login failed. Please try again.'
-               );
-            }
+            addNotification('Login failed. Please try again.');
          }
       }
    } catch (error) {
-      if (notificationRef.current) {
-         notificationRef.current.addNotif(
-            Math.random(),
-            'Something went wrong during login. Please try again.'
-         );
-      }
+      addNotification('Something went wrong during login. Please try again.');
    }
 };

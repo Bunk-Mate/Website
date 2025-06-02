@@ -16,7 +16,6 @@ export default function HomeDisp({ curr }) {
             }
          }, 100);
       });
-      //console.log('home_disp')
    }, []);
    return (
       <div className="flex flex-1 overflow-hidden">

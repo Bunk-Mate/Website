@@ -1,13 +1,11 @@
 'use client';
 
-import React, { useState, useRef, useContext } from 'react';
-// import axios from 'axios';
-// import { cookies } from 'next/headers';
+import React, { useState, useContext, useEffect } from 'react';
 import { ACCESS_TOKEN_NAME } from '@/app/_utils/apiConstants';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import SlideInNotifications from '@/components/notifications/side_notification';
 import { UserContext } from '@/app/_contexts/user_name';
+import { useNotifications } from '@/app/_contexts/notification';
 
 function LoginForm() {
    const [state, setState] = useState({
@@ -16,7 +14,7 @@ function LoginForm() {
       successMessage: null,
    });
    const router = useRouter();
-   const notificationRef = useRef(null);
+   const { addNotification } = useNotifications();
 
    const { setUserID } = useContext(UserContext);
 
@@ -28,20 +26,27 @@ function LoginForm() {
       }));
    };
 
+   useEffect(() => {
+      const cookie = document.cookie
+         .split('; ')
+         .find((row) => row.startsWith('toastMessage='));
+
+      if (cookie) {
+         const message = decodeURIComponent(cookie.split('=')[1]);
+         addNotification(message);
+
+         // clear cookie after notification
+         document.cookie = 'toastMessage=; Max-Age=0; path=/';
+      }
+   });
+
    const handleSubmitClick = async (e) => {
       e.preventDefault();
-      if (notificationRef.current) {
-         notificationRef.current.addNotif(
-            Math.random(),
-            'Login request sent. Please wait.'
-         );
-      }
+      addNotification('Login request sent. Please wait.');
       const payload = {
          username: state.username,
          password: state.password,
       };
-
-      console.log(payload, 'payload');
 
       try {
          const response = await fetch('/login/api', {
@@ -58,14 +63,9 @@ function LoginForm() {
                   successMessage:
                      'Login successful. Redirecting to home page..',
                }));
-               if (notificationRef.current) {
-                  notificationRef.current.addNotif(
-                     Math.random(),
-                     'Login successful'
-                  );
-               }
 
-               console.log('here is the token', data);
+               addNotification('Login successful');
+
                setUserID(state.username);
                localStorage.setItem(
                   ACCESS_TOKEN_NAME,
@@ -77,23 +77,16 @@ function LoginForm() {
             //     props.showError("Username and password do not match");
             // }
             else {
-               if (notificationRef.current) {
-                  notificationRef.current.addNotif(
-                     Math.random(),
-                     'Login failed. Please try again.' + response.status
-                  );
-               }
+               addNotification(
+                  'Login failed. Please try again.' + response.status
+               );
                // alert("Username does not exists");
-               //console.log(response.data)
             }
          }
       } catch (err) {
-         if (notificationRef.current) {
-            notificationRef.current.addNotif(
-               Math.random(),
-               'Something went wrong during login. Please try again.'
-            );
-         }
+         addNotification(
+            'Something went wrong during login. Please try again.'
+         );
       }
    };
 
@@ -157,11 +150,11 @@ function LoginForm() {
                >
                   Login
                </button>
-               <SlideInNotifications ref={notificationRef} />
                {/* <button 
                         type="submit"
                         className='w-full min-h-[56px] rounded-[30px] border-white border-solid border-[1px] text-white bg-black mt-[30px] flex justify-center items-center'>
-                            <Image src={Google} className='pr-[20px]' height={55}/><span className='leading-[8px]'>Login with Google</span></button> */}
+                            <Image src={Google} className='pr-[20px]' height={55}/><span className='leading-[8px]'>Login with Google</span>
+               </button> */}
             </form>
          </div>
       </div>

@@ -128,14 +128,14 @@ export default function HParallax({ featurePos }) {
          setH(() => window.scrollY - offs.current);
          setW(() => window.scrollY - offs.current);
       }
-      console.log(window.scrollY - offs.current, offs.current, window.scrollY);
+      // console.log(window.scrollY - offs.current, offs.current, window.scrollY);
    };
 
    useEffect(() => {
       if (offs.current == 0) {
          offs.current = window.scrollY;
       }
-      console.log(activate, 'activate');
+      // console.log(activate, 'activate');
       if (activate) {
          //  console.log(activate,'activate')
          window.addEventListener('scroll', handleScroll);
@@ -207,10 +207,6 @@ export default function HParallax({ featurePos }) {
    }, [isFill]);
 
    useEffect(() => {
-      console.log('scrolled par', scrolledPast);
-   }, [scrolledPast]);
-
-   useEffect(() => {
       const onScroll = () => {
          if (horiRef.current) {
             const rect = horiRef.current.getBoundingClientRect();
@@ -227,10 +223,6 @@ export default function HParallax({ featurePos }) {
       window.addEventListener('scroll', onScroll);
       return () => window.removeEventListener('scroll', onScroll);
    }, []);
-
-   useEffect(() => {
-      console.log('changed end ref', stop);
-   }, [stop]);
 
    const getMinHeight = () => {
       if (winW.current <= 640) {

@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { ACCESS_TOKEN_NAME, API_BASE_URL } from '@/app/_utils/apiConstants';
 import DropTimetable from '../drop_select/drop_timetable_select';
 import LoadTimetable from './load_timetable';
-import SlideInNotifications from '../notifications/side_notification';
+import { useNotifications } from '@/app/_contexts/notification';
 
-async function getPublicTimetable({ notificationRef }) {
+async function getPublicTimetable({ addNotification }) {
    const header = {
       Authorization:
          'Token ' + JSON.parse(localStorage.getItem(ACCESS_TOKEN_NAME)),
@@ -26,21 +26,11 @@ async function getPublicTimetable({ notificationRef }) {
          }
          return timetable_list;
       } else {
-         if (notificationRef.current) {
-            notificationRef.current.addNotif(
-               Math.random(),
-               'Failed to fetch preset timetable list'
-            );
-         }
+         addNotification('Failed to fetch preset timetable list');
          return [];
       }
    } catch (error) {
-      if (notificationRef.current) {
-         notificationRef.current.addNotif(
-            Math.random(),
-            'Error fetching preset timetable list'
-         );
-      }
+      addNotification('Error fetching preset timetable list');
       return [];
    }
 }
@@ -48,11 +38,11 @@ async function getPublicTimetable({ notificationRef }) {
 export default function SearchTimetable({ router }) {
    const [optionList, setOptionList] = useState([]);
    const [selectedOption, setSelectedOption] = useState();
-   const notificationRef = useRef(null);
+   const { addNotification } = useNotifications();
 
    useEffect(() => {
       async function getData() {
-         const data = await getPublicTimetable({ notificationRef });
+         const data = await getPublicTimetable({ addNotification });
          setOptionList(data);
       }
       getData();
@@ -75,13 +65,12 @@ export default function SearchTimetable({ router }) {
          <button
             type="button"
             onClick={() => {
-               LoadTimetable({ selectedOption, router, notificationRef });
+               LoadTimetable({ selectedOption, router, addNotification });
             }}
             className="ml-[1vw] h-[3vw] max-sm:min-h-14 min-w-[5vw] rounded-md border border-solid border-[#3c3c3c] transition duration-300 hover:bg-white hover:text-black max-sm:min-w-32"
          >
             Load
          </button>
-         <SlideInNotifications ref={notificationRef} />
       </div>
    );
 }

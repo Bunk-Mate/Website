@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import XSvg from '@/components/svg/x.jsx';
 import CheckSvg from '@/components/svg/check.jsx';
 import PlusSvg from '@/components/svg/plus.jsx';
@@ -16,8 +16,8 @@ import {
    ACCESS_TOKEN_NAME,
 } from '@/app/_utils/apiConstants.js';
 import axios from 'axios';
-import SlideInNotifications from '@/components/notifications/side_notification.jsx';
 import { TimetableContext } from '@/app/_contexts/timetable';
+import { useNotifications } from '@/app/_contexts/notification';
 
 export default function EditTable() {
    const [tableData, setTableData] = useState([[]]);
@@ -27,8 +27,8 @@ export default function EditTable() {
    const [maxHeight, setMaxHeight] = useState('50vh');
    const smRatio = 212;
    const lgRatio = 0.1415;
-   const notificationRef = useRef(null);
    const { timetable, setTimetable } = useContext(TimetableContext);
+   const { addNotification } = useNotifications();
 
    useEffect(() => {
       HeightLimit({ setHw: setMaxHeight, smRatio, lgRatio });
@@ -51,23 +51,13 @@ export default function EditTable() {
       if (popupDecision == 'Save') {
          handleSaveTimetable();
       } else if (popupDecision == 'Discard') {
-         if (notificationRef.current) {
-            notificationRef.current.addNotif(
-               Math.random(),
-               'Changes discarded.'
-            );
-         }
+         addNotification('Changes discarded.');
          router.push('/dashboard/table');
       }
    }, [popupDecision]);
 
    const handleSaveTimetable = () => {
-      if (notificationRef.current) {
-         notificationRef.current.addNotif(
-            Math.random(),
-            'Request sent. Please wait.'
-         );
-      }
+      addNotification('Request sent. Please wait.');
       const header = {
          Authorization:
             'Token ' + JSON.parse(localStorage.getItem(ACCESS_TOKEN_NAME)),
@@ -97,9 +87,7 @@ export default function EditTable() {
    };
 
    const notify = (message) => {
-      if (notificationRef.current) {
-         notificationRef.current.addNotif(Math.random(), message);
-      }
+      addNotification(message);
    };
 
    const handleUpdate = ({ data, row, col }) => {
@@ -307,7 +295,6 @@ export default function EditTable() {
                </div>
             </div>
          </div>
-         <SlideInNotifications ref={notificationRef} />
       </div>
    );
 }

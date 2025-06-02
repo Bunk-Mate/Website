@@ -6,7 +6,7 @@ export default function Parallax() {
    const scalingRef = useRef(null);
    const textRef = useRef(null);
    const [isFill, setIsFill] = useState(true);
-   const [activate, setActivate] = useState(false);
+   const [setActivate] = useState(false);
    const scale = useRef(0);
 
    useEffect(() => {
@@ -27,10 +27,6 @@ export default function Parallax() {
          }
       };
    }, []);
-
-   useEffect(() => {
-      console.log('activate cuz linting');
-   }, [activate]);
 
    useEffect(() => {
       const container = containerRef.current;
@@ -55,7 +51,7 @@ export default function Parallax() {
                const viewportHeight = window.innerHeight;
                const scrollProgress = 1 - containerRect.top / viewportHeight;
                scale.current = (Math.max(scrollProgress, 0));
-               console.log('scaling up ', scale.current, containerRect.top);
+               // console.log('scaling up ', scale.current, containerRect.top);
                scalingEl.style.transform = `scale(${scale.current})`;
             }
          }
