@@ -20,7 +20,7 @@ export default function Home() {
    });
    return (
       <div className="h-[94vh] scroll-smooth">
-         <div className="m-[1vw] flex h-[90vh] flex-1 flex-col items-center justify-center bg-black max-md:h-[90vh]">
+         <div className="m-[1vw] flex h-[90vh] flex-1 flex-col items-center justify-center max-md:h-[90vh]">
             <p className="m-[-1vw] text-[2vw] max-md:text-[5vw]">Welcome to</p>
             <p className="text-[7vw] max-md:text-[14vw]">Bunk-Mate</p>
             <Link
