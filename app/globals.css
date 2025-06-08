@@ -45,25 +45,6 @@ body {
       -ms-overflow-style: none; /* IE and Edge */
       scrollbar-width: none; /* Firefox */
    }
-
-   .gradient-bg {
-    @apply absolute w-full h-full;
-    background: radial-gradient(circle at 30% 30%, #ff6ec4, transparent),
-                radial-gradient(circle at 70% 70%, #7873f5, transparent),
-                radial-gradient(circle at 50% 50%, #4ADEDE, transparent);
-    background-blend-mode: screen;
-    background-size: 100% 100%;
-    animation: moveGradient 20s ease-in-out infinite alternate;
-  }
-
-  @keyframes moveGradient {
-    0% {
-      background-position: 30% 30%, 70% 70%, 50% 50%;
-    }
-    100% {
-      background-position: 70% 70%, 30% 30%, 60% 40%;
-    }
-  }
 }
 @layer base {
    /* Chrome, Safari, Edge, Opera */

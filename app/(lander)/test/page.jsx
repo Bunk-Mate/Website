@@ -10,6 +10,8 @@ import NameStrip from '@/components/name_strip/name_strip';
 import FeatureStrip from '@/components/name_strip/feature_strip';
 import { useEffect, useRef, useState } from 'react';
 import HParallax from '@/components/scroll_shenanigans/horizontal_parallax';
+import Gradient from '@/components/ui/shader_grandient/gradient';
+import ChevronLeft from '@/components/svg/chevron_left';
 
 export default function Home() {
    const featurePos = useRef(0);
@@ -19,218 +21,76 @@ export default function Home() {
       };
    });
 
-   const [h, setH] = useState(0);
-   const [w, setW] = useState(0);
-   const offs = useRef(0);
-   const handleScroll = () => {
-      if (window.innerHeight >= window.innerWidth) {
-         setH(() => window.scrollY - offs.current);
-         setW(() => window.scrollY - offs.current);
-      } else {
-         setH(() => window.scrollY - offs.current);
-         setW(() => window.scrollY - offs.current);
-      }
-   };
-
-   useEffect(() => {
-      if (offs.current == 0) {
-         offs.current = window.scrollY;
-      }
-
-      window.addEventListener('scroll', handleScroll);
-      // window.removeEventListener('scroll', handleScroll);
-
-      return () => {
-         {
-            setH(0);
-            setW(0);
-         }
-         window.removeEventListener('scroll', handleScroll);
-      };
-   }, []);
-
-   const rectRef = useRef(0);
-   const ref = useRef();
-   const victim = useRef();
-   const descRef = useRef();
-   const percent = useRef(0);
-   const textRef = useRef(0);
-   const RISE_LEVEL = 0.6;
-
-   const easeInOutCubic = (t) =>
-      t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
-   const easeOutQuart = (t) => 1 - Math.pow(1 - t, 4);
-   const easeInOutQuart = (t) =>
-      t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2;
-   const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
-   const easeInOutSine = (t) => -(Math.cos(Math.PI * t) - 1) / 2;
-
-   useEffect(() => {
-      const onScroll = () => {
-         const rect = ref.current.getBoundingClientRect();
-         const textBound = textRef.current.getBoundingClientRect();
-         const descBound = descRef.current.getBoundingClientRect();
-         const linearPercent =
-            rect.top <= 0
-               ? 0
-               : rect.top <= RISE_LEVEL * window.innerHeight
-                 ? rect.top / (RISE_LEVEL * window.innerHeight)
-                 : 1;
-
-         const newPercent = easeInOutCubic(linearPercent);
-
-         percent.current = newPercent;
-         rectRef.current = rect;
-
-         victim.current.animate(
-            [
-               {
-                  transform: `translateX(${(newPercent / 2) * (window.innerWidth + (textBound.left - textBound.right))}px)`,
-               },
-            ],
-            {
-               duration: 100,
-               fill: 'forwards',
-            }
-         );
-
-         textRef.current.animate(
-            [
-               {
-                  transform: `translateY(${newPercent * 5}vw)`,
-               },
-            ],
-            {
-               duration: 100,
-               fill: 'forwards',
-            }
-         );
-
-         descRef.current.animate(
-            [
-               {
-                  transform: `translateX(${newPercent * (window.innerWidth / 2 - descBound.left - 1.15 * descBound.width)}px) translateY(${newPercent * 12}vw)`,
-               },
-            ],
-            {
-               duration: 100,
-               fill: 'forwards',
-            }
-         );
-      };
-      window.addEventListener('scroll', onScroll);
-      return () => window.removeEventListener('scroll', onScroll);
-   }, []);
-
    return (
       <div className="h-screen scroll-smooth">
-         <div className="flex h-screen flex-1 flex-col items-center justify-center bg-black/80 max-md:h-screen">
-            <p className="m-[-1vw] text-[2vw] max-md:text-[5vw]">Welcome to</p>
-            <p className="text-[7vw] max-md:text-[14vw]">Bunk-Mate</p>
-            <Link
-               href="/registration"
-               className="rounded-full border border-l-white border-t-white bg-black p-4 text-[1.5vw] font-light transition duration-1000 hover:border-b-[#ee67ee] hover:border-r-[#ee67ee] hover:bg-white hover:text-black hover:shadow-[5px_5px_rgba(240,46,170,0.4),10px_10px_rgba(240,46,170,0.3),15px_15px_rgba(240,46,170,0.2)] max-sm:text-lg"
-            >
-               Get Started
-            </Link>
-            {/* <div className="fixed top-0 -z-20 min-h-screen min-w-[100vw]">
-               <Image
-                  src={'/assets/lander-bg.png'}
-                  alt="bg-lander"
-                  className="min-h-screen min-w-[100vw] invert blur-md"
-                  width={1}
-                  height={1}
-                  unoptimized
-               />
-            </div> */}
-            {/* <div className="relative h-screen w-full overflow-hidden"> */}
-               <div className="gradient-bg -z-10" />
-               <div className="relative z-10 p-10 text-4xl text-white">
-                  Hello from Next.js + Tailwind Gradient!
-               </div>
-            </div>
-         {/* </div> */}
-         <div
-            className="flex max-h-screen min-h-screen flex-col gap-[1vw] rounded-t-[2vw] bg-white p-[1vw]"
-            ref={ref}
-         >
-            <div className="flex">
-               <div className={`flex items-start text-black`} ref={victim}>
-                  {/* <p className="-mb-[1vw] text-[1vw] transition-all duration-300">
-                     HERE TO SERVE ALL YOU
-                  </p> */}
-                  <p
-                     className="my-[-2vw] text-[7vw] transition-all duration-300"
-                     ref={textRef}
-                  >
-                     <span className="font-extralight">YOUR</span> BUNKING
-                  </p>
-               </div>
-               <div className="flex flex-1 justify-end text-center text-[1.5vw] font-light text-black transition-all duration-300">
-                  <p ref={descRef} className="max-w-[40vw]">
-                     This could be some random text explaining some not so
-                     relevant bullshit. Engrave bunkmate on my gravestone or
-                     <br />
-                     <span>Discover more {'->'}</span>
-                  </p>
-               </div>
-            </div>
-            <div className="flex flex-1 gap-[1vw]">
-               <div className="flex flex-1">
-                  <div
-                     style={{
-                        rotate: `${-0.3 * percent.current * 90}deg`,
-                        scale: `${1 - 0.8 * percent.current}`,
-                        marginTop: `${-1 * percent.current}vw`,
-                        marginLeft: `${3 * percent.current}vw`,
-                        transformOrigin: 'top left',
-                     }}
-                     className="flex-1"
-                  >
-                     <Image
-                        src={'/assets/placeholder-1.png'}
-                        fill
-                        alt="placeholder"
-                        className="rounded-[1vw] object-cover"
-                        unoptimized
-                     />
+         <>
+            <div className="relative z-10 flex h-screen max-h-screen flex-1 flex-col items-center justify-center overflow-hidden backdrop-blur-lg max-md:h-screen">
+               <div className="flex flex-1 flex-col">
+                  <div className="flex-1"></div>
+                  <div className="flex items-center justify-center">
+                     <div className="flex-1">
+                        <SineWave direction="left" />
+                     </div>
+                     <Link
+                        href="/registration"
+                        className="group flex items-center justify-center"
+                     >
+                        <div className="h-px flex-1 bg-white"></div>
+
+                        <Image
+                           src="/assets/logo.png"
+                           width={1}
+                           height={1}
+                           className="size-[7vw]"
+                           alt="logo"
+                           unoptimized
+                        />
+
+                        <p className="max-w-0 scale-[0.7] overflow-hidden whitespace-nowrap text-[1.2vw] opacity-0 transition-all duration-500 ease-in-out group-hover:max-w-[200px] group-hover:scale-100 group-hover:opacity-100">
+                           Get Started
+                        </p>
+
+                        <div className="ml-[-2vw] flex h-[6vw] text-[#ffffffb9] transition-all duration-700 group-hover:text-white">
+                           <ChevronLeft />
+                        </div>
+                        <div className="ml-[-4vw] flex h-[6vw] text-[#ffffffb9] transition-all duration-700 group-hover:text-white">
+                           <ChevronLeft />
+                        </div>
+
+                        <div className="h-px flex-1 bg-white"></div>
+                     </Link>
+
+                     <div className="h-px flex-1 bg-[#ffffffb9]"></div>
                   </div>
-               </div>
-               <div className="flex flex-1 flex-col gap-[1vw]">
-                  <div
-                     style={{
-                        marginTop: `${35 * percent.current}vw`,
-                        marginLeft: `${35 * percent.current}vw`,
-                     }}
-                     className="flex-[2] rounded-[1vw] bg-blue-900"
-                  >
-                     <p className="m-[2vw] text-[1.5vw]">
-                        I dont know man honestly. Ive been working on this for
-                        so long, even though this bullshit shouldnt be taking
-                        much time. Its a bunch of bogus honestly
+                  <div className="flex-1"></div>
+                  <div className="mb-[2vw] flex text-[1.2vw] font-bold leading-[1.2vw] [&>*]:text-[#ffffffb9]">
+                     <p className="flex flex-1 justify-start">MATE INC</p>
+                     <p className="flex flex-1 justify-start">
+                        CALCULATED RISK
+                        <br />
+                        SHITTY DESIGN
+                     </p>
+                     <p className="flex flex-1 justify-start">
+                        SAFE BUNK?
+                        <br />
+                        BUNK CLASS??
+                        <br />
+                        BUNK DAY???
+                        <br />
+                     </p>
+                     <p className="flex flex-1 justify-end text-end">
+                        2025
+                        <br />
+                        HERE TO SERVE ALL YOUR BUNKING NEEDS {';)'}
                      </p>
                   </div>
-                  <div
-                     style={{
-                        rotate: `${0.3 * percent.current * 90}deg`,
-                        scale: `${1 - 0.8 * percent.current}`,
-                        marginTop: `${-35 * 2 * percent.current}vw`,
-                        marginRight: `${3 * percent.current}vw`,
-                        transformOrigin: 'top right',
-                     }}
-                     className="flex flex-[3]"
-                  >
-                     <Image
-                        src={'/assets/placeholder-2.png'}
-                        alt="placeholder"
-                        fill
-                        unoptimized
-                        className="rounded-[1vw] object-cover"
-                     />
-                  </div>
+                  <p className="text-[19vw] font-bold leading-[0.8] tracking-tighter max-md:text-[14vw]">
+                     BUNK-MATE
+                  </p>
                </div>
             </div>
-         </div>
+            <Gradient />
+         </>
          <div className="min-h-[300vh]"></div>
          <div className="fixed left-0 top-[20vh] z-50 bg-yellow-400 text-black">
             <b>{rectRef.current.top}</b> rect top <br />
@@ -243,3 +103,61 @@ export default function Home() {
       </div>
    );
 }
+
+// import { useEffect, useRef, useState } from 'react';
+
+const SineWave = () => {
+   const width = 1000;
+   const height = 80;
+   const scaleY = height / 2;
+
+   const [points, setPoints] = useState([]);
+   const phaseRef = useRef(0);
+
+   useEffect(() => {
+      let animationFrame;
+
+      const animate = () => {
+         const newPoints = [];
+         const phase = phaseRef.current;
+         for (let x = 0; x <= width; x++) {
+            const t = 1 - x / width;
+
+            const frequency = (1 - t) ** 2 * 4;
+            const amplitude = (1 - t) ** 4 * scaleY;
+
+            const y =
+               Math.sin(x * frequency * 0.001 * Math.PI * 2 - phase) *
+                  amplitude +
+               scaleY;
+
+            newPoints.push(`${x},${y.toFixed(2)}`);
+         }
+
+         setPoints(newPoints);
+         phaseRef.current += 0.05; // wave speed
+         animationFrame = requestAnimationFrame(animate);
+      };
+
+      animate();
+
+      return () => cancelAnimationFrame(animationFrame);
+   }, []);
+
+   return (
+      <svg
+         width="100%"
+         height={height}
+         viewBox={`0 0 ${width} ${height}`}
+         preserveAspectRatio="none"
+         className="rotate-180"
+      >
+         <polyline
+            fill="none"
+            stroke="#ffffffb9"
+            strokeWidth="2"
+            points={points.join(' ')}
+         />
+      </svg>
+   );
+};

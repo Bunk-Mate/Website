@@ -1,29 +1,13 @@
 'use client';
 
+import Gradient from '@/components/ui/shader_grandient/gradient';
 import Link from 'next/link';
 import Image from 'next/image';
-import Dashboard from '@/public/assets/dashboard.png';
-import EditTable from '@/public/assets/edit_timetable.png';
-import ContactFooter from '@/components/contact_us/contact_footer';
-import Feature from '@/components/feature/feature';
-import NameStrip from '@/components/name_strip/name_strip';
-import FeatureStrip from '@/components/name_strip/feature_strip';
-import { useEffect, useRef } from 'react';
-import HParallax from '@/components/scroll_shenanigans/horizontal_parallax';
-import Description from '@/components/scroll_shenanigans/description';
-import { SineWave } from '@/components/ui/sine_wave';
 import ChevronLeft from '@/components/svg/chevron_left';
-import Gradient from '@/components/ui/shader_grandient/gradient';
 
-export default function Home() {
-   const featurePos = useRef(0);
-   useEffect(() => {
-      window.onbeforeunload = () => {
-         window.scrollTo(0, 0);
-      };
-   });
+export default function Page() {
    return (
-      <div className="h-[94vh] scroll-smooth">
+      <>
          <div className="relative z-10 flex h-screen max-h-screen flex-1 flex-col items-center justify-center overflow-hidden backdrop-blur-lg max-md:h-screen">
             <div className="flex flex-1 flex-col">
                <div className="flex-1"></div>
@@ -90,40 +74,65 @@ export default function Home() {
             </div>
          </div>
          <Gradient />
-         <Description />
-         {/* <div className="flex h-screen items-center justify-center text-[3vw] max-md:text-[7vw]">
-            <p className="max-w-[60vw] max-md:max-w-[85vw]">
-               Bunk Mate helps you track your attendance and plan your bunks.
-               Who else is better to rely on than oneself..
-            </p>
-         </div> */}
-         <div className="mt-[50vh] flex flex-col items-center justify-center max-md:mt-[15vh]">
-            <Image
-               src={Dashboard}
-               alt="dashboard"
-               className="sticky top-[50vh] mb-[20vw] h-auto w-[60vw] -translate-y-1/2 rounded-[1vw] border-[0.4vw] border-solid border-[#505050] max-md:w-[90vw]"
-            />
-            <Image
-               src={EditTable}
-               alt="edit-table"
-               className="sticky top-[50vh] mb-[20vw] h-auto w-[60vw] -translate-y-1/2 rounded-[1vw] border-[0.4vw] border-solid border-[#505050] max-md:w-[90vw]"
-            />
-            <div className="sticky top-[50vh] mb-[20vw] flex h-[30.4vw] w-[60vw] -translate-y-1/2 items-center justify-center rounded-[1vw] border-[0.2vw] border-dashed border-[#979797] bg-[#1c1c1c] text-[1vw] max-md:h-[45vw] max-md:w-[90vw]">
-               Ranked bunking coming soon
-            </div>
-         </div>
-         <div className="mb-[-13vw] mt-[-20vw] max-w-[100vw]">
-            <FeatureStrip />
-         </div>
-         <div id="feature" ref={featurePos}>
-            <Feature />
-         </div>
-         <HParallax featurePos={featurePos} />
-         {/* <div className="h-[150vh] max-w-[100vw] bg-black"></div> */}
-         <div className="max-w-[100vw] bg-white">
-            <NameStrip />
-         </div>
-         <ContactFooter />
-      </div>
+         <div className="min-h-[300vh]"></div>
+      </>
    );
 }
+
+import { useEffect, useRef, useState } from 'react';
+
+const SineWave = () => {
+   const width = 1000;
+   const height = 80;
+   const scaleY = height / 2;
+
+   const [points, setPoints] = useState([]);
+   const phaseRef = useRef(0);
+
+   useEffect(() => {
+      let animationFrame;
+
+      const animate = () => {
+         const newPoints = [];
+         const phase = phaseRef.current;
+         for (let x = 0; x <= width; x++) {
+            const t = 1 - x / width;
+
+            const frequency = (1 - t) ** 2 * 4;
+            const amplitude = (1 - t) ** 4 * scaleY;
+
+            const y =
+               Math.sin(x * frequency * 0.001 * Math.PI * 2 - phase) *
+                  amplitude +
+               scaleY;
+
+            newPoints.push(`${x},${y.toFixed(2)}`);
+         }
+
+         setPoints(newPoints);
+         phaseRef.current += 0.05; // wave speed
+         animationFrame = requestAnimationFrame(animate);
+      };
+
+      animate();
+
+      return () => cancelAnimationFrame(animationFrame);
+   }, []);
+
+   return (
+      <svg
+         width="100%"
+         height={height}
+         viewBox={`0 0 ${width} ${height}`}
+         preserveAspectRatio="none"
+         className="rotate-180"
+      >
+         <polyline
+            fill="none"
+            stroke="#ffffffb9"
+            strokeWidth="2"
+            points={points.join(' ')}
+         />
+      </svg>
+   );
+};
