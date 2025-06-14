@@ -1,7 +1,5 @@
 'use client';
 
-import Gradient from '@/components/ui/shader_grandient/gradient';
-
 export default function Page() {
    return (
       <video

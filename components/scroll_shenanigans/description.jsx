@@ -3,14 +3,15 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import ArrowUp from '../svg/arrow';
-import WhiteX from '../svg/white_x';
 
 export default function Description() {
+   const [windW, setWindW] = useState(0);
    // eslint-disable-next-line no-unused-vars
    const [h, setH] = useState(0);
    // eslint-disable-next-line no-unused-vars
    const [w, setW] = useState(0);
    const offs = useRef(0);
+
    const handleScroll = () => {
       if (window.innerHeight >= window.innerWidth) {
          setH(() => window.scrollY - offs.current);
@@ -21,13 +22,18 @@ export default function Description() {
       }
    };
 
+   const handleResize = () => {
+      setWindW(window.innerWidth);
+   };
+
    useEffect(() => {
+      setWindW(window.innerWidth);
       if (offs.current == 0) {
          offs.current = window.scrollY;
       }
 
+      window.addEventListener('resize', handleResize);
       window.addEventListener('scroll', handleScroll);
-      // window.removeEventListener('scroll', handleScroll);
 
       return () => {
          {
@@ -102,7 +108,10 @@ export default function Description() {
          descRef.current.animate(
             [
                {
-                  transform: `translateX(${newPercent * (window.innerWidth / 2 - descBound.left - 1.15 * descBound.width)}px) translateY(${newPercent * 12}vw)`,
+                  transform:
+                     window.innerWidth > 680
+                        ? `translateX(${newPercent * (window.innerWidth / 2 - descBound.left - 1.15 * descBound.width)}px) translateY(${newPercent * 12}vw)`
+                        : `translateY(${newPercent * 12}vw)`,
                },
             ],
             {
@@ -116,39 +125,45 @@ export default function Description() {
    }, []);
    return (
       <div
-         className="flex max-h-screen min-h-screen flex-col gap-[1vw] rounded-t-[2vw] bg-white p-[1vw]"
+         className="flex max-h-[95vh] min-h-[95vh] max-w-[100vw] flex-col gap-[1vw] overflow-hidden rounded-t-[2vw] bg-white p-[1vw] max-md:max-h-[94vh] max-md:min-h-[94vh]"
          ref={ref}
       >
-         <div className="flex">
+         <div className="flex max-md:flex-col">
             <div className={`flex items-start text-black`} ref={victim}>
                <p
-                  className="my-[-2vw] text-[7vw] transition-all duration-300"
+                  className="my-[-2vw] text-[7vw] transition-all duration-300 max-md:text-[12vw]"
                   ref={textRef}
                >
                   <span className="font-extralight">SAFE</span> BUNKING
                </p>
             </div>
-            <div className="flex flex-1 justify-end text-center text-[1.5vw] font-light text-black transition-all duration-300">
-               <p ref={descRef} className="max-w-[40vw]">
+            <div className="flex flex-1 justify-end text-center text-[1.5vw] font-light text-black transition-all duration-300 max-md:justify-center max-md:text-[4vw]">
+               <p
+                  ref={descRef}
+                  style={
+                     windW < 680
+                        ? {
+                             maxWidth: `${100 * (1 - 0.5 * percent.current + 0.25)}vw`,
+                          }
+                        : {}
+                  }
+                  className="md:max-w-[40vw]"
+               >
                   Say goodbye to{' '}
                   <span className="font-bold">manual calculations</span> and{' '}
                   <span className="font-bold">attendance anxiety</span>—BunkMate
                   shows you the safest way to skip.
                   <br />
-                  {/* <span>Discover more </span>
-                  <span className="max-h-[3vw] max-w-[3vw] overflow-hidden rounded-full border border-solid border-white p-1">
-                     <ArrowUp />
-                  </span> */}
                </p>
             </div>
          </div>
-         <div className="flex flex-1 gap-[1vw]">
+         <div className="flex flex-1 gap-[1vw] max-md:flex-col">
             <div className="flex flex-1">
                <div
                   style={{
                      rotate: `${-0.3 * percent.current * 90}deg`,
                      scale: `${1 - 0.8 * percent.current}`,
-                     marginTop: `${-1 * percent.current}vw`,
+                     marginTop: `${(windW > 680 ? -1 : 30) * percent.current}vw`,
                      marginLeft: `${3 * percent.current}vw`,
                      transformOrigin: 'top left',
                   }}
@@ -162,36 +177,36 @@ export default function Description() {
                      unoptimized
                   />
                   <div className="absolute flex w-full justify-end">
-                     <div className="m-[1vw] flex min-h-[3vw] min-w-[3vw] rounded-full border border-solid border-white p-1">
+                     <div className="m-[1vw] flex min-h-[3vw] min-w-[3vw] rounded-full border border-solid border-white p-1 max-md:min-h-[9vw] max-md:min-w-[9vw]">
                         <ArrowUp />
                      </div>
                   </div>
                </div>
+               <div className="min-w-[15vw] md:hidden"></div>
             </div>
-            <div className="flex flex-1 flex-col gap-[1vw]">
+            <div className="flex flex-1 gap-[1vw] md:flex-col">
+               <div className="min-w-[5vw] md:hidden"></div>
                <div
                   style={{
                      marginTop: `${35 * percent.current}vw`,
                      marginLeft: `${35 * percent.current}vw`,
                   }}
-                  className="flex flex-[2] flex-col rounded-[1vw] bg-green-900"
+                  className="flex flex-[2] flex-col rounded-[1vw] bg-green-900 max-md:hidden"
                >
                   <p className="m-[2vw] mb-[-2vw] text-[3vw]">WHAT? WHY?</p>
                   <p className="m-[2vw] text-[1.5vw]">
                      Bunk Mate helps you track your attendance and plan your
                      bunks. Who else is better to rely on than oneself..
                   </p>
-                  <div className="absolute flex w-[48.5vw] justify-end p-[1vw]">
-                     <WhiteX />
-                  </div>
                </div>
                <div
                   style={{
                      rotate: `${0.3 * percent.current * 90}deg`,
                      scale: `${1 - 0.8 * percent.current}`,
-                     marginTop: `${-35 * 2 * percent.current}vw`,
+                     marginTop: `${(windW > 680 ? -35 : -35) * 2 * percent.current}vw`,
                      marginRight: `${3 * percent.current}vw`,
                      transformOrigin: 'top right',
+                     maxHeight: '100vw',
                   }}
                   className="flex flex-[3]"
                >
@@ -203,7 +218,7 @@ export default function Description() {
                      className="rounded-[1vw] object-cover"
                   />
                   <div className="absolute flex w-full justify-end">
-                     <div className="m-[1vw] flex min-h-[3vw] min-w-[3vw] rounded-full border border-solid border-white p-1">
+                     <div className="m-[1vw] flex min-h-[3vw] min-w-[3vw] rounded-full border border-solid border-white p-1 max-md:min-h-[9vw] max-md:min-w-[9vw]">
                         <ArrowUp />
                      </div>
                   </div>

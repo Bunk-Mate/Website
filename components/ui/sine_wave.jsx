@@ -16,8 +16,9 @@ export const SineWave = () => {
          const phase = phaseRef.current;
          for (let x = 0; x <= width; x++) {
             const t = 1 - x / width;
+            const sm = window.innerWidth < 680 ? 0.5 : 1;
 
-            const frequency = (1 - t) ** 2 * 4;
+            const frequency = (1 - t) ** 2 * 4 * sm;
             const amplitude = (1 - t) ** 4 * scaleY;
 
             const y =

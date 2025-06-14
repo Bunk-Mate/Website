@@ -92,14 +92,14 @@ export default function Home() {
             <Gradient />
          </>
          <div className="min-h-[300vh]"></div>
-         <div className="fixed left-0 top-[20vh] z-50 bg-yellow-400 text-black">
+         {/* <div className="fixed left-0 top-[20vh] z-50 bg-yellow-400 text-black">
             <b>{rectRef.current.top}</b> rect top <br />
             <b>{rectRef.current.left}</b> rect left <br />
             <b>{rectRef.current.right}</b> rect right <br />
             <b>{rectRef.current.left - rectRef.current.right}</b> rect
             right-left <br />
             <b>{percent.current}</b> percent
-         </div>
+         </div> */}
       </div>
    );
 }

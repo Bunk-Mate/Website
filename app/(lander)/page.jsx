@@ -2,8 +2,6 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import Dashboard from '@/public/assets/dashboard.png';
-import EditTable from '@/public/assets/edit_timetable.png';
 import ContactFooter from '@/components/contact_us/contact_footer';
 import Feature from '@/components/feature/feature';
 import NameStrip from '@/components/name_strip/name_strip';
@@ -14,6 +12,7 @@ import Description from '@/components/scroll_shenanigans/description';
 import { SineWave } from '@/components/ui/sine_wave';
 import ChevronLeft from '@/components/svg/chevron_left';
 import Gradient from '@/components/ui/shader_grandient/gradient';
+import LineGradient from '@/components/ui/line_transition';
 
 export default function Home() {
    const featurePos = useRef(0);
@@ -23,11 +22,11 @@ export default function Home() {
       };
    });
    return (
-      <div className="h-[94vh] scroll-smooth">
-         <div className="relative z-10 flex h-screen max-h-screen flex-1 flex-col items-center justify-center overflow-hidden backdrop-blur-lg max-md:h-screen">
+      <div className="scroll-smooth">
+         {/* Hero */}
+         <div className="relative z-10 flex h-dvh max-h-dvh flex-1 flex-col items-center justify-center overflow-hidden backdrop-blur-lg max-md:h-screen">
             <div className="flex flex-1 flex-col">
-               <div className="flex-1"></div>
-               <div className="flex items-center justify-center">
+               <div className="flex flex-1 items-center justify-center">
                   <div className="flex-1">
                      <SineWave direction="left" />
                   </div>
@@ -41,19 +40,19 @@ export default function Home() {
                         src="/assets/logo.png"
                         width={1}
                         height={1}
-                        className="size-[7vw]"
+                        className="size-[7vw] max-md:size-[20vw]"
                         alt="logo"
                         unoptimized
                      />
 
-                     <p className="max-w-0 scale-[0.7] overflow-hidden whitespace-nowrap text-[1.2vw] opacity-0 transition-all duration-500 ease-in-out group-hover:max-w-[200px] group-hover:scale-100 group-hover:opacity-100">
+                     <p className="max-w-0 scale-[0.7] overflow-hidden whitespace-nowrap text-[1.2vw] opacity-0 transition-all duration-500 ease-in-out group-hover:max-w-[200px] group-hover:scale-100 group-hover:opacity-100 max-md:text-[5vw]">
                         Get Started
                      </p>
 
-                     <div className="ml-[-2vw] flex h-[6vw] text-[#ffffffb9] transition-all duration-700 group-hover:text-white">
+                     <div className="ml-[-2vw] flex h-[6vw] text-[#ffffffb9] transition-all duration-700 group-hover:text-white max-md:ml-[-6vw] max-md:h-[17vw]">
                         <ChevronLeft />
                      </div>
-                     <div className="ml-[-4vw] flex h-[6vw] text-[#ffffffb9] transition-all duration-700 group-hover:text-white">
+                     <div className="ml-[-4vw] flex h-[6vw] text-[#ffffffb9] transition-all duration-700 group-hover:text-white max-md:ml-[-12vw] max-md:h-[17vw]">
                         <ChevronLeft />
                      </div>
 
@@ -62,15 +61,16 @@ export default function Home() {
 
                   <div className="h-px flex-1 bg-[#ffffffb9]"></div>
                </div>
-               <div className="flex-1"></div>
-               <div className="mb-[2vw] flex text-[1.2vw] font-bold leading-[1.2vw] [&>*]:text-[#ffffffb9]">
-                  <p className="flex flex-1 justify-start">MATE INC</p>
-                  <p className="flex flex-1 justify-start">
+               <div className="mb-[2vw] flex text-[1.2vw] font-bold leading-[1.2vw] max-md:mx-[2vw] max-md:text-[4vw] max-md:leading-tight [&>*]:text-[#ffffffb9]">
+                  <p className="flex flex-1 justify-start max-md:hidden">
+                     MATE INC
+                  </p>
+                  <p className="flex flex-1 justify-start max-md:hidden">
                      CALCULATED RISK
                      <br />
                      SHITTY DESIGN
                   </p>
-                  <p className="flex flex-1 justify-start">
+                  <p className="flex flex-1 justify-start max-md:flex-[2]">
                      SAFE BUNK?
                      <br />
                      BUNK CLASS??
@@ -78,48 +78,37 @@ export default function Home() {
                      BUNK DAY???
                      <br />
                   </p>
-                  <p className="flex flex-1 justify-end text-end">
+                  <p className="flex flex-1 justify-end text-end max-md:flex-[3]">
                      2025
                      <br />
                      HERE TO SERVE ALL YOUR BUNKING NEEDS {';)'}
                   </p>
                </div>
-               <p className="text-[19vw] font-bold leading-[0.8] tracking-tighter max-md:text-[14vw]">
-                  BUNK-MATE
+               <p className="text-[19vw] font-bold leading-[0.8] tracking-tighter max-md:flex max-md:flex-col max-md:items-start max-md:text-[39vw]">
+                  <span className="max-md:flex max-md:items-center">
+                     BUNK
+                     <span className="ml-[-2vw] inline-block min-h-[10vw] min-w-[10vw] rounded-full bg-white md:hidden"></span>
+                  </span>
+                  <span className="max-md:hidden">-</span>
+                  <span className="md:hidden"></span>
+                  MATE
                </p>
             </div>
          </div>
          <Gradient />
+
          <Description />
-         {/* <div className="flex h-screen items-center justify-center text-[3vw] max-md:text-[7vw]">
-            <p className="max-w-[60vw] max-md:max-w-[85vw]">
-               Bunk Mate helps you track your attendance and plan your bunks.
-               Who else is better to rely on than oneself..
-            </p>
-         </div> */}
-         <div className="mt-[50vh] flex flex-col items-center justify-center max-md:mt-[15vh]">
-            <Image
-               src={Dashboard}
-               alt="dashboard"
-               className="sticky top-[50vh] mb-[20vw] h-auto w-[60vw] -translate-y-1/2 rounded-[1vw] border-[0.4vw] border-solid border-[#505050] max-md:w-[90vw]"
-            />
-            <Image
-               src={EditTable}
-               alt="edit-table"
-               className="sticky top-[50vh] mb-[20vw] h-auto w-[60vw] -translate-y-1/2 rounded-[1vw] border-[0.4vw] border-solid border-[#505050] max-md:w-[90vw]"
-            />
-            <div className="sticky top-[50vh] mb-[20vw] flex h-[30.4vw] w-[60vw] -translate-y-1/2 items-center justify-center rounded-[1vw] border-[0.2vw] border-dashed border-[#979797] bg-[#1c1c1c] text-[1vw] max-md:h-[45vw] max-md:w-[90vw]">
-               Ranked bunking coming soon
-            </div>
-         </div>
-         <div className="mb-[-13vw] mt-[-20vw] max-w-[100vw]">
+
+         <LineGradient />
+         <div className="mb-[-13vw] mt-[-23vw] max-w-[100vw]">
             <FeatureStrip />
          </div>
          <div id="feature" ref={featurePos}>
             <Feature />
          </div>
+
          <HParallax featurePos={featurePos} />
-         {/* <div className="h-[150vh] max-w-[100vw] bg-black"></div> */}
+
          <div className="max-w-[100vw] bg-white">
             <NameStrip />
          </div>

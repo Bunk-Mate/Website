@@ -9,7 +9,7 @@ export default function Feature() {
          <div className="grid max-h-[210vw] max-w-[100vw] grid-flow-col grid-rows-8 justify-center overflow-hidden max-md:hidden">
             {/* Feature 1 */}
             <div className="grid min-w-[140vw] max-w-[140vw] grid-cols-5">
-            <div className="size-full border border-solid border-[#1c1c1c] bg-gradient-to-bl from-[#1c1c1c73] transition hover:bg-[#1c1c1c73]"></div>
+               <div className="size-full border border-solid border-[#1c1c1c] bg-gradient-to-bl from-[#1c1c1c73] transition hover:bg-[#1c1c1c73]"></div>
                <div className="flex size-full items-end border border-solid border-[#1c1c1c] bg-[#1c1c1c]">
                   <p className="m-[2vw] flex-1 break-normal text-[1.5vw]">
                      Add and edit your timetable

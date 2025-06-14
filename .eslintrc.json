@@ -16,7 +16,7 @@
       "react/react-in-jsx-scope": "off",
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
    },
-   "ignorePatterns": ["components/scroll_shenanigans/stash"],
+   "ignorePatterns": ["components/scroll_shenanigans/stash", "app/(lander)/test/*"],
    "settings": {
       "react": {
          "version": "detect"

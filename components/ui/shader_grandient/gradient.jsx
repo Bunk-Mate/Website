@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { ShaderGradientCanvas, ShaderGradient } from '@shadergradient/react';
-import * as reactSpring from '@react-spring/three';
 
 export default function Gradient() {
    return (
