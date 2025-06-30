@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import ReactLenis from 'lenis/react';
 import Logo from '@/public/assets/logo.png';
 import Image from 'next/image';
+import { scrollToHash } from '@/app/_utils/helpers';
 
 export default function RootLayout({ children }) {
    const [open, setOpen] = useState(true);
@@ -14,23 +15,21 @@ export default function RootLayout({ children }) {
       observer = new IntersectionObserver(
          ([entry]) => {
             setOpen(!entry.isIntersecting);
-            //console.log(!entry.isIntersecting)
          },
          { root: null, rootMargin: '0px', threshold: 0 }
       );
 
       if (ref) {
          observer.observe(ref);
-         //console.log('observing')
       }
 
       return () => {
          if (ref && observer != undefined) {
             observer.unobserve(ref);
-            //console.log('not observing')
          }
       };
    }, []);
+
    return (
       <div className="w-full">
          <nav
@@ -43,7 +42,7 @@ export default function RootLayout({ children }) {
             ></Image>
             <button
                onClick={() => {
-                  window.scrollTo(0, 0);
+                  scrollToHash('hero');
                }}
                className="px-[2vw] py-[1vw] max-md:flex max-md:flex-1 max-md:py-[2vw]"
             >
@@ -53,7 +52,7 @@ export default function RootLayout({ children }) {
                <button
                   className="mx-[1vw] transition duration-300 ease-in hover:text-[#808080]"
                   onClick={() => {
-                     window.scrollTo(0, 0);
+                     scrollToHash('hero');
                   }}
                >
                   Home
@@ -61,7 +60,7 @@ export default function RootLayout({ children }) {
                <button
                   className="mx-[1vw] transition duration-300 ease-in hover:text-[#808080]"
                   onClick={() => {
-                     document.getElementById('feature').scrollIntoView();
+                     scrollToHash('feature');
                   }}
                >
                   Features
@@ -69,7 +68,7 @@ export default function RootLayout({ children }) {
                <button
                   className="mx-[1vw] transition duration-300 ease-in hover:text-[#808080]"
                   onClick={() => {
-                     window.scrollTo(0, document.body.scrollHeight);
+                     scrollToHash('contact');
                   }}
                >
                   About

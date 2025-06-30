@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useContext, useEffect } from 'react';
-import { ACCESS_TOKEN_NAME } from '@/app/_utils/apiConstants';
+import { ACCESS_TOKEN_NAME } from '@/app/_utils/api_constants';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { UserContext } from '@/app/_contexts/user_name';
@@ -64,7 +64,7 @@ function LoginForm() {
                      'Login successful. Redirecting to home page..',
                }));
 
-               addNotification('Login successful');
+               addNotification('Login successful. Redirecting to home page..');
 
                setUserID(state.username);
                localStorage.setItem(

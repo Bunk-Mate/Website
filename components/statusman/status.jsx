@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef, useContext } from 'react';
 import axios from 'axios';
-import { API_BASE_URL, ACCESS_TOKEN_NAME } from '@/app/_utils/apiConstants.js';
+import { API_BASE_URL, ACCESS_TOKEN_NAME } from '@/app/_utils/api_constants.js';
 import AddNewSubs from './add_new_sub';
 import { useRouter } from 'next/navigation';
 import { RefreshContext } from '@/app/_contexts/refresh';
@@ -18,7 +18,8 @@ export default function Status({ dateCurr, hw }) {
       cancelled: 'present',
    };
    // eslint-disable-next-line prettier/prettier
-   const { refreshCont, setRefreshCont, refreshCourseList } = useContext(RefreshContext);
+   const { refreshCont, setRefreshCont, refreshCourseList } =
+      useContext(RefreshContext);
    const [dateQuery, setDateQuery] = useState([
       // {
       //    jession_url": "http://127.0.0.1:8000/session/63171"

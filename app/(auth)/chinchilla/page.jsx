@@ -11,7 +11,7 @@ export default function TermsAndCond() {
             </Link>
          </p>
          <div className="flex flex-1 items-center justify-center">
-            <Image src={Chinchilla} />
+            <Image src={Chinchilla} alt="chinchilla" />
          </div>
       </div>
    );

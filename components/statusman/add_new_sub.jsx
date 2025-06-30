@@ -10,7 +10,7 @@ import {
    API_BASE_URL,
    ACCESS_TOKEN_NAME,
    ACCESS_TIMETABLE_NAME,
-} from '@/app/_utils/apiConstants';
+} from '@/app/_utils/api_constants';
 import { useNotifications } from '@/app/_contexts/notification';
 
 export default function AddNewSubs({ dateCurr, dateQuery }) {

@@ -12,7 +12,7 @@ import {
    API_BASE_URL,
    ACCESS_TOKEN_NAME,
    ACCESS_TIMETABLE_NAME,
-} from '@/app/_utils/apiConstants';
+} from '@/app/_utils/api_constants';
 import Logout from '@/components/svg/logout';
 import { useEffect } from 'react';
 import DomainChangeModal from '@/components/popup/domain_change/domain_change_modal.jsx';

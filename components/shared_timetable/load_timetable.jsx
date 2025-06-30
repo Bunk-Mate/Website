@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_BASE_URL, ACCESS_TOKEN_NAME } from '@/app/_utils/apiConstants';
+import { API_BASE_URL, ACCESS_TOKEN_NAME } from '@/app/_utils/api_constants';
 
 export default async function LoadTimetable({
    selectedOption,

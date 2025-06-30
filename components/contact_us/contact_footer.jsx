@@ -6,12 +6,16 @@ import PopOutButton from '@/components/ui/popout_button';
 
 export default function ContactFooter() {
    return (
-      <div className="flex h-screen flex-col bg-white text-black invert">
+      <div
+         id="contact"
+         className="flex h-screen flex-col bg-white text-black invert"
+      >
          <div className="pointer-events-none absolute z-10 flex min-h-screen w-full flex-col items-end">
             <div className="flex w-full items-center text-[4vw] tracking-tighter max-md:mt-[3vw] max-md:text-[10vw]">
                <Image
                   src={Logo}
                   className="h-[5.5vw] w-auto invert max-md:h-[11vw]"
+                  alt="logo"
                />
                Bunk-Mate
             </div>
@@ -21,7 +25,7 @@ export default function ContactFooter() {
                <div className="flex w-full flex-1 p-[2vw] px-[4vw]">
                   <div className="min-w-[15vw]">
                      <p className="text-[2vw] text-[#8a8a8a] max-md:text-[5vw]">
-                        A PROJECT BY
+                        A Project By
                      </p>
                      <p className="ease flex rounded-full px-[1vw] text-[1.5vw] transition duration-300 hover:bg-black hover:text-white max-md:text-[4vw]">
                         <Link
@@ -81,14 +85,14 @@ export default function ContactFooter() {
                </div>
             </div>
          </div>
-         <div className="-ml-[15vw] flex max-h-screen flex-1 flex-col overflow-hidden bg-white tracking-tight">
+         <div className="ml-[-15vw] flex max-h-screen flex-1 flex-col overflow-hidden bg-white tracking-tight">
             <div className="ml-[80vw] mt-[2.1vh] flex h-[12vh]">
                <Insider />
             </div>
-            <div className="flex h-[12vh] max-md:-ml-[30vw]">
+            <div className="flex h-[12vh] max-md:ml-[-30vw]">
                <Insider />
             </div>
-            <div className="ml-[18vh] flex h-[12vh] max-md:-ml-[10vw]">
+            <div className="ml-[18vh] flex h-[12vh] max-md:ml-[-10vw]">
                <div className="ml-[0.1vh] mt-[0.1vh] min-w-[15vw] rounded-full border-[0.5vh] border-solid border-black bg-black max-md:min-w-[40vw]"></div>
                <div className="ml-[0.1vh] mt-[0.1vh] min-w-[15vw] rounded-full border-[0.5vh] border-solid border-black bg-black max-md:min-w-[40vw]"></div>
                <div className="flex min-w-[15vw] rounded-full max-md:min-w-[40vw]">
@@ -104,7 +108,7 @@ export default function ContactFooter() {
                <div className="ml-[0.1vh] mt-[0.1vh] min-w-[15vw] rounded-full border-[0.5vh] border-solid border-black bg-black max-md:min-w-[40vw]"></div>
                <div className="ml-[0.1vh] mt-[0.1vh] min-w-[15vw] rounded-full border-[0.5vh] border-solid border-black bg-black max-md:min-w-[40vw]"></div>
             </div>
-            <div className="ml-[5vh] flex h-[12vh] max-md:-ml-[20vw]">
+            <div className="ml-[5vh] flex h-[12vh] max-md:ml-[-20vw]">
                <div className="ml-[0.1vh] mt-[0.1vh] min-w-[15vw] rounded-full border-[0.5vh] border-solid border-black bg-black max-md:hidden max-md:min-w-[40vw]"></div>
                <div className="ml-[0.1vh] mt-[0.1vh] min-w-[15vw] rounded-full border-[0.5vh] border-solid border-black bg-black max-md:hidden max-md:min-w-[40vw]"></div>
                <div className="ml-[0.1vh] mt-[0.1vh] min-w-[15vw] rounded-full border-[0.5vh] border-solid border-black bg-black max-md:hidden max-md:min-w-[40vw]"></div>
@@ -112,7 +116,9 @@ export default function ContactFooter() {
                <div className="ml-[0.1vh] mt-[0.1vh] min-w-[15vw] rounded-full border-[0.5vh] border-solid border-black bg-black max-md:min-w-[40vw]"></div>
                <div className="flex min-w-[20vw] rounded-full max-md:min-w-[45vw]">
                   <PopOutButton
-                     href={'https://play.google.com/store/apps/details?id=college.bunkmate'}
+                     href={
+                        'https://play.google.com/store/apps/details?id=college.bunkmate'
+                     }
                      mssg={'We also have an app'}
                   />
                </div>
@@ -120,7 +126,7 @@ export default function ContactFooter() {
                <div className="ml-[0.1vh] mt-[0.1vh] min-w-[15vw] rounded-full border-[0.5vh] border-solid border-black bg-black max-md:min-w-[40vw]"></div>
                <div className="ml-[0.1vh] mt-[0.1vh] min-w-[15vw] rounded-full border-[0.5vh] border-solid border-black bg-black max-md:min-w-[40vw]"></div>
             </div>
-            <div className="ml-[15vh] flex h-[12vh] max-md:-ml-[10vw]">
+            <div className="ml-[15vh] flex h-[12vh] max-md:ml-[-10vw]">
                <div className="ml-[0.1vh] mt-[0.1vh] min-w-[15vw] rounded-full border-[0.5vh] border-solid border-black bg-black max-md:hidden max-md:min-w-[40vw]"></div>
                <div className="ml-[0.1vh] mt-[0.1vh] min-w-[15vw] rounded-full border-[0.5vh] border-solid border-black bg-black max-md:min-w-[40vw]"></div>
                <div className="ml-[0.1vh] mt-[0.1vh] min-w-[15vw] rounded-full border-[0.5vh] border-solid border-black bg-black max-md:min-w-[40vw]"></div>

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import DomainChangeInfo from './domain_change.jsx';
-import { ACCESS_NOTICE_KEY } from '@/app/_utils/apiConstants.js';
+import { ACCESS_NOTICE_KEY } from '@/app/_utils/api_constants.js';
 
 export default function DomainChangeModal() {
    const [showModal, setShowModal] = useState(false);

@@ -14,7 +14,7 @@ import {
    ACCESS_TIMETABLE_NAME,
    API_BASE_URL,
    ACCESS_TOKEN_NAME,
-} from '@/app/_utils/apiConstants.js';
+} from '@/app/_utils/api_constants.js';
 import axios from 'axios';
 import { TimetableContext } from '@/app/_contexts/timetable';
 import { useNotifications } from '@/app/_contexts/notification';

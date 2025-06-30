@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { ACCESS_TOKEN_NAME, API_BASE_URL } from '@/app/_utils/apiConstants';
+import { ACCESS_TOKEN_NAME, API_BASE_URL } from '@/app/_utils/api_constants';
 import DropTimetable from '../drop_select/drop_timetable_select';
 import LoadTimetable from './load_timetable';
 import { useNotifications } from '@/app/_contexts/notification';
@@ -49,12 +49,14 @@ export default function SearchTimetable({ router }) {
    }, []);
 
    return (
-      <div className="my-[2vw] flex text-[1.1vw] max-sm:text-lg max-[400px]:text-base sm:items-center sm:justify-center max-sm:flex-col max-sm:items-end px-4">
-         <div className='max-sm:flex max-sm:justify-center max-sm:w-full sm:flex sm:items-center sm:justify-center'>
-            <div className="mr-[1vw] flex flex-col sm:items-end max-sm:max-w-[37vw]">
+      <div className="my-[2vw] flex px-4 text-[1.1vw] max-sm:flex-col max-sm:items-end max-sm:text-lg max-[400px]:text-base sm:items-center sm:justify-center">
+         <div className="max-sm:flex max-sm:w-full max-sm:justify-center sm:flex sm:items-center sm:justify-center">
+            <div className="mr-[1vw] flex flex-col max-sm:max-w-[37vw] sm:items-end">
                Load timetable
                <br />
-               <span className="text-[#727272]">Use public timetable presets</span>
+               <span className="text-[#727272]">
+                  Use public timetable presets
+               </span>
             </div>
             <DropTimetable
                optionList={optionList}
@@ -67,7 +69,7 @@ export default function SearchTimetable({ router }) {
             onClick={() => {
                LoadTimetable({ selectedOption, router, addNotification });
             }}
-            className="ml-[1vw] h-[3vw] max-sm:min-h-14 min-w-[5vw] rounded-md border border-solid border-[#3c3c3c] transition duration-300 hover:bg-white hover:text-black max-sm:min-w-32"
+            className="ml-[1vw] h-[3vw] min-w-[5vw] rounded-md border border-solid border-[#3c3c3c] transition duration-300 hover:bg-white hover:text-black max-sm:min-h-14 max-sm:min-w-32"
          >
             Load
          </button>

@@ -13,12 +13,14 @@ export default function ForgotPass() {
          <div className="w-full p-4">
             <p className="text-xl">Forgotten your password huh..</p>
             <p>
-               Try your luck emailing <span className='font-bold'>team@bunkmate.college</span>.<br/>If that does not work, either do drugs and lock-in to remember that password or you can
-               create a new account and start over.
+               Try your luck emailing{' '}
+               <span className="font-bold">team@bunkmate.college</span>.<br />
+               If that does not work, either do drugs and lock-in to remember
+               that password or you can create a new account and start over.
             </p>
          </div>
          <div className="flex justify-center">
-            <Image src={Cat} />
+            <Image src={Cat} alt="pointing-cat" />
          </div>
       </div>
    );

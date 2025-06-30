@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import { createContext, useEffect, useState } from 'react';
-import { ACCESS_TOKEN_NAME, API_BASE_URL } from '../_utils/apiConstants';
+import { ACCESS_TOKEN_NAME, API_BASE_URL } from '../_utils/api_constants';
 
 export const UserContext = createContext();
 

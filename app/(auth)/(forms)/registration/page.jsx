@@ -2,7 +2,7 @@
 
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { API_BASE_URL, ACCESS_TOKEN_NAME } from '@/app/_utils/apiConstants';
+import { API_BASE_URL, ACCESS_TOKEN_NAME } from '@/app/_utils/api_constants';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { UserContext } from '@/app/_contexts/user_name';

@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { Fragment } from 'react';
 import DateRangePicker from '@/components/date_range_picker/date_range_picker_legit.jsx';
 import MinSubAttendance from '@/components/min_sub_attendance/min_sub_attendance.js';
-import { ACCESS_TOKEN_NAME, API_BASE_URL } from '../_utils/apiConstants.js';
+import { ACCESS_TOKEN_NAME, API_BASE_URL } from '../_utils/api_constants.js';
 import axios from 'axios';
 import CheckboxIcon from '@/components/ui/checkbox.jsx';
 import SearchTimetable from '@/components/shared_timetable/search_timetable.jsx';

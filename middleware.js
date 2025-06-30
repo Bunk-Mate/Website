@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN_NAME, API_BASE_URL } from '@/app/_utils/apiConstants';
+import { ACCESS_TOKEN_NAME, API_BASE_URL } from '@/app/_utils/api_constants';
 import { NextResponse } from 'next/server';
 
 export async function middleware(request) {

@@ -6,7 +6,7 @@ import {
    ACCESS_TIMETABLE_NAME,
    ACCESS_TOKEN_NAME,
    API_BASE_URL,
-} from '../_utils/apiConstants';
+} from '../_utils/api_constants';
 import { useRouter } from 'next/navigation';
 
 export const TimetableContext = createContext();

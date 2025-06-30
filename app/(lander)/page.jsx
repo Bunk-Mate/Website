@@ -4,8 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ContactFooter from '@/components/contact_us/contact_footer';
 import Feature from '@/components/feature/feature';
-import NameStrip from '@/components/name_strip/name_strip';
-import FeatureStrip from '@/components/name_strip/feature_strip';
+import NameStrip from '@/components/carousels/name_strip/name_strip';
+import FeatureStrip from '@/components/carousels/name_strip/feature_strip';
 import { useEffect, useRef } from 'react';
 import HParallax from '@/components/scroll_shenanigans/horizontal_parallax';
 import Description from '@/components/scroll_shenanigans/description';
@@ -24,7 +24,10 @@ export default function Home() {
    return (
       <div className="scroll-smooth">
          {/* Hero */}
-         <div className="relative z-10 flex h-dvh max-h-dvh flex-1 flex-col items-center justify-center overflow-hidden backdrop-blur-lg max-md:h-screen">
+         <div
+            id="hero"
+            className="relative z-10 flex h-dvh max-h-dvh flex-1 flex-col items-center justify-center overflow-hidden backdrop-blur-lg max-md:h-screen"
+         >
             <div className="flex flex-1 flex-col">
                <div className="flex flex-1 items-center justify-center">
                   <div className="flex-1">
@@ -36,16 +39,17 @@ export default function Home() {
                   >
                      <div className="h-px flex-1 bg-white"></div>
 
-                     <Image
-                        src="/assets/logo.png"
-                        width={1}
-                        height={1}
-                        className="size-[7vw] max-md:size-[20vw]"
-                        alt="logo"
-                        unoptimized
-                     />
+                     <div className="relative size-[7vw] max-md:size-[20vw]">
+                        <Image
+                           src="/assets/logo.png"
+                           fill
+                           className="object-contain"
+                           alt="logo"
+                           unoptimized
+                        />
+                     </div>
 
-                     <p className="max-w-0 scale-[0.7] overflow-hidden whitespace-nowrap text-[1.2vw] opacity-0 transition-all duration-500 ease-in-out group-hover:max-w-[200px] group-hover:scale-100 group-hover:opacity-100 max-md:text-[5vw]">
+                     <p className="max-w-0 scale-[0.7] overflow-hidden whitespace-nowrap text-[1.2vw] opacity-0 transition-all duration-500 ease-in-out group-hover:mr-[0.5vw] group-hover:max-w-[200px] group-hover:scale-100 group-hover:opacity-100 max-md:text-[5vw]">
                         Get Started
                      </p>
 
@@ -85,7 +89,7 @@ export default function Home() {
                   </p>
                </div>
                <p className="text-[19vw] font-bold leading-[0.8] tracking-tighter max-md:flex max-md:flex-col max-md:items-start max-md:text-[39vw]">
-                  <span className="max-md:flex max-md:items-center">
+                  <span className="ml-[-1vw] max-md:flex max-md:items-center">
                      BUNK
                      <span className="ml-[-2vw] inline-block min-h-[10vw] min-w-[10vw] rounded-full bg-white md:hidden"></span>
                   </span>

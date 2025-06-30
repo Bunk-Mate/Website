@@ -1,4 +1,4 @@
-import { ACCESS_TIMETABLE_NAME } from '@/app/_utils/apiConstants';
+import { ACCESS_TIMETABLE_NAME } from '@/app/_utils/api_constants';
 import chroma from 'chroma-js';
 import { useEffect } from 'react';
 

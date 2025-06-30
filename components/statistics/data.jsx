@@ -4,7 +4,7 @@ import {
    ACCESS_TOKEN_NAME,
    API_BASE_URL,
    ACCESS_TIMETABLE_NAME,
-} from '@/app/_utils/apiConstants';
+} from '@/app/_utils/api_constants';
 import axios from 'axios';
 import Graph from './graph';
 import { useState, useEffect, useContext } from 'react';

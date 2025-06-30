@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { API_BASE_URL, ACCESS_TOKEN_NAME } from '@/app/_utils/apiConstants';
+import { API_BASE_URL, ACCESS_TOKEN_NAME } from '@/app/_utils/api_constants';
 
 export async function POST(req) {
    const { username, password } = await req.json();

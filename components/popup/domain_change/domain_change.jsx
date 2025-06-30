@@ -4,7 +4,7 @@ import Image from 'next/image';
 import FileTab from './file_tab';
 import Link from 'next/link';
 import FileTabStack from './file_tab_stack';
-import { ACCESS_NOTICE_KEY } from '@/app/_utils/apiConstants';
+import { ACCESS_NOTICE_KEY } from '@/app/_utils/api_constants';
 
 export default function DomainChangeInfo({ setShowModal }) {
    const handleClose = () => {
