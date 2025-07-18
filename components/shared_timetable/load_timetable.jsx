@@ -10,6 +10,10 @@ export default async function LoadTimetable({
       Authorization:
          'Token ' + JSON.parse(localStorage.getItem(ACCESS_TOKEN_NAME)),
    };
+   if (selectedOption == undefined) {
+      addNotification('Choose an option');
+      return;
+   }
    const payload = { copy_id: selectedOption.id };
    try {
       addNotification('Loading Timetable...');

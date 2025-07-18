@@ -57,6 +57,7 @@ export default function EditTable() {
    }, [popupDecision]);
 
    const handleSaveTimetable = () => {
+      const nullLessTableData = removeNull(tableData)
       addNotification('Request sent. Please wait.');
       const header = {
          Authorization:
@@ -65,7 +66,7 @@ export default function EditTable() {
       axios
          .patch(
             API_BASE_URL + '/collection',
-            { courses_data: tableData },
+            { courses_data: nullLessTableData },
             { headers: header }
          )
          .then((response) => {
@@ -315,4 +316,16 @@ function getOptions({ timetable }) {
       }
    }
    return options;
+}
+
+function removeNull(tableData) {
+   var nullLessTableData = tableData;
+   for (let i = 0; i < tableData.length; i++) {
+      for (let j = 0; j < 5; j++) {
+         if (nullLessTableData[i][j] == null) {
+            nullLessTableData[i][j] = '';
+         }
+      }
+   }
+   return nullLessTableData;
 }
