@@ -323,7 +323,7 @@ export default function HParallax({ featurePos }) {
                      </p>
                      <div className="flex min-w-[70vw] flex-col max-sm:min-w-[100vw]">
                         <div className="flex-1"></div>
-                        <div className="flex gap-x-[0.5vw] max-sm:mx-0 max-sm:my-[-23vh] max-sm:gap-x-[1.5vw] sm:m-[7vw]">
+                        <div className="flex gap-x-[0.5vw] max-sm:mx-0 max-sm:my-[-23vh] max-sm:gap-x-[1.5vw] sm:m-[8vw]">
                            <Image
                               src={'/assets/bunkmate-blown-server.jpg'}
                               width={1}
@@ -348,7 +348,7 @@ export default function HParallax({ featurePos }) {
                         </div>
                      </div>
                      <div className="flex min-w-[70vw] flex-col max-sm:min-w-[100vw]">
-                        <div className="flex gap-x-[0.5vw] max-sm:mx-0 max-sm:my-[-23vh] max-sm:gap-x-[1.5vw] sm:m-[7vw]">
+                        <div className="flex gap-x-[0.5vw] max-sm:mx-0 max-sm:my-[-23vh] max-sm:gap-x-[1.5vw] sm:m-[8vw]">
                            <Image
                               src={'/assets/bunkmate-server-1.jpg'}
                               width={1}
@@ -371,7 +371,7 @@ export default function HParallax({ featurePos }) {
                      </div>
                      <div className="flex min-w-[70vw] flex-col max-sm:min-w-[100vw]">
                         <div className="flex-1"></div>
-                        <div className="flex gap-x-[0.5vw] max-sm:mx-0 max-sm:my-[-23vh] max-sm:gap-x-[1.5vw] sm:m-[7vw]">
+                        <div className="flex gap-x-[0.5vw] max-sm:mx-0 max-sm:my-[-23vh] max-sm:gap-x-[1.5vw] sm:m-[8vw]">
                            <Image
                               src={'/assets/bunkmate-server-2.jpg'}
                               width={1}
@@ -392,7 +392,7 @@ export default function HParallax({ featurePos }) {
                         </div>
                      </div>
                      <div className="flex min-w-[70vw] flex-col max-sm:min-w-[100vw]">
-                        <div className="flex gap-x-[0.5vw] max-sm:mx-0 max-sm:my-[-23vh] max-sm:gap-x-[1.5vw] sm:m-[7vw]">
+                        <div className="flex gap-x-[0.5vw] max-sm:mx-0 max-sm:my-[-23vh] max-sm:gap-x-[1.5vw] sm:m-[8vw]">
                            <Image
                               src={'/assets/bunkmate-ssh-bomb.png'}
                               width={1}
@@ -416,7 +416,7 @@ export default function HParallax({ featurePos }) {
                      </div>
                      <div className="flex min-w-[70vw] flex-col max-sm:min-w-[100vw]">
                         <div className="flex-1"></div>
-                        <div className="flex gap-x-[0.5vw] max-sm:mx-0 max-sm:my-[-23vh] max-sm:gap-x-[1.5vw] sm:m-[7vw]">
+                        <div className="flex gap-x-[0.5vw] max-sm:mx-0 max-sm:my-[-23vh] max-sm:gap-x-[1.5vw] sm:m-[8vw]">
                            <Image
                               src={'/assets/bunkmate-v1.jpg'}
                               width={1}
