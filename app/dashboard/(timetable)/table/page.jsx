@@ -41,11 +41,11 @@ export default function Table() {
                   pathname: '/dashboard/edit',
                   query: { data: JSON.stringify(timetable) },
                }}
-               className="flex items-center justify-center overflow-hidden rounded-full max-sm:mx-3 sm:h-16 sm:w-16"
+               className="flex items-center justify-center overflow-hidden rounded-full max-sm:mx-3 sm:size-16"
             >
                <EditSvg />
             </Link>
-            <button className="flex items-center justify-center overflow-hidden rounded-full max-sm:mx-3 sm:h-16 sm:w-16">
+            <button className="flex items-center justify-center overflow-hidden rounded-full max-sm:mx-3 sm:size-16">
                <Popup
                   compToPass={<TrashSvg />}
                   setDecisionCheck={setDelCheck}
@@ -75,7 +75,7 @@ export default function Table() {
             </table>
          </div>
          <div className="flex flex-[9] justify-center" id="victim">
-            <div id="fake-buttons" className="h-16 w-16 max-sm:hidden"></div>
+            <div id="fake-buttons" className="size-16 max-sm:hidden"></div>
 
             {/* TimeTable Body */}
             <div
@@ -92,7 +92,7 @@ export default function Table() {
                            {Object.values(rowVal).map((cellValue, colIndex) => (
                               <td
                                  key={colIndex}
-                                 className={`h-[13vw] w-[13vw] text-center ${!timetable[rowId][colIndex] ? 'hover:bg-[#0e0e0f]' : 'bg-[#202224] hover:bg-[#292b2e]'} border border-black max-sm:h-[19.5vw] max-sm:w-[19.5vw]`}
+                                 className={`size-[13vw] text-center ${!timetable[rowId][colIndex] ? 'hover:bg-[#0e0e0f]' : 'bg-[#202224] hover:bg-[#292b2e]'} border border-black max-sm:size-[19.5vw]`}
                               >
                                  <div className="flex h-full flex-wrap items-center justify-center break-all">
                                     {timetable[rowId][colIndex]}
@@ -108,7 +108,7 @@ export default function Table() {
             {/* Desktop Options */}
             <div className="max-sm:hidden">
                <button
-                  className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full"
+                  className="flex size-16 items-center justify-center overflow-hidden rounded-full"
                   title="Edit timetable"
                >
                   <Link href={'/dashboard/edit'}>
@@ -116,7 +116,7 @@ export default function Table() {
                   </Link>
                </button>
                <button
-                  className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full"
+                  className="flex size-16 items-center justify-center overflow-hidden rounded-full"
                   title="Delete current timetable and make a new one"
                >
                   <Popup

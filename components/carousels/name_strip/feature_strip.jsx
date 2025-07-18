@@ -53,8 +53,8 @@ function ParallaxText({ children, baseVelocity = 100 }) {
 
 export default function FeatureStrip() {
    return (
-      <section className="max-w-screen flex min-h-[34vw] flex-col items-center justify-center overflow-hidden">
-         <div className="flex -rotate-[5deg] bg-neutral-500 text-black">
+      <section className="flex min-h-[34vw] flex-col items-center justify-center overflow-hidden">
+         <div className="flex rotate-[-5deg] bg-neutral-500 text-black">
             <ParallaxText baseVelocity={-5}>
                <div className="flex items-center text-black">
                   <p className="ml-[2vw] text-[5vw]">BUNKMATE</p>
@@ -65,7 +65,7 @@ export default function FeatureStrip() {
             </ParallaxText>
          </div>
          <div className="h-[23vw] w-[110vw] rotate-[5deg]"></div>
-         <div className="-mt-[21vw] flex rotate-[5deg] bg-neutral-950 text-neutral-500">
+         <div className="mt-[-21vw] flex rotate-[5deg] bg-neutral-950 text-neutral-500">
             <ParallaxText baseVelocity={5}>
                <div className="flex items-center">
                   <p className="ml-[2vw] text-[5vw]">BUNKMATE</p>

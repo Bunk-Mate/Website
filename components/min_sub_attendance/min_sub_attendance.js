@@ -26,6 +26,7 @@ export default function MinSubAttendance({ criteria, setCriteria }) {
                   src={CurvedArrowHead}
                   className="-rotate-90"
                   height={50}
+                  alt="curved-arrow"
                />
             </button>
             <input
@@ -36,14 +37,19 @@ export default function MinSubAttendance({ criteria, setCriteria }) {
                max="100"
                value={criteria.value}
                onChange={handleChange}
-               className="no-scrollbar min-h-[4vw] max-w-[4vw] rounded-full border-[1px] border-[#3a3a3a] bg-black text-center hover:border-white max-sm:min-h-20 max-sm:min-w-20 max-sm:text-3xl sm:text-[2vw]"
+               className="no-scrollbar min-h-[4vw] max-w-[4vw] rounded-full border border-[#3a3a3a] bg-black text-center hover:border-white max-sm:min-h-20 max-sm:min-w-20 max-sm:text-3xl sm:text-[2vw]"
             />
             <button
                type="button"
                className="-my-2 text-[1.5vw] text-[#727272] hover:text-white"
                onClick={handleDecrement}
             >
-               <Image src={CurvedArrowHead} className="rotate-90" height={50} />
+               <Image
+                  src={CurvedArrowHead}
+                  className="rotate-90"
+                  height={50}
+                  alt="curved-arrow"
+               />
             </button>
          </div>
          <p className="max-sm:flex-[2] sm:max-w-[20vw]">

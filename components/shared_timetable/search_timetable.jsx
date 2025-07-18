@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { ACCESS_TOKEN_NAME, API_BASE_URL } from '@/app/_utils/api_constants';
-import DropTimetable from '../drop_select/drop_timetable_select';
-import LoadTimetable from './load_timetable';
+import DropTimetable from '@/components/drop_select/drop_timetable_select';
+import LoadTimetable from '@/components/shared_timetable/load_timetable';
 import { useNotifications } from '@/app/_contexts/notification';
 
 async function getPublicTimetable({ addNotification }) {

@@ -1,6 +1,6 @@
 'use client';
 
-import NavMapped from '@/components/nav_select/nav_mapped';
+import NavMapped from '@/components/navbar/nav_select/nav_mapped';
 import { usePathname } from 'next/navigation';
 import Logo from '@/public/assets/logo.png';
 import Image from 'next/image';
@@ -14,7 +14,8 @@ export default function Layout({ children }) {
                <div className="mb-2 ml-2 flex items-center p-[1vw] text-[2vw] max-sm:mt-3 max-sm:flex-1 max-sm:text-3xl">
                   <Image
                      src={Logo}
-                     className="-mr-[0.5vw] max-sm:h-16 max-sm:w-16 sm:h-[4vw] sm:w-[4vw]"
+                     className="mr-[-0.5vw] max-sm:size-16 sm:size-[4vw]"
+                     alt="logo"
                   />
                   <p className="ml-4 max-sm:ml-2 max-sm:flex-1 max-sm:text-4xl">
                      Bunk-Mate
@@ -37,7 +38,7 @@ export default function Layout({ children }) {
                </div>
             </nav>
          </div>
-         <div className="flex flex-grow flex-col overflow-hidden bg-black max-sm:rounded-t-[10vw]">
+         <div className="flex grow flex-col overflow-hidden bg-black max-sm:rounded-t-[10vw]">
             {children}
          </div>
       </div>

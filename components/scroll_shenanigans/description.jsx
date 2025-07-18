@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import ArrowUp from '../svg/arrow';
+import ArrowUp from '@/components/svg/arrow';
 
 export default function Description() {
    const [windW, setWindW] = useState(0);

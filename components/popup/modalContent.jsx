@@ -13,7 +13,7 @@ export default function ModalContent({
                <button
                   className="m-3 flex-1"
                   onClick={() => {
-                     setShowModal(false), setDecisionCheck(props.opt[0]);
+                     (setShowModal(false), setDecisionCheck(props.opt[0]));
                   }}
                >
                   {props.opt ? props.opt[0] : 'No'}
@@ -21,7 +21,7 @@ export default function ModalContent({
                <button
                   className="m-3 flex-1 rounded-lg bg-red-400 py-3"
                   onClick={() => {
-                     setShowModal(false), setDecisionCheck(props.opt[1]);
+                     (setShowModal(false), setDecisionCheck(props.opt[1]));
                   }}
                >
                   {props.opt ? props.opt[1] : 'Yes'}

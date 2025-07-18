@@ -5,7 +5,7 @@ export default function Scrollable_Flex() {
             <header className="flex h-12 items-center justify-center bg-gray-700 text-white">
                Header
             </header>
-            <div className="flex flex-grow overflow-hidden">
+            <div className="flex grow overflow-hidden">
                <aside className="w-48 overflow-y-auto bg-gray-200">
                   <ul>
                      {Array.from({ length: 30 }).map((_, idx) => (
@@ -16,7 +16,7 @@ export default function Scrollable_Flex() {
                   </ul>
                </aside>
                <main className="flex flex-1 flex-col overflow-y-auto">
-                  <div className="flex-grow p-4">Large stuff here</div>
+                  <div className="grow p-4">Large stuff here</div>
                </main>
                <aside className="w-48 overflow-y-auto bg-gray-200">
                   Another sidebar

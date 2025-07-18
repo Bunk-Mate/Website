@@ -3,7 +3,7 @@ import { RefreshContext } from '@/app/_contexts/refresh';
 import Popup from '../popup/popup';
 import Drop from '../drop_select/drop_select';
 import CheckSvg from '../svg/check';
-import XSvg from '../svg/x';
+import XSvg from '../svg/circle_x';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import {

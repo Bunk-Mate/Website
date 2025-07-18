@@ -20,7 +20,7 @@ export default function DateRangePicker({ interval, setInterval }) {
             max={interval.end_date}
             onChange={handleDate}
             required
-            className="h-[3.4vw] w-[15vw] border-[2px] border-solid border-[#3a3a3a] bg-black px-[0.5vw] hover:border-white max-sm:min-h-14 max-sm:min-w-[45vw] max-sm:border"
+            className="h-[3.4vw] w-[15vw] border-2 border-solid border-[#3a3a3a] bg-black px-[0.5vw] hover:border-white max-sm:min-h-14 max-sm:min-w-[45vw] max-sm:border"
          ></input>
          |
          <input
@@ -29,7 +29,7 @@ export default function DateRangePicker({ interval, setInterval }) {
             min={interval.min_date}
             onChange={handleDate}
             required
-            className="h-[3.4vw] w-[15vw] border-[2px] border-solid border-[#3a3a3a] bg-black px-[0.5vw] hover:border-white max-sm:min-h-14 max-sm:min-w-[45vw] max-sm:border"
+            className="h-[3.4vw] w-[15vw] border-2 border-solid border-[#3a3a3a] bg-black px-[0.5vw] hover:border-white max-sm:min-h-14 max-sm:min-w-[45vw] max-sm:border"
          ></input>
       </>
    );

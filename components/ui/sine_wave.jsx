@@ -56,3 +56,56 @@ export const SineWave = () => {
       </svg>
    );
 };
+
+export const SineWaveStatic = () => {
+   const containerRef = useRef(null);
+   const [points, setPoints] = useState([]);
+   const [dimensions, setDimensions] = useState({ width: 100, height: 20 });
+
+   useEffect(() => {
+      if (!containerRef.current) return;
+
+      const resizeObserver = new ResizeObserver(() => {
+         const renderWidth = 150; // more points = smoother wave
+         const viewHeight = 20;
+
+         const amplitude = viewHeight * 0.4;
+         const scaleY = viewHeight / 2;
+         const wavelength = 40;
+         const frequency = (2 * Math.PI) / wavelength;
+
+         const newPoints = [];
+         for (let x = 0; x <= renderWidth; x++) {
+            const y = Math.sin(x * frequency) * amplitude + scaleY;
+            newPoints.push(`${x},${y.toFixed(2)}`);
+         }
+
+         setPoints(newPoints);
+         setDimensions({ width: renderWidth, height: viewHeight });
+      });
+
+      resizeObserver.observe(containerRef.current);
+
+      return () => resizeObserver.disconnect();
+   }, []);
+
+   return (
+      <div ref={containerRef} className="h-[20px] w-full">
+         <svg
+            width="100%"
+            height="100%"
+            viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
+            preserveAspectRatio="none"
+         >
+            <polyline
+               fill="none"
+               stroke="#585858"
+               strokeWidth="1"
+               strokeLinejoin="round"
+               strokeLinecap="round"
+               points={points.join(' ')}
+            />
+         </svg>
+      </div>
+   );
+};

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useContext } from 'react';
-import XSvg from '@/components/svg/x.jsx';
+import XSvg from '@/components/svg/circle_x.jsx';
 import CheckSvg from '@/components/svg/check.jsx';
 import PlusSvg from '@/components/svg/plus.jsx';
 import TrashSvg from '@/components/svg/trash.jsx';
@@ -175,7 +175,7 @@ export default function EditTable() {
                         <Fragment key={rowId}>
                            {/* Row Mobile Options */}
                            <tr className="w-[4.7vw] max-sm:h-10 max-sm:w-full sm:hidden sm:h-[19.5vw]">
-                              <td className="flex h-10 flex-1 items-end justify-center overflow-hidden rounded-full sm:h-16 sm:w-16">
+                              <td className="flex h-10 flex-1 items-end justify-center overflow-hidden rounded-full sm:size-16">
                                  <button
                                     onClick={() => {
                                        addRow(rowId);
@@ -187,7 +187,7 @@ export default function EditTable() {
                               <td className="w-[19.5vw]"></td>
                               <td className="w-[19.5vw]"></td>
                               <td className="w-[19.5vw]"></td>
-                              <td className="flex h-10 flex-1 items-end justify-center overflow-hidden rounded-full sm:h-16 sm:w-16">
+                              <td className="flex h-10 flex-1 items-end justify-center overflow-hidden rounded-full sm:size-16">
                                  <button
                                     onClick={() => {
                                        delRow(rowId);
@@ -204,7 +204,7 @@ export default function EditTable() {
                            >
                               {/* Row Desktop Options */}
                               <td className="flex w-[4.7vw] flex-col items-end justify-center max-sm:hidden">
-                                 <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full">
+                                 <div className="flex size-16 items-center justify-center overflow-hidden rounded-full">
                                     <button
                                        onClick={() => {
                                           addRow(rowId);
@@ -214,7 +214,7 @@ export default function EditTable() {
                                        <PlusSvg />
                                     </button>
                                  </div>
-                                 <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full">
+                                 <div className="flex size-16 items-center justify-center overflow-hidden rounded-full">
                                     <button
                                        onClick={() => {
                                           delRow(rowId);
@@ -230,7 +230,7 @@ export default function EditTable() {
                                  (cellValue, colIndex) => (
                                     <td
                                        key={colIndex}
-                                       className={`h-[13vw] w-[13vw] text-center max-sm:h-[19.5vw] max-sm:w-[19.5vw] ${tableData[rowId][colIndex] == null ? 'bg-[#0d0e0f] hover:bg-[#202224]' : 'bg-[#202224] hover:bg-[#292b2e]'} border border-black`}
+                                       className={`size-[13vw] text-center max-sm:size-[19.5vw] ${tableData[rowId][colIndex] == null ? 'bg-[#0d0e0f] hover:bg-[#202224]' : 'bg-[#202224] hover:bg-[#292b2e]'} border border-black`}
                                     >
                                        <div>
                                           <Drop
@@ -253,7 +253,7 @@ export default function EditTable() {
                      {/* Add Row At The End Option */}
                      <tr className="text-[1.5vw] font-light">
                         <td className="max-sm:hidden"></td>
-                        <td className="flex h-[13vw] w-[13vw] border border-black text-center max-sm:h-[19.5vw] max-sm:w-[19.5vw]">
+                        <td className="flex size-[13vw] border border-black text-center max-sm:size-[19.5vw]">
                            <button
                               className="flex-1 bg-[#0d0e0f] hover:bg-[#202224] max-sm:bg-[#202224] max-sm:text-3xl"
                               onClick={() => {
@@ -271,7 +271,7 @@ export default function EditTable() {
 
             {/* Desktop Save Option */}
             <div className="max-sm:hidden">
-               <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full">
+               <div className="flex size-16 items-center justify-center overflow-hidden rounded-full">
                   <Popup
                      compToPass={<CheckSvg />}
                      setDecisionCheck={setPopupDecision}
@@ -282,7 +282,7 @@ export default function EditTable() {
                      }}
                   />
                </div>
-               <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full">
+               <div className="flex size-16 items-center justify-center overflow-hidden rounded-full">
                   <Popup
                      compToPass={<XSvg />}
                      setDecisionCheck={setPopupDecision}
