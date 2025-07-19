@@ -1,5 +1,6 @@
 import { options } from '@/app/_utils/navbarConstants';
 import NavMapped from '@/components/navbar/nav_select/nav_mapped';
+import NavSelect from '@/components/navbar/nav_select/nav_select';
 import { usePathname } from 'next/navigation';
 import SideMenu from '@/components/navbar/nav_select/side_menu';
 import Logo from '@/public/assets/logo.png';
@@ -15,13 +16,13 @@ import { useContext, useEffect, useRef } from 'react';
 import { UserContext } from '@/app/_contexts/user_name';
 import User from '@/components/svg/user';
 import { useNotifications } from '@/app/_contexts/notification';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 export default function NavBar() {
    const pathname = usePathname();
    const { userID } = useContext(UserContext);
    const { addNotification } = useNotifications();
-   const router = useRouter;
+   const router = useRouter();
 
    function handleLogout() {
       const header = {
@@ -46,15 +47,23 @@ export default function NavBar() {
             }
          })
          .catch((error) => {
-            if (error.response.status == 401) {
-               router.push('/login');
+            if (error.response) {
+               if (error.response.status === 401) {
+                  router.push('/login');
+               }
+               addNotification('Some error has occurred. Please try again');
+            } else if (error.request) {
+               addNotification(
+                  'Server not responding. Check your internet or try again later.'
+               );
+            } else {
+               addNotification('Request setup failed.');
             }
-            addNotification('Some error has occurred. Please try again');
          });
    }
    return (
-      <nav className="flex h-[5vw] max-sm:h-[72px]">
-         <div className="mb-2 ml-2 flex h-[5vw] flex-1 items-center p-[1vw] text-[2vw] max-sm:mt-3 max-sm:h-[72px] max-sm:flex-1 max-sm:text-3xl">
+      <nav className="flex h-[5vw] max-sm:h-[72px] max-sm:pt-3 max-sm:px-3">
+         <div className="mb-2 flex h-[5vw] flex-1 items-center p-[1vw] text-[2vw] max-sm:h-[72px] max-sm:flex-1 max-sm:text-3xl">
             <Image
                src={Logo}
                alt="logo"
@@ -66,18 +75,32 @@ export default function NavBar() {
          </div>
          <div className="flex justify-center max-sm:hidden">
             <ul className="flex items-center justify-center text-[1.5vw]">
-               {options.map((option) => (
-                  <li key={option.id}>
-                     <NavMapped
-                        option={option.option}
-                        href={option.href}
-                        pathname={pathname}
-                     />
+               {pathname == '/dashboard/edit' ? (
+                  <li key={0}>
+                     <div className="mt-[0.5vw]">
+                        <NavSelect
+                           props={
+                              <div className="mb-[-0.5vw] px-[2vw]">
+                                 <p>{'Edit'}</p>
+                              </div>
+                           }
+                        />
+                     </div>
                   </li>
-               ))}
+               ) : (
+                  options.map((option) => (
+                     <li key={option.id}>
+                        <NavMapped
+                           option={option.option}
+                           href={option.href}
+                           pathname={pathname}
+                        />
+                     </li>
+                  ))
+               )}
             </ul>
          </div>
-         <div className="flex items-center justify-end px-5 text-5xl sm:hidden">
+         <div className="flex items-center justify-end px-2 text-5xl sm:hidden">
             <SideMenu
                options={options}
                pathname={pathname}

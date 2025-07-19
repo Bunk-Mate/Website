@@ -92,7 +92,7 @@ export default function Table() {
                            {Object.values(rowVal).map((cellValue, colIndex) => (
                               <td
                                  key={colIndex}
-                                 className={`size-[13vw] text-center ${!timetable[rowId][colIndex] ? 'hover:bg-[#0e0e0f]' : 'bg-[#202224] hover:bg-[#292b2e]'} border border-black max-sm:size-[19.5vw]`}
+                                 className={`size-[13vw] text-center ${!timetable[rowId][colIndex] ? 'hover:bg-[#0e0e0f]' : 'bg-[#1c1c1c] hover:bg-[#2b2b2b]'} border border-black max-sm:size-[19.5vw]`}
                               >
                                  <div className="flex h-full flex-wrap items-center justify-center break-all">
                                     {timetable[rowId][colIndex]}

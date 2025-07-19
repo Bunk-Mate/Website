@@ -3,7 +3,6 @@ import { API_BASE_URL, ACCESS_TOKEN_NAME } from '@/app/_utils/api_constants';
 
 export async function POST(req) {
    const { username, password } = await req.json();
-   console.log('here you go ', username, password, req);
 
    const response = await fetch(`${API_BASE_URL}/login`, {
       method: 'POST',

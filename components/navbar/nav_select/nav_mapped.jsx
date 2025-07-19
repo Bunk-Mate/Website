@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function NavMapped({ option, href, pathname }) {
    return (
       <>
-         {pathname == href ? (
+         {pathname == href || pathname == '/dashboard/edit' ? (
             <div className="mb-[-0.5vw]">
                <NavSelect
                   props={

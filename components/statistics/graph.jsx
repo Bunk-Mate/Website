@@ -16,13 +16,10 @@ export default function Graph({ statData, threshold, setThreshold }) {
    return (
       <div className="my-[2vw] flex size-full flex-col max-sm:gap-y-3">
          {statData.map((key, value) => (
-            <div
-               key={value}
-               className="mb-[2vw] flex flex-1 flex-col text-[1.5vw]"
-            >
-               <div className="flex max-sm:flex-col sm:items-center">
+            <div key={value} className="mb-[2vw] flex flex-col text-[1.5vw]">
+               <div className="group flex max-sm:flex-col sm:items-center">
                   {/* Sub Name */}
-                  <div className="group mr-9 flex min-w-[4.6vw] max-sm:m-0 max-sm:min-w-16 max-sm:text-2xl">
+                  <div className="mr-9 flex min-w-[4.6vw] max-sm:m-0 max-sm:min-w-16 max-sm:text-2xl">
                      {/* Desktop */}
                      <p className="flex max-sm:hidden">
                         {key.name.slice(0, 4)}

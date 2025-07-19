@@ -53,10 +53,10 @@ export default function Home() {
                         Get Started
                      </p>
 
-                     <div className="ml-[-2vw] flex h-[6vw] min-h-[6vw] min-w-max text-[#ffffffb9] transition-all duration-700 group-hover:text-white max-md:ml-[-6vw] max-md:h-[17vw]">
+                     <div className="ml-[-2vw] flex size-[6vw] text-[#ffffffb9] transition-all duration-700 group-hover:text-white max-md:ml-[-6vw] max-md:size-[17vw]">
                         <ChevronLeft />
                      </div>
-                     <div className="ml-[-4vw] flex h-[6vw] min-h-[6vw] min-w-max text-[#ffffffb9] transition-all duration-700 group-hover:text-white max-md:ml-[-12vw] max-md:h-[17vw]">
+                     <div className="ml-[-4vw] flex size-[6vw] text-[#ffffffb9] transition-all duration-700 group-hover:text-white max-md:ml-[-12vw] max-md:mr-[-1.2vw] max-md:size-[17vw]">
                         <ChevronLeft />
                      </div>
 

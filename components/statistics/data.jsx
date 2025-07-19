@@ -11,6 +11,7 @@ import { useState, useEffect, useContext } from 'react';
 import HeightLimit from '../height_limit_scrollable/heightLimit';
 import { useRouter } from 'next/navigation';
 import { RefreshContext } from '@/app/_contexts/refresh';
+import { useNotifications } from '@/app/_contexts/notification';
 
 export default function Data() {
    const [hw, setHw] = useState('50vh');
@@ -23,6 +24,7 @@ export default function Data() {
    const [threshold, setThreshold] = useState(0);
    const { refreshCont } = useContext(RefreshContext);
    const router = useRouter();
+   const { addNotification } = useNotifications();
    const header = {
       Authorization:
          'Token ' + JSON.parse(localStorage.getItem(ACCESS_TOKEN_NAME)),
@@ -31,15 +33,27 @@ export default function Data() {
    useEffect(() => {
       axios
          .get(API_BASE_URL + '/statquery', { headers: header })
-         .then(function (response) {
+         .then((response) => {
             if (response.status === 200) {
                setStatData(response.data);
+            } else {
+               addNotification('Unexpected server response.');
             }
          })
-         .catch(function (error) {
-            console.error('Error fetching data:', error);
-            if (error.response.status == 401) {
-               router.push('/login');
+         .catch((error) => {
+            if (error.response) {
+               if (error.response.status === 401) {
+                  addNotification('Session expired. Redirecting to login...');
+                  router.push('/login');
+               } else {
+                  addNotification('Server error while fetching stats.');
+               }
+            } else if (error.request) {
+               addNotification(
+                  'No response from server. Check your connection.'
+               );
+            } else {
+               addNotification('Request setup failed. Please try again.');
             }
          });
    }, [refreshCont]);
@@ -73,14 +87,29 @@ export default function Data() {
                setName(list);
                setThreshold(response.data.threshold);
             } else {
-               //console.log(response.data,'hhhhhh')
+               addNotification('Unexpected response from server.');
             }
          })
-         .catch(function (error) {
-            if (error.response.status == 401) {
-               router.push('/login');
+         .catch((error) => {
+            if (error.response) {
+               if (error.response.status === 401) {
+                  addNotification('Session expired. Redirecting to login...');
+                  router.push('/login');
+               } else {
+                  addNotification(
+                     'Server error. Error status:',
+                     error.response.status
+                  );
+               }
+            } else if (error.request) {
+               addNotification(
+                  'No response from server. Please check your connection.'
+               );
+            } else {
+               addNotification(
+                  'Failed to send request. Please contact support.'
+               );
             }
-            //console.log((error),'mmmmmm');
          });
    }, []);
 
@@ -99,9 +128,9 @@ export default function Data() {
       >
          <div className="sticky top-0 bg-[#1c1c1c]">
             <div className="mb-0 max-sm:mb-2">
-               <p className="text-[6vw] max-sm:text-6xl">
+               <div className="text-[6vw] max-sm:text-6xl">
                   <ExpandableName name={name} />
-               </p>
+               </div>
             </div>
             <div className="flex">
                <div className="flex flex-[2] items-center">
@@ -154,49 +183,21 @@ export default function Data() {
 
 function ExpandableName({ name }) {
    const [expanded, setExpanded] = useState(false);
-   const [isWrapped, setIsWrapped] = useState(false);
-
-   useEffect(() => {
-      if ((name[0] + name[1]).length > 20) {
-         setIsWrapped(true);
-         setExpanded(false);
-      } else {
-         setExpanded(true);
-      }
-   }, [name]);
 
    return (
       <div
-         className="w-full cursor-pointer break-words text-[6vw] max-sm:text-6xl"
-         onClick={() => {
-            isWrapped && setExpanded(!expanded);
-         }}
+         className="w-full cursor-pointer text-[6vw] max-sm:text-6xl"
+         onClick={() => setExpanded(!expanded)}
       >
-         <p className="max-sm:hidden">
-            {expanded ? (
-               <>
-                  <span>{name[0]}</span>
-                  &nbsp;
-                  <span className="font-thin">{name[1]}</span>
-               </>
-            ) : name[0]?.length > 20 ? (
-               <>
-                  <span>{name[0].slice(0, 20)}</span>
-               </>
-            ) : (
-               <>
-                  <span>{name[0]}</span>
-                  &nbsp;
-                  <span className="font-thin">
-                     {name[1]?.slice(0, 20 - name[0].length) + '...'}
-                  </span>
-               </>
-            )}
-         </p>
-         <p className="sm:hidden">
-            <span>{name[0]}</span>
-            &nbsp;
-            <span className="font-thin">{name[1]}</span>
+         <p
+            className={`w-full max-w-[90vw] overflow-hidden text-ellipsis ${
+               expanded
+                  ? 'whitespace-normal'
+                  : 'min-h-[67px] overflow-x-hidden whitespace-nowrap'
+            }`}
+            title={name[0] + ' ' + name[1]}
+         >
+            <span>{name[0]}</span> <span className="font-thin">{name[1]}</span>
          </p>
       </div>
    );

@@ -6,7 +6,7 @@ import { BASE_URL } from '@/app/_utils/api_constants';
 
 export default function Layout({ children }) {
    return (
-      <div className="flex min-h-screen max-md:flex-col">
+      <div className="flex min-h-dvh max-md:flex-col">
          <div className="fixed mb-2 ml-2 mt-[1vw] flex h-[5vw] items-center p-[1vw] text-[2vw] max-sm:mt-3 max-sm:h-[72px] max-sm:flex-1 max-sm:text-3xl">
             <Link
                className="rounded-full transition duration-300 hover:rotate-[360deg]"
