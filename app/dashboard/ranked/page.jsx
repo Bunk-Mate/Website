@@ -11,7 +11,7 @@ export default function RankedBunking() {
                   width={1}
                   height={1}
                   alt="construction-har"
-                  className="relative z-20 mb-[-4.5vw] ml-[-0.3vw] max-h-[5vw] w-auto -rotate-12 transition duration-300 hover:translate-x-[-1.5vw] hover:-rotate-45 max-sm:mb-[-55px] max-sm:ml-[-6px] max-sm:max-h-[65px] max-sm:hover:translate-x-[-20px]"
+                  className="relative z-20 mb-[-4.5vw] ml-[-0.3vw] max-h-[5vw] w-auto -rotate-12 transition duration-300 hover:translate-x-[-1.5vw] hover:-rotate-45 max-sm:mb-[-55px] max-sm:ml-[-3px] max-sm:max-h-[65px] max-sm:hover:translate-x-[-20px]"
                   unoptimized
                />
 
@@ -24,7 +24,7 @@ export default function RankedBunking() {
                   unoptimized
                />
             </div>
-            <p className="text-2xl max-sm:-mt-32 max-sm:text-xl">
+            <p className="text-2xl max-sm:text-xl">
                Ranked bunking <br />
                will be coming soon..
             </p>

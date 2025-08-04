@@ -3,6 +3,40 @@ const nextConfig = {
    env: {
       NEXT_PUBLIC_GA_ID: process.env.NEXT_PUBLIC_GA_ID,
    },
+   async headers() {
+      return [
+         {
+            source: '/dashboard/:path*',
+            headers: [
+               {
+                  key: 'Cache-Control',
+                  value: 'no-store, no-cache, must-revalidate',
+               },
+               {
+                  key: 'Pragma',
+                  value: 'no-cache',
+               },
+               {
+                  key: 'Vary',
+                  value: 'Authorization, Cookie',
+               },
+            ],
+         },
+         {
+            source: '/health',
+            headers: [
+               {
+                  key: 'Cache-Control',
+                  value: 'no-store, no-cache, must-revalidate',
+               },
+               {
+                  key: 'Pragma',
+                  value: 'no-cache',
+               },
+            ],
+         }
+      ];
+   },
    async redirects() {
       return [
          {

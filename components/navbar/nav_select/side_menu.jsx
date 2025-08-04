@@ -24,7 +24,7 @@ export default function SideMenu({ options, handleLogout }) {
             <Bars />
          </button>
          <div
-            className={`fixed left-0 top-0 z-10 flex h-[calc(100%)] w-full justify-end bg-[rgba(20,20,20,0.5)] backdrop-blur-md ${open ? '' : 'hidden'}`}
+            className={`fixed left-0 top-0 z-30 flex h-[calc(100%)] w-full justify-end bg-[rgba(20,20,20,0.5)] backdrop-blur-md ${open ? '' : 'hidden'}`}
          >
             <div className="flex min-w-44 flex-col rounded-l-3xl bg-black/90 p-4 shadow-[0px_0px_50px_rgb(50,50,50)]">
                <div className="mb-[2vh] flex w-full">
