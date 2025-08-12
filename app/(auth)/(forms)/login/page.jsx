@@ -6,6 +6,9 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { UserContext } from '@/app/_contexts/user_name';
 import { useNotifications } from '@/app/_contexts/notification';
+import Eye from '@/components/svg/eye';
+import EyeSlash from '@/components/svg/eye_slash';
+import { NOTIF_TYPE } from '@/app/_enums/notification';
 
 function LoginForm() {
    const [state, setState] = useState({
@@ -15,6 +18,9 @@ function LoginForm() {
    });
    const router = useRouter();
    const { addNotification } = useNotifications();
+   const [passwordVisible, setPasswordVisible] = useState({
+      password: false,
+   });
 
    const { setUserID } = useContext(UserContext);
 
@@ -64,7 +70,10 @@ function LoginForm() {
                      'Login successful. Redirecting to home page..',
                }));
 
-               addNotification('Login successful. Redirecting to home page..');
+               addNotification(
+                  'Login successful. Redirecting to home page..',
+                  NOTIF_TYPE.SUCCESS
+               );
 
                setUserID(state.username);
                localStorage.setItem(
@@ -78,14 +87,21 @@ function LoginForm() {
             // }
             else {
                addNotification(
-                  'Login failed. Please try again.' + response.status
+                  `Login failed. Please try again. (${Number(response.status)})`,
+                  NOTIF_TYPE.ERROR
                );
                // alert("Username does not exists");
             }
+         } else {
+            addNotification(
+               `Login failed. Please try again. (${Number(response.status)})`,
+               NOTIF_TYPE.ERROR
+            );
          }
       } catch (err) {
          addNotification(
-            'Something went wrong during login. Please try again.'
+            'Something went wrong during login. Please try again.',
+            NOTIF_TYPE.ERROR
          );
       }
    };
@@ -118,22 +134,36 @@ function LoginForm() {
                      value={state.username}
                      onChange={handleChange}
                      required
-                     className="min-h-[50px] rounded-[30px] border border-solid border-white bg-black pl-[20px] autofill:shadow-[inset_0_0_0px_1000px_rgb(250,250,200)]"
+                     className="min-h-[50px] rounded-[30px] border border-solid border-white bg-black pl-[20px] [-webkit-text-fill-color:#fff] autofill:text-white autofill:shadow-[inset_0_0_0px_1000px_rgb(0,0,0)] focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-violet-500"
                   />
                </div>
-               <div className="flex flex-col">
-                  <label className="mt-[20px]" htmlFor="exampleInputPassword1">
+               <div className="mt-[20px] flex">
+                  <label className="flex-1" htmlFor="exampleInputPassword1">
                      Password
                   </label>
+               </div>
+               <div className="flex min-h-[50px] flex-1 rounded-[30px] border border-solid border-white bg-black pl-[20px] focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-violet-500">
                   <input
-                     type="password"
+                     type={passwordVisible.password ? 'text' : 'password'}
                      id="password"
                      placeholder="Password"
                      value={state.password}
                      onChange={handleChange}
                      required
-                     className="min-h-[50px] rounded-[30px] border border-solid border-white bg-black pl-[20px] autofill:shadow-[inset_0_0_0px_1000px_rgb(250,250,200)]"
+                     className="flex-1 bg-transparent outline-none [-webkit-text-fill-color:#fff] autofill:text-white autofill:shadow-[inset_0_0_0px_1000px_rgba(0,0,0,1)] autofill:[-webkit-text-fill-color:#fff!important] focus:outline-none focus:ring-0"
                   />
+                  <button
+                     type="button"
+                     className="ml-[5px] min-w-[35px]"
+                     onClick={() => {
+                        setPasswordVisible({
+                           ...passwordVisible,
+                           password: !passwordVisible.password,
+                        });
+                     }}
+                  >
+                     {passwordVisible.password ? <Eye /> : <EyeSlash />}
+                  </button>
                </div>
                <div className="my-2 text-right">
                   <p>
@@ -146,7 +176,8 @@ function LoginForm() {
                </div>
                <button
                   type="submit"
-                  className="min-h-[56px] w-full rounded-[30px] border border-solid border-white bg-white text-black"
+                  disabled={state.password.length < 8 && false}
+                  className={`min-h-[56px] w-full rounded-[30px] border border-solid border-white bg-white text-black ${state.password.length < 8 ? 'cursor-not-allowed opacity-50' : ''}`}
                >
                   Login
                </button>

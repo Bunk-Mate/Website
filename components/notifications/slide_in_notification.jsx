@@ -1,3 +1,4 @@
+import { NOTIF_TYPE } from '@/app/_enums/notification';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export default function SlideInNotifications({
@@ -7,7 +8,7 @@ export default function SlideInNotifications({
    return (
       <div className="pointer-events-none fixed right-2 top-2 z-50 flex w-72 flex-col gap-1">
          <AnimatePresence>
-            {notifications.map(({ id, text }) => (
+            {notifications.map(({ id, text, status }) => (
                <motion.div
                   key={id}
                   layout
@@ -15,7 +16,7 @@ export default function SlideInNotifications({
                   animate={{ y: 0, scale: 1 }}
                   exit={{ x: '100%', opacity: 0 }}
                   transition={{ duration: 0.35, ease: 'easeOut' }}
-                  className="pointer-events-auto flex items-start gap-2 rounded bg-indigo-500 p-2 text-xs font-medium text-white shadow-lg"
+                  className={`pointer-events-auto flex items-start gap-2 rounded ${status == NOTIF_TYPE.ERROR ? 'bg-red-500' : status == NOTIF_TYPE.NORMAL ? 'bg-indigo-500' : status == NOTIF_TYPE.SUCCESS ? 'bg-green-500' : ''} p-2 text-xs font-medium text-white shadow-lg`}
                >
                   <span>{text}</span>
                   <button

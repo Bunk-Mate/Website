@@ -2,6 +2,7 @@
 
 import SlideInNotifications from '@/components/notifications/slide_in_notification';
 import React, { createContext, useContext, useState, useCallback } from 'react';
+import { NOTIF_TYPE } from '../_enums/notification';
 
 const NotificationContext = createContext(null);
 
@@ -17,9 +18,9 @@ export const useNotifications = () => {
 export const NotificationProvider = ({ children }) => {
    const [notifications, setNotifications] = useState([]);
 
-   const addNotification = useCallback((text) => {
+   const addNotification = useCallback((text, status = NOTIF_TYPE.NORMAL) => {
       const id = Date.now();
-      setNotifications((prev) => [{ id, text }, ...prev]);
+      setNotifications((prev) => [{ id, text, status }, ...prev]);
       setTimeout(() => {
          setNotifications((prev) => prev.filter((n) => n.id !== id));
       }, 5000);
