@@ -46,6 +46,13 @@ function LoginForm() {
       }
    });
 
+   useEffect(() => {
+      const token = localStorage.getItem(ACCESS_TOKEN_NAME);
+      if (token) {
+         redirectToHome();
+      }
+   }, []);
+
    const handleSubmitClick = async (e) => {
       e.preventDefault();
       addNotification('Login request sent. Please wait.');
