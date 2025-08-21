@@ -30,7 +30,7 @@ export const SineWaveLoader = ({ progress = 0.5 }) => {
          const phase = phaseRef.current;
          const sm = window.innerWidth < 680 ? 0.5 : 1;
 
-         const cycles = sm * 8; // number of peaks(crest and trough)
+         const cycles = sm * 5; // number of peaks(crest and trough)
          const frequency = (cycles * 2 * Math.PI) / width;
          const amplitude = scaleY - strokeWidth;
 

@@ -66,14 +66,10 @@ function LoginForm() {
             if (response.status === 202) {
                setState((prevState) => ({
                   ...prevState,
-                  successMessage:
-                     'Login successful. Redirecting to home page..',
+                  successMessage: 'Login successful.',
                }));
 
-               addNotification(
-                  'Login successful. Redirecting to home page..',
-                  NOTIF_TYPE.SUCCESS
-               );
+               addNotification('Login successful.', NOTIF_TYPE.SUCCESS);
 
                setUserID(state.username);
                localStorage.setItem(

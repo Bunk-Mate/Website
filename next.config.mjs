@@ -5,23 +5,23 @@ const nextConfig = {
    },
    async headers() {
       return [
-         {
-            source: '/dashboard/:path*',
-            headers: [
-               {
-                  key: 'Cache-Control',
-                  value: 'no-store, no-cache, must-revalidate',
-               },
-               {
-                  key: 'Pragma',
-                  value: 'no-cache',
-               },
-               {
-                  key: 'Vary',
-                  value: 'Authorization, Cookie',
-               },
-            ],
-         },
+         // {
+         //    source: '/dashboard/:path*',
+         //    headers: [
+         //       {
+         //          key: 'Cache-Control',
+         //          value: 'no-store, no-cache, must-revalidate',
+         //       },
+         //       {
+         //          key: 'Pragma',
+         //          value: 'no-cache',
+         //       },
+         //       {
+         //          key: 'Vary',
+         //          value: 'Authorization, Cookie',
+         //       },
+         //    ],
+         // },
          {
             source: '/health',
             headers: [
