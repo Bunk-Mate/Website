@@ -16,17 +16,9 @@ const GoogleAnalytics = () => {
    return (
       <>
          <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
-            strategy="afterInteractive"
+            src={"https://cloud.umami.is/script.js"}
+            data-website-id="7c50d97b-bfce-4831-a9d6-e69c479c097b"
          />
-         <Script id="google-analytics" strategy="afterInteractive">
-            {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
-        `}
-         </Script>
       </>
    );
 };
